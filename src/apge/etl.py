@@ -4,7 +4,7 @@ from neo4j import GraphDatabase, Driver, ManagedTransaction, unit_of_work
 from dataclasses import asdict
 
 # Assuming graph_schema.py is in the same directory or PYTHONPATH is set up
-from .graph_schema import Diagnosis, Symptom, Target, StimParams, Evidence, SCHEMA_VERSION
+from graph_schema import Diagnosis, Symptom, Target, StimParams, Evidence, SCHEMA_VERSION
 
 # --- Configuration ---
 # For local development, replace with your Neo4j credentials and URI
