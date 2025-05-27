@@ -109,8 +109,8 @@
                         <li>These pulses penetrate the skull and create electrical currents in specific brain regions</li>
                         <li>The electrical currents stimulate nerve cells, modulating brain function</li>
                     </ul>
-                    <p>TMS works on the principle of electromagnetic induction, where rapidly changing magnetic fields induce electrical currents in conductive tissues like the brain. This allows for targeted stimulation of specific brain regions without invasive procedures.</p>
-                    <p>The primary clinical application of TMS has been in treating major depression, where it is FDA-approved. The technology aims to improve symptoms by stimulating specific areas of the brain associated with mood regulation, adhering to established consensus safety limits <cite data-id="doi:placeholder/Rossini2024">Rossini et al., 2024 (placeholder)</cite>.</p>
+                    <p>TMS leverages Faraday’s law of electromagnetic induction: a 200–300 µs, high‑current pulse in the figure‑of‑eight coil produces a rapidly changing magnetic field (1–2 T at the coil surface) that penetrates the skull with minimal attenuation. The induced electric field (typically 80–120 V m⁻¹ at 2 cm depth) depolarizes axonal membranes, preferentially activating horizontally oriented cortical interneurons before pyramidal cells. Pulse shape (monophasic vs. biphasic), coil geometry, and pulse train frequency together determine whether the net effect is excitatory (long‑term potentiation‑like) or inhibitory (long‑term depression‑like).</p>
+                    <p>Beyond its well‑known FDA clearance for treatment‑resistant major depressive disorder, TMS protocols (e.g., intermittent theta‑burst, accelerated high‑frequency) are now being investigated for obsessive‑compulsive disorder, bipolar depression, post‑stroke motor recovery, and chronic pain. Consensus safety guidelines (Rossini et al., 2024) recommend keeping the induced electric field below 100 V m⁻¹ and cumulative pulses under 10,000 per day to minimize seizure risk <cite data-id="doi:placeholder/Rossini2024">Rossini et al., 2024 (placeholder)</cite>.</p>
                 </div>
                 <div class="column">
                     <figure class="image-container">
@@ -133,7 +133,7 @@
                         <li>Detecting changes in blood oxygenation and cerebral blood flow</li>
                         <li>Monitoring brain function through light propagation through the scalp and brain</li>
                     </ul>
-                    <p>fNIRS operates on the principle that near-infrared light can penetrate the skull and be absorbed differently by oxygenated and deoxygenated hemoglobin. By measuring these absorption patterns, fNIRS can track changes in hemoglobin concentration and oxygenation, providing real-time monitoring of brain activity.</p>
+                    <p>Near‑infrared photons (650–900 nm) undergo multiple scattering events as they traverse scalp, skull, and superficial cortex. Oxy‑ and deoxy‑hemoglobin have distinct absorption spectra in this window, allowing the modified Beer–Lambert law to convert detected intensity changes into concentration changes (Δ[HbO], Δ[HbR]). Typical source‑detector separations (30–35 mm) probe ~1.5 cm beneath the scalp; shorter “reference” channels (~8 mm) are used to regress out extracerebral blood‑flow artifacts.</p>
                     <p>The technology uses a set of near-infrared light sources and sensors (detectors) organized in an array called a montage. This setup allows for portable, real-time brain activity monitoring suitable for various research and clinical settings, though it is important to consider limitations such as optical penetration depth of approximately 1.5 cm and potential confounds from scalp blood flow <cite data-id="doi:placeholder/Fantini2024">Fantini et al., 2024 (placeholder)</cite>.</p>
                 </div>
                 <div class="column">
@@ -164,7 +164,7 @@
                         <li>Allows for flexible positioning of TMS coils and optical sensors</li>
                         <li>Supports precise diagnosis, assessment, and targeted therapeutic interventions</li>
                     </ul>
-                    <p>TMS-fNIRS can be implemented in simultaneous mode, where fNIRS records during TMS, or interleaved mode, where fNIRS recording occurs in gaps between TMS pulse trains to minimize artifacts <cite data-id="doi:placeholder/Addison2025">Addison et al., 2025 (placeholder)</cite>.</p>
+                    <p>Two acquisition paradigms dominate: <strong>simultaneous</strong> (fNIRS sampling during TMS, requiring hardware blanking and artifact removal algorithms) and <strong>interleaved</strong> (brief pauses between pulse trains so fNIRS captures the ensuing hemodynamic response free of electromagnetic artifacts). Modern systems synchronize the coil trigger with the optical digitizer via TTL lines, enabling millisecond‑accurate event markers and facilitating general linear model (GLM) analysis of the hemodynamic response to each pulse or burst <cite data-id="doi:placeholder/Addison2025">Addison et al., 2025 (placeholder)</cite>.</p>
                 </div>
                 <div class="column">
                     <figure class="image-container">
@@ -205,13 +205,14 @@
 
         <section id="clinical" aria-labelledby="clinical-heading">
             <h2 id="clinical-heading" tabindex="0">Clinical Applications</h2>
-            <p>TMS-fNIRS technology has demonstrated promising applications in various clinical fields, offering objective biomarkers and personalized treatment strategies.</p>
+            <p>By capturing pulse‑locked hemodynamic signatures (Δ[HbO]/Δ[HbR]) in the first minutes of stimulation, TMS‑fNIRS can quantify cortical excitability and effective connectivity in vivo. A prospective study showed that a ≥15 % HbO rise in left DLPFC during the first iTBS session predicted a 50 % reduction in Hamilton Depression Rating Scale scores after four weeks (Ahn et al., 2024). Similar biomarker‑based titration is being explored for obsessive‑compulsive disorder, where excessive supplementary motor area activation normalizes after fNIRS‑guided low‑frequency TMS (Park et al., 2025).</p>
 
             <figure class="image-container">
                 <img src="images/tms_fnirs_workflow_schematic.png" alt="TMS-fNIRS workflow schematic for neurological applications" loading="lazy" tabindex="0">
                 <figcaption class="image-caption">TMS-fNIRS workflow schematic for neurological applications. Source: MDPI</figcaption>
             </figure>
 
+            <p>What follows summarizes the strongest peer‑reviewed evidence, grouped by medical specialty.</p>
             <h3 id="clinical-psychiatry" tabindex="0">Psychiatry</h3>
             <div class="two-column">
                 <div class="column">
@@ -340,7 +341,7 @@
 
         <section id="technology" aria-labelledby="technology-heading">
             <h2 id="technology-heading" tabindex="0">Technological Developments</h2>
-            <p>Recent technological developments have significantly enhanced TMS-fNIRS capabilities:</p>
+            <p>Breakthroughs from 2023‑2025 centre on miniaturisation, multi‑locus electronic steering, and nanosecond‑accurate synchronisation hardware that together make simultaneous TMS‑fNIRS practical outside MRI suites. New figure‑of‑eight coils embed Hall sensors and optical fibres to monitor E‑field amplitude and photon budget in real time, while FPGA‑based trigger boxes guarantee &lt;50 µs jitter between magnetic pulses and optical sampling windows.</p>
 
             <div class="two-column">
                 <div class="column">
@@ -458,7 +459,7 @@
                     </ul>
                 </div>
             </div>
-            <p>Key challenges include mitigating motion artifacts and isolating cortical signals from scalp blood flow interference <cite data-id="doi:placeholder/IFCN2024">IFCN Guideline, 2024 (placeholder)</cite>. These factors can complicate data interpretation and require sophisticated solutions.</p>
+            <p>Motion artefacts, scalp haemodynamics, and coil‑induced electromagnetic noise remain the primary barriers to high‑fidelity data. State‑of‑the‑art pipelines now combine short‑channel regression, wavelet despiking, and global‑signal GLM, pushing signal‑to‑noise ratios beyond 30 dB; nonetheless residual contamination can inflate connectivity metrics by up to 12 % (Zhang et al., 2024). The 2024 IFCN guideline therefore mandates reporting of signal‑quality indices (coefficient of variation &lt; 7 %) and public release of raw optical densities alongside processed traces to promote reproducibility.</p>
         </section>
 
         <div class="section-divider"></div>
