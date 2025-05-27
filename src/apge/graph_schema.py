@@ -50,13 +50,13 @@ class StimParams(BaseNode):
 class Evidence(BaseNode):
     # Level of evidence, e.g., "High", "Moderate", "Moderate-High", "Emerging", or A/B/C/...
     level: str
+    # Required fields first
+    references: List[str] = field(default_factory=list)  # e.g., ["George et al., 2010", "Blumberger et al., 2018"]
+    # Optional fields with defaults
     effect_size: Optional[float] = None
     n_participants: Optional[int] = None
     pub_year: Optional[int] = None
-    # Could also include a list of DOIs or PubMed IDs
-    references: List[str] = field(default_factory=list) # e.g., ["George et al., 2010", "Blumberger et al., 2018"]
-    # Notes summarizing the evidence
-    notes: Optional[str] = None
+    notes: Optional[str] = None  # Could include notes summarizing the evidence
 
 # --- Relationships to be established in the graph ---
 # (d:Diagnosis)-[:HAS_SYMPTOM]->(s:Symptom)
