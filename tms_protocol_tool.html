@@ -5,17 +5,724 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TMS Protocol Tool</title>
     <link rel="stylesheet" href="css/styles.css" />
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
     <header>
       <h1>TMS Protocol Tool</h1>
     </header>
     <main class="container">
-      <p>
-        Coming soon: an interactive interface for designing TMS protocols with
-        built-in safety checks.
-      </p>
-      <!-- Placeholder for future tool UI -->
+      <div id="react-root"></div>
+      <script type="text/babel">
+const { useState, useEffect } = React; // Destructure from global React
+
+// Define Icon Placeholders
+const Brain = () => React.createElement('span', {className: "inline-block w-8 h-8"}, '[Brain]');
+const Activity = () => React.createElement('span', {className: "inline-block w-5 h-5"}, '[Activity]');
+const FileText = () => React.createElement('span', {className: "inline-block w-5 h-5"}, '[FileText]');
+const AlertCircle = () => React.createElement('span', {className: "inline-block w-5 h-5"}, '[AlertCircle]');
+const CheckCircle = () => React.createElement('span', {className: "inline-block w-4 h-4"}, '[CheckCircle]');
+const Target = () => React.createElement('span', {className: "inline-block w-6 h-6"}, '[Target]');
+const Zap = () => React.createElement('span', {className: "inline-block w-5 h-5"}, '[Zap]');
+
+const TMSProtocolTool = () => {
+  const [patientData, setPatientData] = useState({
+    primaryDiagnosis: '',
+    symptoms: [],
+    severity: '',
+    comorbidities: [],
+    previousTreatments: [],
+    age: '',
+    handedness: 'right',
+    medicationResistant: false,
+    currentMedications: [],
+    contraindicationsPresent: false,
+    specificContraindications: []
+  });
+
+  const [recommendations, setRecommendations] = useState(null);
+  const [showResults, setShowResults] = useState(false);
+
+  const diagnoses = [
+    'Major Depressive Disorder',
+    'Bipolar Depression',
+    'Treatment-Resistant Depression',
+    'Obsessive-Compulsive Disorder',
+    'Generalized Anxiety Disorder',
+    'PTSD',
+    'Schizophrenia (Auditory Hallucinations)',
+    'Fibromyalgia',
+    'Chronic Pain',
+    'Migraine'
+  ];
+
+  const symptoms = {
+    'Major Depressive Disorder': [
+      'Anhedonia', 'Psychomotor Retardation', 'Cognitive Impairment',
+      'Sleep Disturbances', 'Appetite Changes', 'Suicidal Ideation',
+      'Fatigue', 'Concentration Difficulties'
+    ],
+    'Bipolar Depression': [
+      'Depressive Episodes', 'Mixed States', 'Cognitive Dysfunction',
+      'Sleep Disturbances', 'Psychomotor Changes'
+    ],
+    'Treatment-Resistant Depression': [
+      'Severe Anhedonia', 'Cognitive Impairment', 'Psychomotor Symptoms',
+      'Chronic Fatigue', 'Sleep Disturbances'
+    ],
+    'Obsessive-Compulsive Disorder': [
+      'Obsessions', 'Compulsions', 'Anxiety', 'Avoidance Behaviors',
+      'Cognitive Rigidity'
+    ],
+    'Generalized Anxiety Disorder': [
+      'Excessive Worry', 'Restlessness', 'Fatigue', 'Concentration Difficulties',
+      'Muscle Tension', 'Sleep Disturbances'
+    ],
+    'PTSD': [
+      'Intrusive Thoughts', 'Avoidance', 'Hypervigilance', 'Emotional Numbing',
+      'Sleep Disturbances', 'Concentration Problems'
+    ],
+    'Schizophrenia (Auditory Hallucinations)': [
+      'Auditory Hallucinations', 'Cognitive Symptoms', 'Negative Symptoms'
+    ],
+    'Fibromyalgia': [
+      'Widespread Pain', 'Fatigue', 'Sleep Disturbances', 'Cognitive Fog'
+    ],
+    'Chronic Pain': [
+      'Persistent Pain', 'Functional Impairment', 'Depression', 'Sleep Issues'
+    ],
+    'Migraine': [
+      'Headache Frequency', 'Aura', 'Photophobia', 'Nausea'
+    ]
+  };
+
+  const comorbidities = [
+    'Anxiety Disorders', 'Substance Use Disorder', 'ADHD',
+    'Chronic Pain', 'Sleep Disorders', 'Eating Disorders',
+    'Personality Disorders', 'Cognitive Impairment'
+  ];
+
+  const previousTreatments = [
+    'SSRIs', 'SNRIs', 'Tricyclic Antidepressants', 'MAOIs',
+    'Antipsychotics', 'Mood Stabilizers', 'CBT', 'DBT',
+    'ECT', 'Previous TMS', 'Ketamine', 'Psychodynamic Therapy'
+  ];
+
+  const contraindications = [
+    'Metallic implants in head/neck', 'Pacemaker', 'Cochlear implant',
+    'Deep brain stimulator', 'Vagus nerve stimulator', 'History of seizures',
+    'Brain tumor', 'Stroke', 'Traumatic brain injury', 'Pregnancy'
+  ];
+
+  const protocolDatabase = {
+    'Major Depressive Disorder': {
+      'Anhedonia': {
+        target: 'Left DLPFC',
+        frequency: '10 Hz',
+        intensity: '120% MT',
+        pulses: 3000,
+        sessions: '20-30',
+        schedule: 'Daily (5x/week)',
+        evidence: 'High',
+        notes: 'High-frequency stimulation of left DLPFC shows strong evidence for anhedonia improvement',
+        references: ['George et al., 2010', 'Blumberger et al., 2018']
+      },
+      'Psychomotor Retardation': {
+        target: 'Left DLPFC + Right DLPFC (sequential)',
+        frequency: '10 Hz (L) / 1 Hz (R)',
+        intensity: '120% MT',
+        pulses: 3000,
+        sessions: '25-36',
+        schedule: 'Daily (5x/week)',
+        evidence: 'Moderate-High',
+        notes: 'Bilateral stimulation may be more effective for psychomotor symptoms',
+        references: ["O'Reardon et al., 2007"]
+      },
+      'Cognitive Impairment': {
+        target: 'Left DLPFC',
+        frequency: '20 Hz (iTBS)',
+        intensity: '80% AMT',
+        pulses: 1800,
+        sessions: '20-30',
+        schedule: 'Daily (5x/week)',
+        evidence: 'Moderate',
+        notes: 'iTBS may provide cognitive benefits with shorter treatment times',
+        references: ['Blumberger et al., 2018']
+      }
+    },
+    'Treatment-Resistant Depression': {
+      'Severe Anhedonia': {
+        target: 'Bilateral DLPFC',
+        frequency: '10 Hz (L) / 1 Hz (R)',
+        intensity: '120% MT',
+        pulses: 4000,
+        sessions: '30-36',
+        schedule: 'Daily (5x/week) + maintenance',
+        evidence: 'High',
+        notes: 'Extended course with maintenance sessions recommended for TRD'
+      }
+    },
+    'Obsessive-Compulsive Disorder': {
+      'Obsessions': {
+        target: 'Right DLPFC or dACC',
+        frequency: '1 Hz (low) or 10 Hz (high)',
+        intensity: '110% MT',
+        pulses: 1800,
+        sessions: '20-30',
+        schedule: 'Daily (5x/week)',
+        evidence: 'Moderate',
+        notes: 'Both inhibitory and excitatory protocols show promise'
+      },
+      'Compulsions': {
+        target: 'Pre-SMA or OFC',
+        frequency: '1 Hz',
+        intensity: '110% MT',
+        pulses: 1200,
+        sessions: '25-30',
+        schedule: 'Daily (5x/week)',
+        evidence: 'Moderate',
+        notes: 'Targeting motor control areas may reduce compulsive behaviors'
+      }
+    },
+    'PTSD': {
+      'Intrusive Thoughts': {
+        target: 'Right DLPFC',
+        frequency: '1 Hz',
+        intensity: '110% MT',
+        pulses: 1200,
+        sessions: '20-25',
+        schedule: 'Daily (5x/week)',
+        evidence: 'Moderate',
+        notes: 'Inhibitory stimulation of right DLPFC may reduce hyperarousal'
+      },
+      'iTBS Left DLPFC': {
+        target: 'Left DLPFC',
+        frequency: 'iTBS',
+        intensity: '80% AMT',
+        pulses: 600,
+        sessions: '20',
+        schedule: 'Daily (5x/week)',
+        evidence: 'Emerging',
+        notes: 'Intermittent TBS shows promise in PTSD symptom reduction',
+        references: ['Osuch et al., 2009']
+      }
+    },
+    'Schizophrenia (Auditory Hallucinations)': {
+      'Auditory Hallucinations': {
+        target: 'Left Temporoparietal Junction',
+        frequency: '1 Hz',
+        intensity: '90% MT',
+        pulses: 1200,
+        sessions: '20-30',
+        schedule: 'Daily (5x/week)',
+        evidence: 'Moderate-High',
+        notes: 'Low-frequency stimulation of auditory areas shows good efficacy'
+      }
+    },
+    'Chronic Pain': {
+      'Persistent Pain': {
+        target: 'M1 (motor cortex)',
+        frequency: '10 Hz',
+        intensity: '80-90% MT',
+        pulses: 2000,
+        sessions: '15-20',
+        schedule: 'Daily (5x/week)',
+        evidence: 'Moderate',
+        notes: 'Motor cortex stimulation for central pain processing'
+      }
+    },
+    'Fibromyalgia': {
+      'Widespread Pain': {
+        target: 'M1 (motor cortex)',
+        frequency: '10 Hz',
+        intensity: '80% MT',
+        pulses: 1600,
+        sessions: '20-25',
+        schedule: '3-5x/week',
+        evidence: 'Moderate',
+        notes: 'Lower intensity may be better tolerated in fibromyalgia patients'
+      }
+    },
+    'Migraine': { 
+      'Headache Frequency': {
+        target: 'Occipital cortex or M1',
+        frequency: '1 Hz or 10 Hz',
+        intensity: '90% MT',
+        pulses: 1200,
+        sessions: '12-20',
+        schedule: '3x/week',
+        evidence: 'Moderate',
+        notes: 'Both excitatory and inhibitory protocols show preventive effects'
+      }
+    },
+    'Generalized Anxiety Disorder': { 
+      'Excessive Worry': {
+        target: 'Left DLPFC',
+        frequency: '10 Hz',
+        intensity: '110% MT',
+        pulses: 2000,
+        sessions: '20-30',
+        schedule: 'Daily (5x/week)',
+        evidence: 'Moderate',
+        notes: 'Standard high-frequency protocol for GAD'
+      },
+      'Restlessness': {
+        target: 'Right DLPFC',
+        frequency: '1 Hz',
+        intensity: '120% MT',
+        pulses: 1200,
+        sessions: '20-30',
+        schedule: 'Daily (5x/week)',
+        evidence: 'Moderate',
+        notes: 'Low-frequency right DLPFC may help restlessness'
+      },
+      '1 Hz Right DLPFC': {
+        target: 'Right DLPFC',
+        frequency: '1 Hz',
+        intensity: '120% MT',
+        pulses: 1200,
+        sessions: '20-30',
+        schedule: 'Daily (5x/week)',
+        evidence: 'Moderate',
+        notes: 'Low-frequency right DLPFC stimulation reduces anxiety symptoms',
+        references: ['Mantovani et al., 2013']
+      }
+    }
+  };
+
+  const generateRecommendations = () => {
+    const { primaryDiagnosis, symptoms: selectedSymptoms, severity, age, medicationResistant, comorbidities: selectedComorbidities } = patientData;
+
+    if (!primaryDiagnosis || selectedSymptoms.length === 0) {
+      alert('Please select a primary diagnosis and at least one symptom.');
+      return;
+    }
+
+    const baseProtocols = protocolDatabase[primaryDiagnosis] || {};
+    const recommendations = {
+      primary: null,
+      alternatives: [],
+      modifications: [],
+      safetyConsiderations: [],
+      monitoring: [],
+      expectedOutcomes: {}
+    };
+
+    const primarySymptom = selectedSymptoms[0];
+    if (baseProtocols[primarySymptom]) {
+      recommendations.primary = {
+        symptom: primarySymptom,
+        ...baseProtocols[primarySymptom]
+      };
+    }
+
+    selectedSymptoms.slice(1).forEach(symptom => {
+      if (baseProtocols[symptom]) {
+        recommendations.alternatives.push({
+          symptom,
+          ...baseProtocols[symptom]
+        });
+      }
+    });
+
+    if (medicationResistant) {
+      recommendations.modifications.push('Consider extended treatment course (30-36 sessions)');
+      recommendations.modifications.push('May require maintenance sessions');
+      recommendations.modifications.push('Consider higher intensity protocols if tolerated');
+    }
+
+    if (age && parseInt(age) > 65) {
+      recommendations.modifications.push('Consider starting with lower intensity (100-110% MT)');
+      recommendations.modifications.push('Monitor for tolerance and adjust accordingly');
+      recommendations.modifications.push('May require longer ramp-up period');
+    }
+
+    if (age && parseInt(age) < 25) {
+      recommendations.modifications.push('Use conservative intensities (110-120% MT maximum)');
+      recommendations.modifications.push('Monitor for seizure risk more closely');
+    }
+
+    if (selectedComorbidities.includes('Anxiety Disorders')) {
+      recommendations.modifications.push('Consider starting with iTBS to reduce treatment time');
+      recommendations.modifications.push('Monitor anxiety levels during treatment');
+    }
+
+    if (selectedComorbidities.includes('Substance Use Disorder')) {
+      recommendations.modifications.push('Ensure abstinence from substances that lower seizure threshold');
+      recommendations.modifications.push('Consider addiction-focused protocols if appropriate');
+    }
+
+    recommendations.safetyConsiderations = [
+      'Obtain detailed medical history for contraindications',
+      'Establish motor threshold accurately',
+      'Monitor for seizure activity during all sessions',
+      'Assess for hearing protection needs',
+      'Screen for mood changes including hypomania/mania risk'
+    ];
+
+    if (primaryDiagnosis.includes('Bipolar')) {
+      recommendations.safetyConsiderations.push('Closely monitor for mood switching');
+      recommendations.safetyConsiderations.push('Consider mood stabilizer coverage');
+    }
+
+    recommendations.monitoring = [
+      'Weekly symptom rating scales (PHQ-9, GAD-7, etc.)',
+      'Motor threshold reassessment every 5-10 sessions',
+      'Side effect monitoring (headache, scalp discomfort)',
+      'Cognitive function assessment if applicable',
+      'Suicidal ideation screening (especially weeks 2-4)'
+    ];
+
+    recommendations.expectedOutcomes = {
+      timeline: 'Initial response typically seen at 2-3 weeks',
+      responseRate: severity === 'Severe' ? '40-60%' : '60-80%',
+      peakResponse: '4-6 weeks post-treatment initiation',
+      durability: 'Benefits may last 3-6 months, maintenance may be needed'
+    };
+
+    setRecommendations(recommendations);
+    setShowResults(true);
+  };
+
+  const handleSymptomChange = (symptom, checked) => {
+    setPatientData(prev => ({
+      ...prev,
+      symptoms: checked 
+        ? [...prev.symptoms, symptom]
+        : prev.symptoms.filter(s => s !== symptom)
+    }));
+  };
+
+  const handleMultiSelect = (field, value, checked) => {
+    setPatientData(prev => ({
+      ...prev,
+      [field]: checked 
+        ? [...prev[field], value]
+        : prev[field].filter(item => item !== value)
+    }));
+  };
+  
+  return (
+    React.createElement('div', { className: "max-w-6xl mx-auto p-6 bg-gray-50 min-h-screen" },
+      React.createElement('div', { className: "bg-white rounded-lg shadow-lg p-8 mb-6" },
+        React.createElement('div', { className: "flex items-center gap-3 mb-6" },
+          React.createElement(Brain), 
+          React.createElement('h1', { className: "text-3xl font-bold text-gray-800" }, "TMS Protocol Optimization Tool")
+        ),
+        React.createElement('div', { className: "bg-blue-50 border-l-4 border-blue-400 p-4 mb-6" },
+          React.createElement('div', { className: "flex items-start" },
+            React.createElement(AlertCircle), 
+            React.createElement('div', null,
+              React.createElement('p', { className: "text-sm text-blue-700" },
+                React.createElement('strong', null, "Clinical Decision Support Tool"), " - This tool provides evidence-based TMS protocol recommendations. Always consider individual patient factors and current clinical guidelines. Not a substitute for clinical judgment."
+              )
+            )
+          )
+        ),
+        !showResults ? (
+          React.createElement('div', { className: "space-y-6" },
+            // Primary Diagnosis
+            React.createElement('div', null,
+              React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" }, "Primary Diagnosis *"),
+              React.createElement('select', {
+                  value: patientData.primaryDiagnosis,
+                  onChange: (e) => setPatientData(prev => ({ ...prev, primaryDiagnosis: e.target.value, symptoms: [] })),
+                  className: "w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                },
+                React.createElement('option', { value: "" }, "Select primary diagnosis..."),
+                diagnoses.map(diagnosis => (
+                  React.createElement('option', { key: diagnosis, value: diagnosis }, diagnosis)
+                ))
+              )
+            ),
+            // Symptoms
+            patientData.primaryDiagnosis && (
+              React.createElement('div', null,
+                React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" }, "Predominant Symptoms * (Select in order of prominence)"),
+                React.createElement('div', { className: "grid grid-cols-2 md:grid-cols-3 gap-2" },
+                  (symptoms[patientData.primaryDiagnosis] || []).map(symptom => (
+                    React.createElement('label', { key: symptom, className: "flex items-center space-x-2 p-2 hover:bg-gray-50 rounded" },
+                      React.createElement('input', {
+                        type: "checkbox",
+                        checked: patientData.symptoms.includes(symptom),
+                        onChange: (e) => handleSymptomChange(symptom, e.target.checked),
+                        className: "rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      }),
+                      React.createElement('span', { className: "text-sm text-gray-700" }, symptom)
+                    )
+                  ))
+                )
+              )
+            ),
+            // Clinical Factors
+            React.createElement('div', { className: "grid grid-cols-1 md:grid-cols-2 gap-6" },
+              React.createElement('div', null,
+                React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" }, "Symptom Severity"),
+                React.createElement('select', {
+                    value: patientData.severity,
+                    onChange: (e) => setPatientData(prev => ({ ...prev, severity: e.target.value })),
+                    className: "w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                  },
+                  React.createElement('option', { value: "" }, "Select severity..."),
+                  React.createElement('option', { value: "Mild" }, "Mild"),
+                  React.createElement('option', { value: "Moderate" }, "Moderate"),
+                  React.createElement('option', { value: "Severe" }, "Severe")
+                )
+              ),
+              React.createElement('div', null,
+                React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" }, "Age"),
+                React.createElement('input', {
+                  type: "number",
+                  value: patientData.age,
+                  onChange: (e) => setPatientData(prev => ({ ...prev, age: e.target.value })),
+                  placeholder: "Enter age",
+                  className: "w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                })
+              )
+            ),
+            // Comorbidities
+            React.createElement('div', null,
+              React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" }, "Comorbid Conditions"),
+              React.createElement('div', { className: "grid grid-cols-2 md:grid-cols-3 gap-2" },
+                comorbidities.map(condition => (
+                  React.createElement('label', { key: condition, className: "flex items-center space-x-2 p-2 hover:bg-gray-50 rounded" },
+                    React.createElement('input', {
+                      type: "checkbox",
+                      checked: patientData.comorbidities.includes(condition),
+                      onChange: (e) => handleMultiSelect('comorbidities', condition, e.target.checked),
+                      className: "rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    }),
+                    React.createElement('span', { className: "text-sm text-gray-700" }, condition)
+                  )
+                ))
+              )
+            ),
+            // Treatment History
+            React.createElement('div', null,
+              React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" }, "Previous Treatments"),
+              React.createElement('div', { className: "grid grid-cols-2 md:grid-cols-4 gap-2" },
+                previousTreatments.map(treatment => (
+                  React.createElement('label', { key: treatment, className: "flex items-center space-x-2 p-2 hover:bg-gray-50 rounded" },
+                    React.createElement('input', {
+                      type: "checkbox",
+                      checked: patientData.previousTreatments.includes(treatment),
+                      onChange: (e) => handleMultiSelect('previousTreatments', treatment, e.target.checked),
+                      className: "rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    }),
+                    React.createElement('span', { className: "text-sm text-gray-700" }, treatment)
+                  )
+                ))
+              )
+            ),
+            // Medication Resistance
+            React.createElement('div', null,
+              React.createElement('label', { className: "flex items-center space-x-2" },
+                React.createElement('input', {
+                  type: "checkbox",
+                  checked: patientData.medicationResistant,
+                  onChange: (e) => setPatientData(prev => ({ ...prev, medicationResistant: e.target.checked })),
+                  className: "rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                }),
+                React.createElement('span', { className: "text-sm font-medium text-gray-700" }, "Treatment-resistant (failed ≥2 adequate medication trials)")
+              )
+            ),
+            // Contraindications
+            React.createElement('div', null,
+              React.createElement('label', { className: "flex items-center space-x-2 mb-2" },
+                React.createElement('input', {
+                  type: "checkbox",
+                  checked: patientData.contraindicationsPresent,
+                  onChange: (e) => setPatientData(prev => ({ ...prev, contraindicationsPresent: e.target.checked })),
+                  className: "rounded border-gray-300 text-red-600 focus:ring-red-500"
+                }),
+                React.createElement('span', { className: "text-sm font-medium text-gray-700" }, "Potential contraindications present")
+              ),
+              patientData.contraindicationsPresent && (
+                React.createElement('div', { className: "ml-6 grid grid-cols-2 md:grid-cols-3 gap-2" },
+                  contraindications.map(contraindication => (
+                    React.createElement('label', { key: contraindication, className: "flex items-center space-x-2 p-2 hover:bg-red-50 rounded" },
+                      React.createElement('input', {
+                        type: "checkbox",
+                        checked: patientData.specificContraindications.includes(contraindication),
+                        onChange: (e) => handleMultiSelect('specificContraindications', contraindication, e.target.checked),
+                        className: "rounded border-gray-300 text-red-600 focus:ring-red-500"
+                      }),
+                      React.createElement('span', { className: "text-sm text-gray-700" }, contraindication)
+                    )
+                  ))
+                )
+              )
+            ),
+            React.createElement('button', {
+                onClick: generateRecommendations,
+                className: "w-full bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors font-medium"
+              },
+              "Generate Protocol Recommendations"
+            )
+          )
+        ) : ( // Results View
+          React.createElement('div', null,
+            React.createElement('div', { className: "flex items-center justify-between mb-6" },
+              React.createElement('h2', { className: "text-2xl font-bold text-gray-800" }, "Protocol Recommendations"),
+              React.createElement('button', {
+                  onClick: () => setShowResults(false),
+                  className: "bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors"
+                },
+                "Back to Input"
+              )
+            ),
+            // Contraindication Warning
+            patientData.specificContraindications.length > 0 && (
+              React.createElement('div', { className: "bg-red-50 border-l-4 border-red-400 p-4 mb-6" },
+                React.createElement('div', { className: "flex" },
+                  React.createElement(AlertCircle), 
+                  React.createElement('div', null,
+                    React.createElement('h3', { className: "text-lg font-medium text-red-800" }, "Contraindications Identified"),
+                    React.createElement('p', { className: "text-red-700 mt-1" },
+                      "The following contraindications were identified: " + patientData.specificContraindications.join(', ')
+                    ),
+                    React.createElement('p', { className: "text-red-700 font-medium mt-2" },
+                      "Please thoroughly evaluate contraindications before proceeding with TMS treatment."
+                    )
+                  )
+                )
+              )
+            ),
+            // Primary Recommendation
+            recommendations.primary && (
+              React.createElement('div', { className: "bg-green-50 border border-green-200 rounded-lg p-6 mb-6" },
+                React.createElement('div', { className: "flex items-center gap-2 mb-4" },
+                  React.createElement(Target), 
+                  React.createElement('h3', { className: "text-xl font-semibold text-green-800" }, "Primary Protocol Recommendation")
+                ),
+                React.createElement('div', { className: "bg-white rounded-lg p-4" },
+                  React.createElement('h4', { className: "font-medium text-lg text-gray-800 mb-3" },
+                    "Target Symptom: " + recommendations.primary.symptom
+                  ),
+                  React.createElement('div', { className: "grid grid-cols-2 md:grid-cols-4 gap-4 mb-4" },
+                    React.createElement('div', null, React.createElement('span', {className: "text-sm font-medium text-gray-600"}, "Target"), React.createElement('p', {className: "text-gray-800"}, recommendations.primary.target)),
+                    React.createElement('div', null, React.createElement('span', {className: "text-sm font-medium text-gray-600"}, "Frequency"), React.createElement('p', {className: "text-gray-800"}, recommendations.primary.frequency)),
+                    React.createElement('div', null, React.createElement('span', {className: "text-sm font-medium text-gray-600"}, "Intensity"), React.createElement('p', {className: "text-gray-800"}, recommendations.primary.intensity)),
+                    React.createElement('div', null, React.createElement('span', {className: "text-sm font-medium text-gray-600"}, "Pulses/Session"), React.createElement('p', {className: "text-gray-800"}, recommendations.primary.pulses)),
+                    React.createElement('div', null, React.createElement('span', {className: "text-sm font-medium text-gray-600"}, "Total Sessions"), React.createElement('p', {className: "text-gray-800"}, recommendations.primary.sessions)),
+                    React.createElement('div', null, React.createElement('span', {className: "text-sm font-medium text-gray-600"}, "Schedule"), React.createElement('p', {className: "text-gray-800"}, recommendations.primary.schedule)),
+                    React.createElement('div', null, React.createElement('span', {className: "text-sm font-medium text-gray-600"}, "Evidence Level"), React.createElement('p', {className: "text-gray-800"}, recommendations.primary.evidence))
+                  ),
+                  React.createElement('div', { className: "bg-blue-50 p-3 rounded" },
+                    React.createElement('p', { className: "text-sm text-blue-800" },
+                      React.createElement('strong', null, "Clinical Notes: "), recommendations.primary.notes
+                    )
+                  ),
+                  recommendations.primary.references && (
+                    React.createElement('div', { className: "bg-gray-50 p-3 rounded mt-4" },
+                      React.createElement('p', { className: "text-sm font-medium text-gray-600" }, "References:"),
+                      React.createElement('ul', { className: "list-disc list-inside text-sm text-gray-800" },
+                        recommendations.primary.references.map((ref, idx) => (
+                          React.createElement('li', { key: idx }, ref)
+                        ))
+                      )
+                    )
+                  )
+                )
+              )
+            ),
+            // Alternative Protocols
+            recommendations.alternatives.length > 0 && (
+              React.createElement('div', { className: "bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-6" },
+                React.createElement('h3', { className: "text-xl font-semibold text-yellow-800 mb-4" }, "Alternative Protocols"),
+                React.createElement('div', { className: "space-y-4" },
+                  recommendations.alternatives.map((protocol, index) => (
+                    React.createElement('div', { key: index, className: "bg-white rounded-lg p-4" },
+                      React.createElement('h4', { className: "font-medium text-gray-800 mb-2" }, protocol.symptom),
+                      React.createElement('div', { className: "grid grid-cols-2 md:grid-cols-4 gap-2 text-sm" },
+                        React.createElement('span', null, React.createElement('strong', null, "Target: "), protocol.target),
+                        React.createElement('span', null, React.createElement('strong', null, "Frequency: "), protocol.frequency),
+                        React.createElement('span', null, React.createElement('strong', null, "Intensity: "), protocol.intensity),
+                        React.createElement('span', null, React.createElement('strong', null, "Sessions: "), protocol.sessions)
+                      )
+                    )
+                  ))
+                )
+              )
+            ),
+            // Protocol Modifications
+            recommendations.modifications.length > 0 && (
+              React.createElement('div', { className: "bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6" },
+                React.createElement('div', { className: "flex items-center gap-2 mb-4" },
+                  React.createElement(Activity), 
+                  React.createElement('h3', { className: "text-xl font-semibold text-blue-800" }, "Protocol Modifications")
+                ),
+                React.createElement('ul', { className: "space-y-2" },
+                  recommendations.modifications.map((modification, index) => (
+                    React.createElement('li', { key: index, className: "flex items-start gap-2" },
+                      React.createElement(CheckCircle), 
+                      React.createElement('span', { className: "text-blue-800" }, modification)
+                    )
+                  ))
+                )
+              )
+            ),
+            // Safety Considerations
+            React.createElement('div', { className: "bg-red-50 border border-red-200 rounded-lg p-6 mb-6" },
+              React.createElement('div', { className: "flex items-center gap-2 mb-4" },
+                React.createElement(AlertCircle), 
+                React.createElement('h3', { className: "text-xl font-semibold text-red-800" }, "Safety Considerations")
+              ),
+              React.createElement('ul', { className: "space-y-2" },
+                recommendations.safetyConsiderations.map((consideration, index) => (
+                  React.createElement('li', { key: index, className: "flex items-start gap-2" },
+                    React.createElement(AlertCircle), 
+                    React.createElement('span', { className: "text-red-800" }, consideration)
+                  )
+                ))
+              )
+            ),
+            // Monitoring Plan
+            React.createElement('div', { className: "bg-purple-50 border border-purple-200 rounded-lg p-6 mb-6" },
+              React.createElement('div', { className: "flex items-center gap-2 mb-4" },
+                React.createElement(FileText), 
+                React.createElement('h3', { className: "text-xl font-semibold text-purple-800" }, "Monitoring Plan")
+              ),
+              React.createElement('ul', { className: "space-y-2" },
+                recommendations.monitoring.map((item, index) => (
+                  React.createElement('li', { key: index, className: "flex items-start gap-2" },
+                    React.createElement(CheckCircle), 
+                    React.createElement('span', { className: "text-purple-800" }, item)
+                  )
+                ))
+              )
+            ),
+            // Expected Outcomes
+            React.createElement('div', { className: "bg-gray-50 border border-gray-200 rounded-lg p-6" },
+              React.createElement('div', { className: "flex items-center gap-2 mb-4" },
+                React.createElement(Zap), 
+                React.createElement('h3', { className: "text-xl font-semibold text-gray-800" }, "Expected Outcomes")
+              ),
+              React.createElement('div', { className: "grid grid-cols-1 md:grid-cols-2 gap-4" },
+                React.createElement('div', null, React.createElement('span', {className: "text-sm font-medium text-gray-600"}, "Response Timeline"), React.createElement('p', {className: "text-gray-800"}, recommendations.expectedOutcomes.timeline)),
+                React.createElement('div', null, React.createElement('span', {className: "text-sm font-medium text-gray-600"}, "Expected Response Rate"), React.createElement('p', {className: "text-gray-800"}, recommendations.expectedOutcomes.responseRate)),
+                React.createElement('div', null, React.createElement('span', {className: "text-sm font-medium text-gray-600"}, "Peak Response"), React.createElement('p', {className: "text-gray-800"}, recommendations.expectedOutcomes.peakResponse)),
+                React.createElement('div', null, React.createElement('span', {className: "text-sm font-medium text-gray-600"}, "Durability"), React.createElement('p', {className: "text-gray-800"}, recommendations.expectedOutcomes.durability))
+              )
+            ),
+            // Footer
+            React.createElement('div', { className: "mt-8 text-center text-sm text-gray-600" },
+              React.createElement('p', null, "This tool is based on current literature and clinical guidelines. Always consult current protocols and consider individual patient factors."),
+              React.createElement('p', { className: "mt-2" }, "Developed for clinical decision support - not a substitute for professional judgment.")
+            )
+          )
+        )
+      )
+    )
+  );
+};
+
+const root = ReactDOM.createRoot(document.getElementById('react-root'));
+root.render(React.createElement(TMSProtocolTool));
+      </script>
     </main>
     <footer>
       <p><a href="index.html">← Back to Home</a></p>
