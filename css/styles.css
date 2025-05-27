@@ -16,26 +16,26 @@
   --card-border: #e0e0e0;
   --card-shadow: rgba(0, 0, 0, 0.1);
   --success-color: #27ae60;
-  
+
   /* Typography */
-  --heading-font: 'Roboto', sans-serif;
-  --body-font: 'Open Sans', sans-serif;
-  
+  --heading-font: "Roboto", sans-serif;
+  --body-font: "Open Sans", sans-serif;
+
   /* Spacing */
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
   --spacing-md: 1.5rem;
   --spacing-lg: 2rem;
   --spacing-xl: 3rem;
-  
+
   /* Transitions */
   --transition-speed: 0.3s;
-  
+
   /* Border radius */
   --border-radius-sm: 3px;
   --border-radius-md: 5px;
   --border-radius-lg: 8px;
-  
+
   /* Box shadows */
   --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -65,7 +65,12 @@ body {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--heading-font);
   margin-bottom: var(--spacing-md);
   color: var(--primary-color);
@@ -88,7 +93,7 @@ h2 {
 }
 
 h2::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -3px;
   left: 0;
@@ -117,8 +122,9 @@ p {
 a {
   color: var(--link-color);
   text-decoration: none;
-  transition: color var(--transition-speed) ease, 
-              background-color var(--transition-speed) ease;
+  transition:
+    color var(--transition-speed) ease,
+    background-color var(--transition-speed) ease;
   font-weight: 500;
 }
 
@@ -127,7 +133,8 @@ a:hover {
   text-decoration: underline;
 }
 
-ul, ol {
+ul,
+ol {
   margin-left: var(--spacing-lg);
   margin-bottom: var(--spacing-lg);
 }
@@ -146,7 +153,11 @@ li {
 
 /* Header */
 header {
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--dark-color) 100%
+  );
   color: white;
   padding: var(--spacing-xl) 0;
   text-align: center;
@@ -219,7 +230,7 @@ nav a.active {
 }
 
 nav a::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -275,8 +286,14 @@ section {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Images */
@@ -295,7 +312,9 @@ img {
   height: auto;
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-md);
-  transition: box-shadow var(--transition-speed) ease, transform var(--transition-speed) ease;
+  transition:
+    box-shadow var(--transition-speed) ease,
+    transform var(--transition-speed) ease;
   cursor: pointer;
 }
 
@@ -354,8 +373,9 @@ img:focus {
   border-radius: var(--border-radius-md);
   padding: var(--spacing-lg);
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-speed) ease, 
-              box-shadow var(--transition-speed) ease;
+  transition:
+    transform var(--transition-speed) ease,
+    box-shadow var(--transition-speed) ease;
   background-color: var(--card-bg);
 }
 
@@ -364,7 +384,8 @@ img:focus {
   box-shadow: var(--shadow-md);
 }
 
-.card h3, .card h4 {
+.card h3,
+.card h4 {
   color: var(--secondary-color);
   margin-top: 0;
 }
@@ -391,7 +412,11 @@ img:focus {
 
 /* Footer */
 footer {
-  background: linear-gradient(135deg, var(--dark-color) 0%, var(--primary-color) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--dark-color) 0%,
+    var(--primary-color) 100%
+  );
   color: white;
   text-align: center;
   padding: var(--spacing-lg) 0;
@@ -420,9 +445,10 @@ footer p {
   box-shadow: var(--shadow-md);
   opacity: 0;
   visibility: hidden;
-  transition: opacity var(--transition-speed) ease,
-              visibility var(--transition-speed) ease,
-              background-color var(--transition-speed) ease;
+  transition:
+    opacity var(--transition-speed) ease,
+    visibility var(--transition-speed) ease,
+    background-color var(--transition-speed) ease;
   z-index: 99;
 }
 
@@ -497,7 +523,8 @@ table {
   overflow: hidden;
 }
 
-th, td {
+th,
+td {
   padding: 0.75rem;
   text-align: left;
   border-bottom: 1px solid #ddd;
@@ -527,98 +554,102 @@ figcaption {
 
 /* Print styles */
 @media print {
-  nav, .back-to-top, .print-button, .hamburger-menu {
+  nav,
+  .back-to-top,
+  .print-button,
+  .hamburger-menu {
     display: none !important;
   }
-  
+
   body {
     font-size: 12pt;
     line-height: 1.5;
     background: white;
     color: black;
   }
-  
+
   .container {
     width: 100%;
     max-width: none;
   }
-  
+
   h1 {
     font-size: 24pt;
     color: black;
   }
-  
+
   h2 {
     font-size: 18pt;
     page-break-after: avoid;
     color: black;
     border-bottom-color: black;
   }
-  
+
   h2::after {
     display: none;
   }
-  
+
   h3 {
     font-size: 14pt;
     page-break-after: avoid;
     color: black;
   }
-  
+
   h4 {
     font-size: 12pt;
     color: black;
   }
-  
+
   img {
     max-width: 100% !important;
     page-break-inside: avoid;
     box-shadow: none;
   }
-  
+
   a {
     color: black;
     text-decoration: underline;
   }
-  
-  .card, .two-column {
+
+  .card,
+  .two-column {
     page-break-inside: avoid;
   }
-  
+
   .card {
     border: 1px solid #ddd;
     box-shadow: none;
   }
-  
+
   .section-divider {
     border-top: 1px solid #ddd;
     height: 0;
     background: none;
   }
-  
+
   .toc {
     display: none;
   }
-  
+
   header {
     background: none;
     color: black;
     padding: 1cm 0;
     box-shadow: none;
   }
-  
+
   header h1 {
     color: black;
     text-shadow: none;
   }
-  
+
   footer {
     background: none;
     color: black;
     border-top: 1px solid #ddd;
     padding-top: 1cm;
   }
-  
+
   @page {
     margin: 2cm;
   }
@@ -629,7 +660,7 @@ figcaption {
   html {
     font-size: 15px;
   }
-  
+
   .container {
     width: 95%;
   }
@@ -639,29 +670,29 @@ figcaption {
   html {
     font-size: 14px;
   }
-  
+
   h1 {
     font-size: 2.25rem;
   }
-  
+
   h2 {
     font-size: 1.75rem;
   }
-  
+
   h3 {
     font-size: 1.5rem;
   }
-  
+
   /* Mobile navigation */
   .nav-container {
     justify-content: space-between;
     align-items: center;
   }
-  
+
   .hamburger-menu {
     display: block;
   }
-  
+
   nav ul {
     display: none;
     flex-direction: column;
@@ -672,32 +703,32 @@ figcaption {
     background-color: var(--dark-color);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   }
-  
+
   nav ul.show {
     display: flex;
   }
-  
+
   nav a {
     padding: 1rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
-  
+
   .two-column {
     flex-direction: column;
     gap: var(--spacing-md);
   }
-  
+
   .card {
     min-width: 100%;
   }
-  
+
   .back-to-top {
     bottom: 20px;
     right: 20px;
     width: 40px;
     height: 40px;
   }
-  
+
   /* Adjust image zoom for mobile */
   img.zoomed {
     transform: translate(-50%, -50%) scale(1.2);
@@ -708,32 +739,32 @@ figcaption {
   html {
     font-size: 13px;
   }
-  
+
   .container {
     width: 100%;
     padding: 0 10px;
   }
-  
+
   h1 {
     font-size: 2rem;
   }
-  
+
   h2 {
     font-size: 1.5rem;
   }
-  
+
   h3 {
     font-size: 1.25rem;
   }
-  
+
   .image-container {
     margin: var(--spacing-md) 0;
   }
-  
+
   .card {
     padding: var(--spacing-md);
   }
-  
+
   /* Further adjust image zoom for small screens */
   img.zoomed {
     transform: translate(-50%, -50%) scale(1);
@@ -756,7 +787,12 @@ figcaption {
 
 .section-divider {
   height: 2px;
-  background: linear-gradient(to right, var(--light-color), var(--secondary-color), var(--light-color));
+  background: linear-gradient(
+    to right,
+    var(--light-color),
+    var(--secondary-color),
+    var(--light-color)
+  );
   margin: var(--spacing-xl) 0;
   border-radius: var(--border-radius-sm);
 }
@@ -793,15 +829,17 @@ figcaption {
     --link-color: #0000cc;
     --link-hover: #0000ff;
   }
-  
+
   body {
     background-color: white;
   }
-  
-  .card, .toc, .references {
+
+  .card,
+  .toc,
+  .references {
     border: 2px solid black;
   }
-  
+
   img {
     border: 1px solid black;
   }
@@ -815,11 +853,11 @@ figcaption {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  
+
   .image-container:hover {
     transform: none;
   }
-  
+
   .card:hover {
     transform: none;
   }

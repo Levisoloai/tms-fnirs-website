@@ -1,0 +1,9 @@
+{
+  "label": "Projected Market Growth (USD Billions)",
+  "currency": "USD",
+  "targetValue": 2.12,
+  "targetYear": 2030,
+  "cagr": null,
+  "years": [2023, 2024, 2025, 2030],
+  "values": [1.2, 1.35, 1.5, 2.12]
+}

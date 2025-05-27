@@ -1,0 +1,23 @@
+{
+  "name": "tms-fnirs-site",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "lite-server --baseDir ./",
+    "prettier": "prettier --write \"**/*.{html,js,json,css}\"",
+    "lint": "eslint \"**/*.js\"",
+    "spell": "cspell \"**/*.{html,js,md}\"",
+    "build:refs": "node scripts/buildReferences.js"
+  },
+  "devDependencies": {
+    "bibtex-parse-js": "0.0.24",
+    "cspell": "^7.3.9",
+    "eslint": "^9.4.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^17.8.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "lite-server": "^2.6.1",
+    "prettier": "^3.3.0"
+  }
+}
