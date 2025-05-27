@@ -20,13 +20,13 @@
 const { useState, useEffect } = React; // Destructure from global React
 
 // Define Icon Placeholders
-const Brain = () => React.createElement('span', {className: "inline-block w-8 h-8"}, '[Brain]');
-const Activity = () => React.createElement('span', {className: "inline-block w-5 h-5"}, '[Activity]');
-const FileText = () => React.createElement('span', {className: "inline-block w-5 h-5"}, '[FileText]');
-const AlertCircle = () => React.createElement('span', {className: "inline-block w-5 h-5"}, '[AlertCircle]');
-const CheckCircle = () => React.createElement('span', {className: "inline-block w-4 h-4"}, '[CheckCircle]');
-const Target = () => React.createElement('span', {className: "inline-block w-6 h-6"}, '[Target]');
-const Zap = () => React.createElement('span', {className: "inline-block w-5 h-5"}, '[Zap]');
+const Brain = () => React.createElement('span', {className: "inline-block w-8 h-8", "aria-label": "Brain Icon"}, '');
+const Activity = () => React.createElement('span', {className: "inline-block w-5 h-5", "aria-label": "Activity Icon"}, '');
+const FileText = () => React.createElement('span', {className: "inline-block w-5 h-5", "aria-label": "FileText Icon"}, '');
+const AlertCircle = () => React.createElement('span', {className: "inline-block w-5 h-5", "aria-label": "AlertCircle Icon"}, '');
+const CheckCircle = () => React.createElement('span', {className: "inline-block w-4 h-4", "aria-label": "CheckCircle Icon"}, '');
+const Target = () => React.createElement('span', {className: "inline-block w-6 h-6", "aria-label": "Target Icon"}, '');
+const Zap = () => React.createElement('span', {className: "inline-block w-5 h-5", "aria-label": "Zap Icon"}, '');
 
 const TMSProtocolTool = () => {
   const [patientData, setPatientData] = useState({
