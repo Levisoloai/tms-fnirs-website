@@ -6,7 +6,9 @@ SCHEMA_VERSION = "1.0"
 
 @dataclass
 class BaseNode:
-    schema_version: str = field(default=SCHEMA_VERSION)
+    # Base class for all nodes in the graph
+    # All nodes will have a schema_version field
+    schema_version: str = field(default_factory=lambda: SCHEMA_VERSION)
 
 @dataclass
 class Diagnosis(BaseNode):
