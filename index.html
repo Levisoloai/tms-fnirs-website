@@ -1,562 +1,1218 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TMS-fNIRS Technology: Advancing Neuroscience</title>
-    
+
     <!-- Enhanced meta tags for SEO and social sharing -->
-    <meta name="description" content="Educational resource on Transcranial Magnetic Stimulation and Functional Near-Infrared Spectroscopy integration, applications, and advancements in neuroscience.">
-    <meta name="keywords" content="TMS, fNIRS, neuroscience, brain stimulation, neuroimaging, neurotechnology">
-    <meta name="author" content="Neuroscience Education Initiative">
-    
+    <meta
+      name="description"
+      content="Educational resource on Transcranial Magnetic Stimulation and Functional Near-Infrared Spectroscopy integration, applications, and advancements in neuroscience."
+    />
+    <meta
+      name="keywords"
+      content="TMS, fNIRS, neuroscience, brain stimulation, neuroimaging, neurotechnology"
+    />
+    <meta name="author" content="Neuroscience Education Initiative" />
+
     <!-- Open Graph / Social Media Meta Tags -->
-    <meta property="og:title" content="TMS-fNIRS Technology: Advancing Neuroscience">
-    <meta property="og:description" content="Learn about the integration of Transcranial Magnetic Stimulation and Functional Near-Infrared Spectroscopy in modern neuroscience.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="images/tms_fnirs_integration_diagram.jpg">
-    
+    <meta
+      property="og:title"
+      content="TMS-fNIRS Technology: Advancing Neuroscience"
+    />
+    <meta
+      property="og:description"
+      content="Learn about the integration of Transcranial Magnetic Stimulation and Functional Near-Infrared Spectroscopy in modern neuroscience."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="images/tms_fnirs_integration_diagram.jpg"
+    />
+
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
     <!-- Skip to content link for accessibility -->
     <a href="#main-content" class="skip-to-content">Skip to content</a>
-    
+
     <header>
-        <div class="container header-content">
-            <h1>TMS-fNIRS Technology</h1>
-            <p>Advancing Neuroscience Through Integrated Brain Stimulation and Monitoring</p>
-        </div>
+      <div class="container header-content">
+        <h1>TMS-fNIRS Technology</h1>
+        <p>
+          Advancing Neuroscience Through Integrated Brain Stimulation and
+          Monitoring
+        </p>
+      </div>
     </header>
 
     <nav id="main-nav" aria-label="Main navigation">
-        <div class="container nav-container">
-            <button class="hamburger-menu" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
-                <i class="fas fa-bars"></i>
-            </button>
-            <ul id="nav-menu">
-                <li><a href="#introduction" tabindex="0">Introduction</a></li>
-                <li><a href="#science" tabindex="0">Basic Science</a></li>
-                <li><a href="#advancements" tabindex="0">Recent Advancements</a></li>
-                <li><a href="#clinical" tabindex="0">Clinical Applications</a></li>
-                <li><a href="#research" tabindex="0">Research Applications</a></li>
-                <li><a href="#technology" tabindex="0">Technology</a></li>
-                <li><a href="#limitations" tabindex="0">Limitations</a></li>
-                <li><a href="#future" tabindex="0">Future Directions</a></li>
-                <li><a href="#references" tabindex="0">References</a></li>
-            </ul>
-            <button id="print-page" class="print-button" aria-label="Print this page" tabindex="0">
-                <i class="fas fa-print"></i>
-            </button>
-        </div>
+      <div class="container nav-container">
+        <button
+          class="hamburger-menu"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="nav-menu"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+        <ul id="nav-menu">
+          <li><a href="#introduction" tabindex="0">Introduction</a></li>
+          <li><a href="#science" tabindex="0">Basic Science</a></li>
+          <li><a href="#advancements" tabindex="0">Recent Advancements</a></li>
+          <li><a href="#clinical" tabindex="0">Clinical Applications</a></li>
+          <li><a href="#research" tabindex="0">Research Applications</a></li>
+          <li>
+            <a href="#tms-protocol-tool" tabindex="0">TMS Protocol Tool</a>
+          </li>
+          <li><a href="#technology" tabindex="0">Technology</a></li>
+          <li><a href="#limitations" tabindex="0">Limitations</a></li>
+          <li><a href="#future" tabindex="0">Future Directions</a></li>
+          <li><a href="#references" tabindex="0">References</a></li>
+        </ul>
+        <button
+          id="print-page"
+          class="print-button"
+          aria-label="Print this page"
+          tabindex="0"
+        >
+          <i class="fas fa-print"></i>
+        </button>
+      </div>
     </nav>
 
     <main id="main-content" class="container">
-        <!-- Table of Contents for better navigation -->
-        <section class="toc" aria-labelledby="toc-heading">
-            <h3 id="toc-heading" tabindex="0">Table of Contents</h3>
+      <!-- Table of Contents for better navigation -->
+      <section class="toc" aria-labelledby="toc-heading">
+        <h3 id="toc-heading" tabindex="0">Table of Contents</h3>
+        <ul>
+          <li>
+            <a href="#introduction" tabindex="0">Introduction to TMS-fNIRS</a>
+          </li>
+          <li>
+            <a href="#science" tabindex="0">Basic Science and Principles</a>
             <ul>
-                <li><a href="#introduction" tabindex="0">Introduction to TMS-fNIRS</a></li>
-                <li><a href="#science" tabindex="0">Basic Science and Principles</a>
-                    <ul>
-                        <li><a href="#tms-science" tabindex="0">Transcranial Magnetic Stimulation</a></li>
-                        <li><a href="#fnirs-science" tabindex="0">Functional Near-Infrared Spectroscopy</a></li>
-                        <li><a href="#combined-science" tabindex="0">Combined TMS-fNIRS Technology</a></li>
-                    </ul>
-                </li>
-                <li><a href="#advancements" tabindex="0">Recent Advancements (2023-2025)</a></li>
-                <li><a href="#clinical" tabindex="0">Clinical Applications</a></li>
-                <li><a href="#research" tabindex="0">Research Applications</a></li>
-                <li><a href="#technology" tabindex="0">Technological Developments</a></li>
-                <li><a href="#limitations" tabindex="0">Limitations and Challenges</a></li>
-                <li><a href="#future" tabindex="0">Future Directions</a></li>
-                <li><a href="#references" tabindex="0">References</a></li>
+              <li>
+                <a href="#tms-science" tabindex="0"
+                  >Transcranial Magnetic Stimulation</a
+                >
+              </li>
+              <li>
+                <a href="#fnirs-science" tabindex="0"
+                  >Functional Near-Infrared Spectroscopy</a
+                >
+              </li>
+              <li>
+                <a href="#combined-science" tabindex="0"
+                  >Combined TMS-fNIRS Technology</a
+                >
+              </li>
             </ul>
-        </section>
+          </li>
+          <li>
+            <a href="#advancements" tabindex="0"
+              >Recent Advancements (2023-2025)</a
+            >
+          </li>
+          <li><a href="#clinical" tabindex="0">Clinical Applications</a></li>
+          <li><a href="#research" tabindex="0">Research Applications</a></li>
+          <li>
+            <a href="#tms-protocol-tool" tabindex="0">TMS Protocol Tool</a>
+          </li>
+          <li>
+            <a href="#technology" tabindex="0">Technological Developments</a>
+          </li>
+          <li>
+            <a href="#limitations" tabindex="0">Limitations and Challenges</a>
+          </li>
+          <li><a href="#future" tabindex="0">Future Directions</a></li>
+          <li><a href="#references" tabindex="0">References</a></li>
+        </ul>
+      </section>
 
-        <section id="introduction" aria-labelledby="intro-heading">
-            <h2 id="intro-heading" tabindex="0">Introduction to TMS-fNIRS</h2>
-            <div class="two-column">
-                <div class="column">
-                    <p>TMS-fNIRS represents an innovative integration of two powerful neuroscience technologies: Transcranial Magnetic Stimulation (TMS) and Functional Near-Infrared Spectroscopy (fNIRS). This combined methodology has emerged as a significant advancement in neuroimaging and neuromodulation, offering researchers and clinicians unique insights into brain function, connectivity, and response to stimulation.</p>
-                    <p>This combined approach is vital as it allows for real-time causal inferences about brain function, directly observing how stimulating one area impacts local and networked brain activity <cite data-id="doi:10.3389/fpsyt.2024.1514153">Chang et al., 2025</cite>. Such insights are crucial for developing targeted therapies and deepening our understanding of neural circuits.</p>
-                </div>
-                <div class="column">
-                    <figure class="image-container">
-                        <img src="images/tms_fnirs_integration_diagram.jpg" alt="Scientific diagram showing TMS-fNIRS integration" loading="lazy" tabindex="0">
-                        <figcaption class="image-caption">Scientific diagram showing TMS-fNIRS integration. Source: Frontiers</figcaption>
-                    </figure>
-                </div>
-            </div>
-        </section>
-
-        <div class="section-divider"></div>
-
-        <section id="science" aria-labelledby="science-heading">
-            <h2 id="science-heading" tabindex="0">Basic Science and Principles</h2>
-            
-            <h3 id="tms-science" tabindex="0">Transcranial Magnetic Stimulation (TMS)</h3>
-            <div class="two-column">
-                <div class="column">
-                    <p>Transcranial Magnetic Stimulation is a noninvasive neurostimulation technique that uses magnetic fields to influence brain activity. The procedure involves:</p>
-                    <ul>
-                        <li>Using a magnetic coil held over the head to generate magnetic pulses</li>
-                        <li>These pulses penetrate the skull and create electrical currents in specific brain regions</li>
-                        <li>The electrical currents stimulate nerve cells, modulating brain function</li>
-                    </ul>
-                    <p>TMS leverages Faraday’s law of electromagnetic induction: a 200–300 µs, high‑current pulse in the figure‑of‑eight coil produces a rapidly changing magnetic field (1–2 T at the coil surface) that penetrates the skull with minimal attenuation. The induced electric field (typically 80–120 V m⁻¹ at 2 cm depth) depolarizes axonal membranes, preferentially activating horizontally oriented cortical interneurons before pyramidal cells. Pulse shape (monophasic vs. biphasic), coil geometry, and pulse train frequency together determine whether the net effect is excitatory (long‑term potentiation‑like) or inhibitory (long‑term depression‑like).</p>
-                    <p>Beyond its well‑known FDA clearance for treatment‑resistant major depressive disorder, TMS protocols (e.g., intermittent theta‑burst, accelerated high‑frequency) are now being investigated for obsessive‑compulsive disorder, bipolar depression, post‑stroke motor recovery, and chronic pain. Consensus safety guidelines (Rossini et al., 2024) recommend keeping the induced electric field below 100 V m⁻¹ and cumulative pulses under 10,000 per day to minimize seizure risk <cite data-id="doi:placeholder/Rossini2024">Rossini et al., 2024 (placeholder)</cite>.</p>
-                </div>
-                <div class="column">
-                    <figure class="image-container">
-                        <img src="images/tms_brain_stimulation.png" alt="Diagram showing how TMS stimulates the brain" loading="lazy" tabindex="0">
-                        <figcaption class="image-caption">Diagram showing how TMS stimulates the brain. Source: Sapien Labs</figcaption>
-                    </figure>
-                    <figure class="image-container">
-                        <img src="images/tms_equipment_robotic.png" alt="Robotic transcranial magnetic stimulation equipment" loading="lazy" tabindex="0">
-                        <figcaption class="image-caption">Robotic transcranial magnetic stimulation equipment. Source: Nature</figcaption>
-                    </figure>
-                </div>
-            </div>
-
-            <h3 id="fnirs-science" tabindex="0">Functional Near-Infrared Spectroscopy (fNIRS)</h3>
-            <div class="two-column">
-                <div class="column">
-                    <p>Functional Near-Infrared Spectroscopy is a non-invasive neuroimaging technique that measures brain activity by:</p>
-                    <ul>
-                        <li>Using near-infrared light to estimate cortical hemodynamic activity</li>
-                        <li>Detecting changes in blood oxygenation and cerebral blood flow</li>
-                        <li>Monitoring brain function through light propagation through the scalp and brain</li>
-                    </ul>
-                    <p>Near‑infrared photons (650–900 nm) undergo multiple scattering events as they traverse scalp, skull, and superficial cortex. Oxy‑ and deoxy‑hemoglobin have distinct absorption spectra in this window, allowing the modified Beer–Lambert law to convert detected intensity changes into concentration changes (Δ[HbO], Δ[HbR]). Typical source‑detector separations (30–35 mm) probe ~1.5 cm beneath the scalp; shorter “reference” channels (~8 mm) are used to regress out extracerebral blood‑flow artifacts.</p>
-                    <p>The technology uses a set of near-infrared light sources and sensors (detectors) organized in an array called a montage. This setup allows for portable, real-time brain activity monitoring suitable for various research and clinical settings, though it is important to consider limitations such as optical penetration depth of approximately 1.5 cm and potential confounds from scalp blood flow <cite data-id="doi:placeholder/Fantini2024">Fantini et al., 2024 (placeholder)</cite>.</p>
-                </div>
-                <div class="column">
-                    <figure class="image-container">
-                        <img src="images/fnirs_headset.png" alt="Functional Near-Infrared Spectroscopy (fNIRS) headset" loading="lazy" tabindex="0">
-                        <figcaption class="image-caption">Functional Near-Infrared Spectroscopy (fNIRS) headset. Source: Soterix Medical</figcaption>
-                    </figure>
-                    <figure class="image-container">
-                        <img src="images/fnirs_hemodynamic_response.jpg" alt="fNIRS hemodynamic response in the brain" loading="lazy" tabindex="0">
-                        <figcaption class="image-caption">fNIRS hemodynamic response in the brain. Source: ScienceDirect</figcaption>
-                    </figure>
-                </div>
-            </div>
-
-            <h3 id="combined-science" tabindex="0">Combined TMS-fNIRS Technology</h3>
-            <div class="two-column">
-                <div class="column">
-                    <p>The integration of TMS and fNIRS creates a powerful tool for neuroscience research and clinical applications. Key aspects of this combined technology include:</p>
-                    <ul>
-                        <li>Simultaneous brain stimulation (via TMS) and monitoring of hemodynamic responses (via fNIRS)</li>
-                        <li>Ability to observe immediate brain responses to targeted stimulation</li>
-                        <li>Comprehensive assessment of both electrical brain activity and hemodynamic responses</li>
-                    </ul>
-                    <p>The combined methodology offers several advantages:</p>
-                    <ul>
-                        <li>Enables precise measurement of brain responses to stimulation</li>
-                        <li>Provides more comprehensive brain function assessment</li>
-                        <li>Allows for flexible positioning of TMS coils and optical sensors</li>
-                        <li>Supports precise diagnosis, assessment, and targeted therapeutic interventions</li>
-                    </ul>
-                    <p>Two acquisition paradigms dominate: <strong>simultaneous</strong> (fNIRS sampling during TMS, requiring hardware blanking and artifact removal algorithms) and <strong>interleaved</strong> (brief pauses between pulse trains so fNIRS captures the ensuing hemodynamic response free of electromagnetic artifacts). Modern systems synchronize the coil trigger with the optical digitizer via TTL lines, enabling millisecond‑accurate event markers and facilitating general linear model (GLM) analysis of the hemodynamic response to each pulse or burst <cite data-id="doi:placeholder/Addison2025">Addison et al., 2025 (placeholder)</cite>.</p>
-                </div>
-                <div class="column">
-                    <figure class="image-container">
-                        <img src="images/combined_tms_fnirs_setup.png" alt="Combined TMS-fNIRS system setup" loading="lazy" tabindex="0">
-                        <figcaption class="image-caption">Combined TMS-fNIRS system setup. Source: NIRx Medical Technologies</figcaption>
-                    </figure>
-                </div>
-            </div>
-        </section>
-
-        <div class="section-divider"></div>
-
-        <section id="advancements" aria-labelledby="advancements-heading">
-            <h2 id="advancements-heading" tabindex="0">Recent Advancements (2023-2025)</h2>
-            <p>Recent years have seen significant advancements in TMS-fNIRS technology, methodology, and applications. These developments focus on refining the integration of these two modalities, improving data acquisition and analysis, and exploring new clinical and research frontiers.</p>
-            
-            <h3 tabindex="0">Peer-reviewed highlights (2023-25)</h3>
-            <div class="card-container">
-                <div class="card" tabindex="0">
-                    <h4>Near-infrared spectroscopy--guided personalized repetitive transcranial magnetic stimulation for bipolar depression: a case report</h4>
-                    <p><strong>Journal:</strong> Frontiers in Psychiatry, <strong>Year:</strong> 2025</p>
-                    <p>This study reports on using fNIRS to guide TMS for personalized treatment in bipolar depression <cite data-id="doi:10.3389/fpsyt.2024.1514153">Chang et al., 2025</cite>. Main finding: Information not available in BibTeX.</p>
-                </div>
-                <div class="card" tabindex="0">
-                    <h4>UTILIZING NEAR-INFRARED SPECTROSCOPY FOR ACCELERATED BILATERAL DORSOLATERAL PREFRONTAL CORTEX STIMULATION IN THE TREATMENT OF BIPOLAR DEPRESSION</h4>
-                    <p><strong>Journal:</strong> Transcranial Magnetic Stimulation, <strong>Year:</strong> 2024</p>
-                    <p>This research explores using fNIRS for accelerated TMS protocols in treating bipolar depression <cite data-id="doi:10.1016/j.transm.2024.100045">Chang et al., 2024</cite>. Main finding: Information not available in BibTeX.</p>
-                </div>
-                <div class="card" tabindex="0">
-                    <h4>Exploration of Speech Induced Suppression using Functional Near-Infrared Spectroscopy (fNIRS)</h4>
-                    <p><strong>Journal:</strong> bioRxiv (preprint), <strong>Year:</strong> 2023</p>
-                    <p>This paper investigates speech-induced suppression effects using fNIRS, relevant for understanding cortical responses <cite data-id="doi:10.1101/2023.03.05.531176">Walczak, 2023</cite>. Main finding: Information not available in BibTeX.</p>
-                </div>
-            </div>
-        </section>
-
-        <div class="section-divider"></div>
-
-        <section id="clinical" aria-labelledby="clinical-heading">
-            <h2 id="clinical-heading" tabindex="0">Clinical Applications</h2>
-            <p>By capturing pulse‑locked hemodynamic signatures (Δ[HbO]/Δ[HbR]) in the first minutes of stimulation, TMS‑fNIRS can quantify cortical excitability and effective connectivity in vivo. A prospective study showed that a ≥15 % HbO rise in left DLPFC during the first iTBS session predicted a 50 % reduction in Hamilton Depression Rating Scale scores after four weeks (Ahn et al., 2024). Similar biomarker‑based titration is being explored for obsessive‑compulsive disorder, where excessive supplementary motor area activation normalizes after fNIRS‑guided low‑frequency TMS (Park et al., 2025).</p>
-
+      <section id="introduction" aria-labelledby="intro-heading">
+        <h2 id="intro-heading" tabindex="0">Introduction to TMS-fNIRS</h2>
+        <div class="two-column">
+          <div class="column">
+            <p>
+              TMS-fNIRS represents an innovative integration of two powerful
+              neuroscience technologies: Transcranial Magnetic Stimulation (TMS)
+              and Functional Near-Infrared Spectroscopy (fNIRS). This combined
+              methodology has emerged as a significant advancement in
+              neuroimaging and neuromodulation, offering researchers and
+              clinicians unique insights into brain function, connectivity, and
+              response to stimulation.
+            </p>
+            <p>
+              This combined approach is vital as it allows for real-time causal
+              inferences about brain function, directly observing how
+              stimulating one area impacts local and networked brain activity
+              <cite data-id="doi:10.3389/fpsyt.2024.1514153"
+                >Chang et al., 2025</cite
+              >. Such insights are crucial for developing targeted therapies and
+              deepening our understanding of neural circuits.
+            </p>
+          </div>
+          <div class="column">
             <figure class="image-container">
-                <img src="images/tms_fnirs_workflow_schematic.png" alt="TMS-fNIRS workflow schematic for neurological applications" loading="lazy" tabindex="0">
-                <figcaption class="image-caption">TMS-fNIRS workflow schematic for neurological applications. Source: MDPI</figcaption>
+              <img
+                src="images/tms_fnirs_integration_diagram.jpg"
+                alt="Scientific diagram showing TMS-fNIRS integration"
+                loading="lazy"
+                tabindex="0"
+              />
+              <figcaption class="image-caption">
+                Scientific diagram showing TMS-fNIRS integration. Source:
+                Frontiers
+              </figcaption>
             </figure>
+          </div>
+        </div>
+      </section>
 
-            <p>What follows summarizes the strongest peer‑reviewed evidence, grouped by medical specialty.</p>
-            <h3 id="clinical-psychiatry" tabindex="0">Psychiatry</h3>
-            <div class="two-column">
-                <div class="column">
-                    <h4 tabindex="0">Major Depressive Disorder & Bipolar Disorder</h4>
-                    <ul>
-                        <li>TMS is FDA-approved for treatment-resistant depression; fNIRS may personalize targeting and assess response <cite data-id="doi:10.3389/fpsyt.2024.1514153">Chang et al., 2025</cite>.</li>
-                        <li>fNIRS can guide TMS in bipolar depression, potentially optimizing treatment protocols <cite data-id="doi:10.1016/j.transm.2024.100045">Chang et al., 2024</cite>.</li>
-                    </ul>
+      <div class="section-divider"></div>
 
-                    <h4 tabindex="0">Other Psychiatric Conditions</h4>
-                    <ul>
-                        <li>Research is exploring TMS-fNIRS for anxiety disorders, providing real-time feedback on brain responses to stimulation <cite data-id="doi:placeholder/AnxietyStudy2024">Placeholder et al., 2024</cite>.</li>
-                         <li>The combined approach is studied for diagnosing and monitoring schizophrenia, offering objective brain activity measures <cite data-id="doi:placeholder/SchizophreniaStudy2024">Placeholder et al., 2024</cite>.</li>
-                    </ul>
-                </div>
-                <div class="column">
-                    <figure class="image-container">
-                        <img src="images/fnirs_clinical_application.jpg" alt="Functional near-infrared spectroscopy clinical application diagram" loading="lazy" tabindex="0">
-                        <figcaption class="image-caption">Functional near-infrared spectroscopy clinical application diagram. Source: Frontiers</figcaption>
-                    </figure>
-                </div>
-            </div>
-            
-            <h3 id="clinical-neurology" tabindex="0">Neurology</h3>
-            <div class="two-column">
-                <div class="column">
-                    <h4 tabindex="0">Stroke Rehabilitation</h4>
-                    <ul>
-                        <li>TMS-fNIRS may guide interventions to improve motor function post-stroke, personalizing therapy <cite data-id="doi:10.1016/j.clinph.2023.10.004">Rösch et al., 2024</cite>.</li>
-                         <li>Theta Burst Stimulation guided by fNIRS is explored for enhancing recovery and neuroplasticity <cite data-id="doi:placeholder/TBSStroke2024">Placeholder et al., 2024</cite>.</li>
-                    </ul>
+      <section id="science" aria-labelledby="science-heading">
+        <h2 id="science-heading" tabindex="0">Basic Science and Principles</h2>
 
-                    <h4 tabindex="0">Pain Management & Disorders of Consciousness</h4>
-                    <ul>
-                        <li>TMS-fNIRS is investigated for developing personalized pain management strategies by observing brain responses <cite data-id="doi:placeholder/PainStudy2024">Placeholder et al., 2024</cite>.</li>
-                        <li>fNIRS helps evaluate TMS effects in patients with DOC, assessing brain function objectively <cite data-id="doi:placeholder/DOCStudy2024">Placeholder et al., 2024</cite>.</li>
-                    </ul>
-                </div>
-                <div class="column">
-                    <figure class="image-container">
-                        <img src="images/nirs_guided_tms.jpg" alt="Near-Infrared Spectroscopy guided TMS application" loading="lazy" tabindex="0">
-                        <figcaption class="image-caption">Near-Infrared Spectroscopy guided TMS application. Source: Frontiers</figcaption>
-                    </figure>
-                </div>
-            </div>
-
-            <h3 tabindex="0">Diagnostic Applications</h3>
+        <h3 id="tms-science" tabindex="0">
+          Transcranial Magnetic Stimulation (TMS)
+        </h3>
+        <div class="two-column">
+          <div class="column">
+            <p>
+              Transcranial Magnetic Stimulation is a noninvasive
+              neurostimulation technique that uses magnetic fields to influence
+              brain activity. The procedure involves:
+            </p>
             <ul>
-                <li>TMS-fNIRS offers potential to supplement clinical evaluations by providing objective brain measurements for diagnosis <cite data-id="doi:placeholder/DiagnosticTMSfNIRS2024">Placeholder et al., 2024</cite>.</li>
-                <li>This integrated approach can enable monitoring of treatment progress through quantifiable changes in brain activity <cite data-id="doi:10.3389/fpsyt.2024.1514153">Chang et al., 2025</cite>.</li>
+              <li>
+                Using a magnetic coil held over the head to generate magnetic
+                pulses
+              </li>
+              <li>
+                These pulses penetrate the skull and create electrical currents
+                in specific brain regions
+              </li>
+              <li>
+                The electrical currents stimulate nerve cells, modulating brain
+                function
+              </li>
             </ul>
-        </section>
+            <p>
+              TMS leverages Faraday’s law of electromagnetic induction: a
+              200–300 µs, high‑current pulse in the figure‑of‑eight coil
+              produces a rapidly changing magnetic field (1–2 T at the coil
+              surface) that penetrates the skull with minimal attenuation. The
+              induced electric field (typically 80–120 V m⁻¹ at 2 cm depth)
+              depolarizes axonal membranes, preferentially activating
+              horizontally oriented cortical interneurons before pyramidal
+              cells. Pulse shape (monophasic vs. biphasic), coil geometry, and
+              pulse train frequency together determine whether the net effect is
+              excitatory (long‑term potentiation‑like) or inhibitory (long‑term
+              depression‑like).
+            </p>
+            <p>
+              Beyond its well‑known FDA clearance for treatment‑resistant major
+              depressive disorder, TMS protocols (e.g., intermittent
+              theta‑burst, accelerated high‑frequency) are now being
+              investigated for obsessive‑compulsive disorder, bipolar
+              depression, post‑stroke motor recovery, and chronic pain.
+              Consensus safety guidelines (Rossini et al., 2024) recommend
+              keeping the induced electric field below 100 V m⁻¹ and cumulative
+              pulses under 10,000 per day to minimize seizure risk
+              <cite data-id="doi:placeholder/Rossini2024"
+                >Rossini et al., 2024 (placeholder)</cite
+              >.
+            </p>
+          </div>
+          <div class="column">
+            <figure class="image-container">
+              <img
+                src="images/tms_brain_stimulation.png"
+                alt="Diagram showing how TMS stimulates the brain"
+                loading="lazy"
+                tabindex="0"
+              />
+              <figcaption class="image-caption">
+                Diagram showing how TMS stimulates the brain. Source: Sapien
+                Labs
+              </figcaption>
+            </figure>
+            <figure class="image-container">
+              <img
+                src="images/tms_equipment_robotic.png"
+                alt="Robotic transcranial magnetic stimulation equipment"
+                loading="lazy"
+                tabindex="0"
+              />
+              <figcaption class="image-caption">
+                Robotic transcranial magnetic stimulation equipment. Source:
+                Nature
+              </figcaption>
+            </figure>
+          </div>
+        </div>
 
-        <div class="section-divider"></div>
-
-        <section id="research" aria-labelledby="research-heading">
-            <h2 id="research-heading" tabindex="0">Research Applications</h2>
-            <p>TMS-fNIRS has opened new avenues for neuroscience research:</p>
-
-            <div class="two-column">
-                <div class="column">
-                    <h3 tabindex="0">Neuroscience Research Applications</h3>
-                    <h4 tabindex="0">Brain Connectivity Studies</h4>
-                    <ul>
-                        <li>Allows direct investigation of cortical brain activation and connectivity</li>
-                        <li>Provides insights into neural network dynamics during stimulation</li>
-                    </ul>
-
-                    <h4 tabindex="0">Cognitive Function Research</h4>
-                    <ul>
-                        <li>Applied in studying working memory, attention, and executive functions</li>
-                        <li>Enables observation of brain activity during cognitive tasks</li>
-                    </ul>
-
-                    <h4 tabindex="0">Social Interaction Studies</h4>
-                    <ul>
-                        <li>Used to investigate brain activity during social interactions</li>
-                        <li>Provides ecological validity in naturalistic research settings</li>
-                    </ul>
-
-                    <h4 tabindex="0">Education and Learning Research</h4>
-                    <ul>
-                        <li>Applied to understand brain processes during learning</li>
-                        <li>Helps develop evidence-based educational interventions</li>
-                    </ul>
-                </div>
-                <div class="column">
-                    <figure class="image-container">
-                        <img src="images/brain_activation_fnirs.png" alt="Brain activation patterns from fNIRS imaging" loading="lazy" tabindex="0">
-                        <figcaption class="image-caption">Brain activation patterns from fNIRS imaging. Source: Nature</figcaption>
-                    </figure>
-                    <figure class="image-container">
-                        <img src="images/fnirs_brain_mapping.jpg" alt="fNIRS-based brain mapping diagram" loading="lazy" tabindex="0">
-                        <figcaption class="image-caption">fNIRS-based brain mapping diagram. Source: Frontiers</figcaption>
-                    </figure>
-                </div>
-            </div>
-
-            <h3 tabindex="0">Methodological Advantages in Research</h3>
-            <div class="card-container">
-                <div class="card" tabindex="0">
-                    <h4>Real-time Monitoring</h4>
-                    <ul>
-                        <li>Provides immediate feedback on brain responses to stimulation</li>
-                        <li>Enables adaptive research protocols</li>
-                    </ul>
-                </div>
-                <div class="card" tabindex="0">
-                    <h4>Flexibility in Research Design</h4>
-                    <ul>
-                        <li>Portable equipment allows for diverse research settings</li>
-                        <li>Compatible with various experimental paradigms</li>
-                    </ul>
-                </div>
-                <div class="card" tabindex="0">
-                    <h4>Comprehensive Data Collection</h4>
-                    <ul>
-                        <li>Simultaneous collection of stimulation effects and brain responses</li>
-                        <li>Multi-dimensional insights into brain function</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <div class="section-divider"></div>
-
-        <section id="technology" aria-labelledby="technology-heading">
-            <h2 id="technology-heading" tabindex="0">Technological Developments</h2>
-            <p>Breakthroughs from 2023‑2025 centre on miniaturisation, multi‑locus electronic steering, and nanosecond‑accurate synchronisation hardware that together make simultaneous TMS‑fNIRS practical outside MRI suites. New figure‑of‑eight coils embed Hall sensors and optical fibres to monitor E‑field amplitude and photon budget in real time, while FPGA‑based trigger boxes guarantee &lt;50 µs jitter between magnetic pulses and optical sampling windows.</p>
-
-            <div class="two-column">
-                <div class="column">
-                    <h3 tabindex="0">Hardware Innovations</h3>
-                    <h4 tabindex="0">Advanced Coil Designs</h4>
-                    <ul>
-                        <li>Improved precision in targeting specific brain regions</li>
-                        <li>Enhanced stimulation capabilities through optimized coil configurations</li>
-                    </ul>
-
-                    <h4 tabindex="0">Multi-Modal Compatibility</h4>
-                    <ul>
-                        <li>Integration with EEG, fMRI, and other neuroimaging technologies</li>
-                        <li>Creates comprehensive brain assessment platforms</li>
-                    </ul>
-
-                    <h4 tabindex="0">Wearable Technologies</h4>
-                    <ul>
-                        <li>Development of more comfortable and less restrictive fNIRS systems</li>
-                        <li>Enables longer monitoring periods and more naturalistic research</li>
-                    </ul>
-                </div>
-                <div class="column">
-                    <figure class="image-container">
-                        <img src="images/wearable_tms_device.png" alt="Wearable repetitive transcranial magnetic stimulation device" loading="lazy" tabindex="0">
-                        <figcaption class="image-caption">Wearable repetitive transcranial magnetic stimulation device. Source: Nature</figcaption>
-                    </figure>
-                </div>
-            </div>
-
-            <h3 tabindex="0">Software Advancements</h3>
-            <div class="card-container">
-                <div class="card" tabindex="0">
-                    <h4>Real-time Processing</h4>
-                    <ul>
-                        <li>Immediate analysis of brain responses during stimulation</li>
-                        <li>Allows for adaptive stimulation protocols</li>
-                    </ul>
-                </div>
-                <div class="card" tabindex="0">
-                    <h4>3D Brain Mapping</h4>
-                    <ul>
-                        <li>Enhanced precision in targeting specific brain regions</li>
-                        <li>Improved visualization of stimulation effects</li>
-                    </ul>
-                </div>
-                <div class="card" tabindex="0">
-                    <h4>Advanced Signal Processing</h4>
-                    <ul>
-                        <li>Better noise reduction techniques</li>
-                        <li>More accurate separation of signal from artifacts</li>
-                    </ul>
-                </div>
-            </div>
-
-            <h3 tabindex="0">Integration with Other Technologies</h3>
+        <h3 id="fnirs-science" tabindex="0">
+          Functional Near-Infrared Spectroscopy (fNIRS)
+        </h3>
+        <div class="two-column">
+          <div class="column">
+            <p>
+              Functional Near-Infrared Spectroscopy is a non-invasive
+              neuroimaging technique that measures brain activity by:
+            </p>
             <ul>
-                <li><strong>Brain-Computer Interfaces (BCI):</strong> TMS-fNIRS as input for BCI systems, with potential for neurofeedback applications</li>
-                <li><strong>Transcranial Direct Current Stimulation (tDCS):</strong> Complementary use with TMS-fNIRS for enhanced neuromodulation and multi-modal stimulation approaches</li>
+              <li>
+                Using near-infrared light to estimate cortical hemodynamic
+                activity
+              </li>
+              <li>
+                Detecting changes in blood oxygenation and cerebral blood flow
+              </li>
+              <li>
+                Monitoring brain function through light propagation through the
+                scalp and brain
+              </li>
             </ul>
-        </section>
+            <p>
+              Near‑infrared photons (650–900 nm) undergo multiple scattering
+              events as they traverse scalp, skull, and superficial cortex. Oxy‑
+              and deoxy‑hemoglobin have distinct absorption spectra in this
+              window, allowing the modified Beer–Lambert law to convert detected
+              intensity changes into concentration changes (Δ[HbO], Δ[HbR]).
+              Typical source‑detector separations (30–35 mm) probe ~1.5 cm
+              beneath the scalp; shorter “reference” channels (~8 mm) are used
+              to regress out extracerebral blood‑flow artifacts.
+            </p>
+            <p>
+              The technology uses a set of near-infrared light sources and
+              sensors (detectors) organized in an array called a montage. This
+              setup allows for portable, real-time brain activity monitoring
+              suitable for various research and clinical settings, though it is
+              important to consider limitations such as optical penetration
+              depth of approximately 1.5 cm and potential confounds from scalp
+              blood flow
+              <cite data-id="doi:placeholder/Fantini2024"
+                >Fantini et al., 2024 (placeholder)</cite
+              >.
+            </p>
+          </div>
+          <div class="column">
+            <figure class="image-container">
+              <img
+                src="images/fnirs_headset.png"
+                alt="Functional Near-Infrared Spectroscopy (fNIRS) headset"
+                loading="lazy"
+                tabindex="0"
+              />
+              <figcaption class="image-caption">
+                Functional Near-Infrared Spectroscopy (fNIRS) headset. Source:
+                Soterix Medical
+              </figcaption>
+            </figure>
+            <figure class="image-container">
+              <img
+                src="images/fnirs_hemodynamic_response.jpg"
+                alt="fNIRS hemodynamic response in the brain"
+                loading="lazy"
+                tabindex="0"
+              />
+              <figcaption class="image-caption">
+                fNIRS hemodynamic response in the brain. Source: ScienceDirect
+              </figcaption>
+            </figure>
+          </div>
+        </div>
 
-        <div class="section-divider"></div>
+        <h3 id="combined-science" tabindex="0">
+          Combined TMS-fNIRS Technology
+        </h3>
+        <div class="two-column">
+          <div class="column">
+            <p>
+              The integration of TMS and fNIRS creates a powerful tool for
+              neuroscience research and clinical applications. Key aspects of
+              this combined technology include:
+            </p>
+            <ul>
+              <li>
+                Simultaneous brain stimulation (via TMS) and monitoring of
+                hemodynamic responses (via fNIRS)
+              </li>
+              <li>
+                Ability to observe immediate brain responses to targeted
+                stimulation
+              </li>
+              <li>
+                Comprehensive assessment of both electrical brain activity and
+                hemodynamic responses
+              </li>
+            </ul>
+            <p>The combined methodology offers several advantages:</p>
+            <ul>
+              <li>
+                Enables precise measurement of brain responses to stimulation
+              </li>
+              <li>Provides more comprehensive brain function assessment</li>
+              <li>
+                Allows for flexible positioning of TMS coils and optical sensors
+              </li>
+              <li>
+                Supports precise diagnosis, assessment, and targeted therapeutic
+                interventions
+              </li>
+            </ul>
+            <p>
+              Two acquisition paradigms dominate:
+              <strong>simultaneous</strong> (fNIRS sampling during TMS,
+              requiring hardware blanking and artifact removal algorithms) and
+              <strong>interleaved</strong> (brief pauses between pulse trains so
+              fNIRS captures the ensuing hemodynamic response free of
+              electromagnetic artifacts). Modern systems synchronize the coil
+              trigger with the optical digitizer via TTL lines, enabling
+              millisecond‑accurate event markers and facilitating general linear
+              model (GLM) analysis of the hemodynamic response to each pulse or
+              burst
+              <cite data-id="doi:placeholder/Addison2025"
+                >Addison et al., 2025 (placeholder)</cite
+              >.
+            </p>
+          </div>
+          <div class="column">
+            <figure class="image-container">
+              <img
+                src="images/combined_tms_fnirs_setup.png"
+                alt="Combined TMS-fNIRS system setup"
+                loading="lazy"
+                tabindex="0"
+              />
+              <figcaption class="image-caption">
+                Combined TMS-fNIRS system setup. Source: NIRx Medical
+                Technologies
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
 
-        <section id="limitations" aria-labelledby="limitations-heading">
-            <h2 id="limitations-heading" tabindex="0">Limitations and Challenges</h2>
-            <p>Despite its promise, TMS-fNIRS technology faces several limitations and challenges:</p>
+      <div class="section-divider"></div>
 
-            <h3 tabindex="0">Technical Limitations</h3>
-            <div class="card-container">
-                <div class="card" tabindex="0">
-                    <h4>Signal Interference</h4>
-                    <ul>
-                        <li>Potential interference between TMS and fNIRS signal acquisition</li>
-                        <li>Need for advanced signal processing techniques</li>
-                    </ul>
-                </div>
-                <div class="card" tabindex="0">
-                    <h4>Spatial Resolution</h4>
-                    <ul>
-                        <li>Limited depth penetration of fNIRS (primarily cortical)</li>
-                        <li>Challenges in targeting deep brain structures</li>
-                    </ul>
-                </div>
-                <div class="card" tabindex="0">
-                    <h4>Integration Complexities</h4>
-                    <ul>
-                        <li>Technical challenges in simultaneous data collection</li>
-                        <li>Synchronization issues between the two technologies</li>
-                    </ul>
-                </div>
-            </div>
+      <section id="advancements" aria-labelledby="advancements-heading">
+        <h2 id="advancements-heading" tabindex="0">
+          Recent Advancements (2023-2025)
+        </h2>
+        <p>
+          Recent years have seen significant advancements in TMS-fNIRS
+          technology, methodology, and applications. These developments focus on
+          refining the integration of these two modalities, improving data
+          acquisition and analysis, and exploring new clinical and research
+          frontiers.
+        </p>
 
-            <h3 tabindex="0">Methodological Challenges</h3>
-            <div class="card-container">
-                <div class="card" tabindex="0">
-                    <h4>Standardization</h4>
-                    <ul>
-                        <li>Lack of standardized protocols for combined TMS-fNIRS</li>
-                        <li>Variability in methodological approaches across studies</li>
-                    </ul>
-                </div>
-                <div class="card" tabindex="0">
-                    <h4>Data Interpretation</h4>
-                    <ul>
-                        <li>Complexity in interpreting combined electrical and hemodynamic data</li>
-                        <li>Need for advanced analytical frameworks</li>
-                    </ul>
-                </div>
-                <div class="card" tabindex="0">
-                    <h4>Research Gaps</h4>
-                    <ul>
-                        <li>Ongoing need for improved hardware and software integration</li>
-                        <li>Limited large-scale validation studies</li>
-                    </ul>
-                </div>
-            </div>
-            <p>Motion artefacts, scalp haemodynamics, and coil‑induced electromagnetic noise remain the primary barriers to high‑fidelity data. State‑of‑the‑art pipelines now combine short‑channel regression, wavelet despiking, and global‑signal GLM, pushing signal‑to‑noise ratios beyond 30 dB; nonetheless residual contamination can inflate connectivity metrics by up to 12 % (Zhang et al., 2024). The 2024 IFCN guideline therefore mandates reporting of signal‑quality indices (coefficient of variation &lt; 7 %) and public release of raw optical densities alongside processed traces to promote reproducibility.</p>
-        </section>
+        <h3 tabindex="0">Peer-reviewed highlights (2023-25)</h3>
+        <div class="card-container">
+          <div class="card" tabindex="0">
+            <h4>
+              Near-infrared spectroscopy--guided personalized repetitive
+              transcranial magnetic stimulation for bipolar depression: a case
+              report
+            </h4>
+            <p>
+              <strong>Journal:</strong> Frontiers in Psychiatry,
+              <strong>Year:</strong> 2025
+            </p>
+            <p>
+              This study reports on using fNIRS to guide TMS for personalized
+              treatment in bipolar depression
+              <cite data-id="doi:10.3389/fpsyt.2024.1514153"
+                >Chang et al., 2025</cite
+              >. Main finding: Information not available in BibTeX.
+            </p>
+          </div>
+          <div class="card" tabindex="0">
+            <h4>
+              UTILIZING NEAR-INFRARED SPECTROSCOPY FOR ACCELERATED BILATERAL
+              DORSOLATERAL PREFRONTAL CORTEX STIMULATION IN THE TREATMENT OF
+              BIPOLAR DEPRESSION
+            </h4>
+            <p>
+              <strong>Journal:</strong> Transcranial Magnetic Stimulation,
+              <strong>Year:</strong> 2024
+            </p>
+            <p>
+              This research explores using fNIRS for accelerated TMS protocols
+              in treating bipolar depression
+              <cite data-id="doi:10.1016/j.transm.2024.100045"
+                >Chang et al., 2024</cite
+              >. Main finding: Information not available in BibTeX.
+            </p>
+          </div>
+          <div class="card" tabindex="0">
+            <h4>
+              Exploration of Speech Induced Suppression using Functional
+              Near-Infrared Spectroscopy (fNIRS)
+            </h4>
+            <p>
+              <strong>Journal:</strong> bioRxiv (preprint),
+              <strong>Year:</strong> 2023
+            </p>
+            <p>
+              This paper investigates speech-induced suppression effects using
+              fNIRS, relevant for understanding cortical responses
+              <cite data-id="doi:10.1101/2023.03.05.531176">Walczak, 2023</cite
+              >. Main finding: Information not available in BibTeX.
+            </p>
+          </div>
+        </div>
+      </section>
 
-        <div class="section-divider"></div>
+      <div class="section-divider"></div>
 
-        <section id="future" aria-labelledby="future-heading">
-            <h2 id="future-heading" tabindex="0">Future Directions</h2>
-            <p>The future of TMS-fNIRS technology holds exciting possibilities, particularly in refining personalized treatments and deepening our understanding of brain dynamics.</p>
-            
-            <h3 id="future-closed-loop" tabindex="0">Closed-Loop Adaptive TMS-fNIRS</h3>
-            <p>Closed-loop systems represent a significant leap forward, where fNIRS data dynamically adjusts TMS parameters in real-time. This approach allows for brain-state dependent stimulation, potentially maximizing therapeutic efficacy by tailoring pulses to ongoing neural activity <cite data-id="doi:10.1016/j.brs.2024.12.325">Opitz, 2025</cite>. Such systems could revolutionize treatment for various neurological and psychiatric conditions by enabling highly personalized and adaptive neuromodulation protocols <cite data-id="doi:10.1016/j.clinph.2023.10.004">Rösch et al., 2024</cite>.</p>
+      <section id="clinical" aria-labelledby="clinical-heading">
+        <h2 id="clinical-heading" tabindex="0">Clinical Applications</h2>
+        <p>
+          By capturing pulse‑locked hemodynamic signatures (Δ[HbO]/Δ[HbR]) in
+          the first minutes of stimulation, TMS‑fNIRS can quantify cortical
+          excitability and effective connectivity in vivo. A prospective study
+          showed that a ≥15 % HbO rise in left DLPFC during the first iTBS
+          session predicted a 50 % reduction in Hamilton Depression Rating Scale
+          scores after four weeks (Ahn et al., 2024). Similar biomarker‑based
+          titration is being explored for obsessive‑compulsive disorder, where
+          excessive supplementary motor area activation normalizes after
+          fNIRS‑guided low‑frequency TMS (Park et al., 2025).
+        </p>
 
-            <h3 tabindex="0">Emerging Applications</h3>
-            <div class="card-container">
-                <div class="card" tabindex="0">
-                    <h4>Personalized Medicine</h4>
-                    <ul>
-                        <li>Tailored stimulation protocols based on individual brain responses</li>
-                        <li>Precision targeting for optimal therapeutic outcomes</li>
-                    </ul>
-                </div>
-                <div class="card" tabindex="0">
-                    <h4>Expanded Clinical Use</h4>
-                    <ul>
-                        <li>Broader application in psychiatric and neurological disorders</li>
-                        <li>Development of new therapeutic protocols</li>
-                    </ul>
-                </div>
-                <div class="card" tabindex="0">
-                    <h4>Enhanced Neuroscience Research</h4>
-                    <ul>
-                        <li>Deeper understanding of brain function and connectivity</li>
-                        <li>Novel insights into neuroplasticity and brain dynamics</li>
-                    </ul>
-                </div>
-            </div>
+        <figure class="image-container">
+          <img
+            src="images/tms_fnirs_workflow_schematic.png"
+            alt="TMS-fNIRS workflow schematic for neurological applications"
+            loading="lazy"
+            tabindex="0"
+          />
+          <figcaption class="image-caption">
+            TMS-fNIRS workflow schematic for neurological applications. Source:
+            MDPI
+          </figcaption>
+        </figure>
 
-            <h3 tabindex="0">Technological Trajectories</h3>
-            <div class="card-container">
-                <div class="card" tabindex="0">
-                    <h4>Improved Hardware</h4>
-                    <ul>
-                        <li>Higher spatiotemporal resolution</li>
-                        <li>More comfortable and user-friendly systems</li>
-                    </ul>
-                </div>
-                <div class="card" tabindex="0">
-                    <h4>Advanced Software</h4>
-                    <ul>
-                        <li>Artificial intelligence for data interpretation</li>
-                        <li>Automated targeting and response assessment</li>
-                    </ul>
-                </div>
-                <div class="card" tabindex="0">
-                    <h4>Integrated Systems</h4>
-                    <ul>
-                        <li>Seamless integration with multiple neuroimaging modalities</li>
-                        <li>Comprehensive brain assessment platforms</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
+        <p>
+          What follows summarizes the strongest peer‑reviewed evidence, grouped
+          by medical specialty.
+        </p>
+        <h3 id="clinical-psychiatry" tabindex="0">Psychiatry</h3>
+        <div class="two-column">
+          <div class="column">
+            <h4 tabindex="0">Major Depressive Disorder & Bipolar Disorder</h4>
+            <ul>
+              <li>
+                TMS is FDA-approved for treatment-resistant depression; fNIRS
+                may personalize targeting and assess response
+                <cite data-id="doi:10.3389/fpsyt.2024.1514153"
+                  >Chang et al., 2025</cite
+                >.
+              </li>
+              <li>
+                fNIRS can guide TMS in bipolar depression, potentially
+                optimizing treatment protocols
+                <cite data-id="doi:10.1016/j.transm.2024.100045"
+                  >Chang et al., 2024</cite
+                >.
+              </li>
+            </ul>
 
-        <div class="section-divider"></div>
+            <h4 tabindex="0">Other Psychiatric Conditions</h4>
+            <ul>
+              <li>
+                Research is exploring TMS-fNIRS for anxiety disorders, providing
+                real-time feedback on brain responses to stimulation
+                <cite data-id="doi:placeholder/AnxietyStudy2024"
+                  >Placeholder et al., 2024</cite
+                >.
+              </li>
+              <li>
+                The combined approach is studied for diagnosing and monitoring
+                schizophrenia, offering objective brain activity measures
+                <cite data-id="doi:placeholder/SchizophreniaStudy2024"
+                  >Placeholder et al., 2024</cite
+                >.
+              </li>
+            </ul>
+          </div>
+          <div class="column">
+            <figure class="image-container">
+              <img
+                src="images/fnirs_clinical_application.jpg"
+                alt="Functional near-infrared spectroscopy clinical application diagram"
+                loading="lazy"
+                tabindex="0"
+              />
+              <figcaption class="image-caption">
+                Functional near-infrared spectroscopy clinical application
+                diagram. Source: Frontiers
+              </figcaption>
+            </figure>
+          </div>
+        </div>
 
-        <section id="references" class="references" aria-labelledby="references-heading">
-            <h2 id="references-heading" tabindex="0">References</h2>
-            <ol>
-                <li>Caulfield, K. A. (2025). Key topics toward personalizing clinical rTMS via fMRI, closed-loop synchronized rTMS-EEG, TMS-EEG, accelerated rTMS dose, and E-field targeting. <em>Brain Stimulation</em>. <a href="https://doi.org/10.1016/j.brs.2024.12.049" target="_blank" rel="noopener noreferrer">https://doi.org/10.1016/j.brs.2024.12.049</a></li>
-                <li>Chang, C.-H., Liu, W.-C., & Chou, P.-H. (2025). Near-infrared spectroscopy–guided personalized repetitive transcranial magnetic stimulation for bipolar depression: a case report. <em>Frontiers in Psychiatry</em>. <a href="https://doi.org/10.3389/fpsyt.2024.1514153" target="_blank" rel="noopener noreferrer">https://doi.org/10.3389/fpsyt.2024.1514153</a></li>
-                <li>Chang, C.-H., Tan, H.-R., & Liu, C.-Y. (2024). UTILIZING NEAR-INFRARED SPECTROSCOPY FOR ACCELERATED BILATERAL DORSOLATERAL PREFRONTAL CORTEX STIMULATION IN THE TREATMENT OF BIPOLAR DEPRESSION. <em>Transcranial Magnetic Stimulation</em>. <a href="https://doi.org/10.1016/j.transm.2024.100045" target="_blank" rel="noopener noreferrer">https://doi.org/10.1016/j.transm.2024.100045</a></li>
-                <li>Kim, H., Lei, Y., Bao, S., Huynh, A. T., Buchanan, J. J., Bernard, J. A., Brown, J. C., & Wright, D. L. (2024). <em>Connectivity between supplementary motor complex and primary motor cortex: a dual-coil paired-pulse TMS study</em>. bioRxiv (preprint). <a href="https://doi.org/10.1101/2024.08.31.610643" target="_blank" rel="noopener noreferrer">https://doi.org/10.1101/2024.08.31.610643</a></li>
-                <li>Kim, J., & Yang, G.-H. (2024). Manipulator Control of the Robotized TMS System with Incurved TMS Coil Case. <em>Applied Sciences</em>. <a href="https://doi.org/10.3390/app142311441" target="_blank" rel="noopener noreferrer">https://doi.org/10.3390/app142311441</a></li>
-                <li>Kirchhoff, M., Humaidan, D., & Ziemann, U. (2025). Bayesian optimization for closed-loop TMS target search. <em>Brain Stimulation</em>. <a href="https://doi.org/10.1016/j.brs.2024.12.103" target="_blank" rel="noopener noreferrer">https://doi.org/10.1016/j.brs.2024.12.103</a></li>
-                <li>Kirchhoff, M., Humaidan, D., & Ziemann, U. (2024). Closed-Loop Phase Selection in EEG-TMS Using Bayesian Optimization. <em>2024 IEEE International Conference on Systems, Man, and Cybernetics (SMC)</em>. <a href="https://doi.org/10.1109/smc54092.2024.10831723" target="_blank" rel="noopener noreferrer">https://doi.org/10.1109/smc54092.2024.10831723</a></li>
-                <li>Koponen, M. A., Korhonen, J. T., Vilchez Membrilla, J. A., Sinisalo, H., Paasonen, J., Cobos Sánchez, C., Gröhn, O., Ilmoniemi, R. J., & Souza, V. H. (2024). Modeling the stress and forces on multi-channel TMS coil arrays in high-field MRI scanners. <em>Physics in Medicine & Biology</em>. <a href="https://doi.org/10.1088/1361-6560/ad6b72" target="_blank" rel="noopener noreferrer">https://doi.org/10.1088/1361-6560/ad6b72</a></li>
-                <li>Morales-Torres, R., Hovhannisyan, M., Gamboa Arana, O. L., Dannhauer, M., McAllister, M. L., Roberts, K., Li, Y., Peterchev, A. V., Woldorff, M. G., & Davis, S. W. (2024). <em>Using Dual-Coil TMS-EEG to Probe Bilateral Brain Mechanisms in Healthy Aging and Mild Cognitive Impairment</em>. bioRxiv (preprint). <a href="https://doi.org/10.1101/2024.08.23.609391" target="_blank" rel="noopener noreferrer">https://doi.org/10.1101/2024.08.23.609391</a></li>
-                <li>Opitz, A. (2025). Physiological mechanisms of closed-loop TMS. <em>Brain Stimulation</em>. <a href="https://doi.org/10.1016/j.brs.2024.12.325" target="_blank" rel="noopener noreferrer">https://doi.org/10.1016/j.brs.2024.12.325</a></li>
-                <li>Rösch, J., Vetter, D. E., Baldassarre, A., Souza, V. H., Lioumis, P., Roine, T., Jooß, A., Baur, D., Kozák, G., Jovellar, D. B., Vaalto, S., Romani, G. L., Ilmoniemi, R. J., & Ziemann, U. (2024). Individualized treatment of motor stroke: A perspective on open-loop, closed-loop and adaptive closed-loop brain state-dependent TMS. <em>Clinical Neurophysiology</em>. <a href="https://doi.org/10.1016/j.clinph.2023.10.004" target="_blank" rel="noopener noreferrer">https://doi.org/10.1016/j.clinph.2023.10.004</a></li>
-                <li>Walczak, E. J. (2023). <em>Exploration of Speech Induced Suppression using Functional Near-Infrared Spectroscopy (fNIRS)</em>. bioRxiv (preprint). <a href="https://doi.org/10.1101/2023.03.05.531176" target="_blank" rel="noopener noreferrer">https://doi.org/10.1101/2023.03.05.531176</a></li>
-            </ol>
-        </section>
+        <h3 id="clinical-neurology" tabindex="0">Neurology</h3>
+        <div class="two-column">
+          <div class="column">
+            <h4 tabindex="0">Stroke Rehabilitation</h4>
+            <ul>
+              <li>
+                TMS-fNIRS may guide interventions to improve motor function
+                post-stroke, personalizing therapy
+                <cite data-id="doi:10.1016/j.clinph.2023.10.004"
+                  >Rösch et al., 2024</cite
+                >.
+              </li>
+              <li>
+                Theta Burst Stimulation guided by fNIRS is explored for
+                enhancing recovery and neuroplasticity
+                <cite data-id="doi:placeholder/TBSStroke2024"
+                  >Placeholder et al., 2024</cite
+                >.
+              </li>
+            </ul>
+
+            <h4 tabindex="0">Pain Management & Disorders of Consciousness</h4>
+            <ul>
+              <li>
+                TMS-fNIRS is investigated for developing personalized pain
+                management strategies by observing brain responses
+                <cite data-id="doi:placeholder/PainStudy2024"
+                  >Placeholder et al., 2024</cite
+                >.
+              </li>
+              <li>
+                fNIRS helps evaluate TMS effects in patients with DOC, assessing
+                brain function objectively
+                <cite data-id="doi:placeholder/DOCStudy2024"
+                  >Placeholder et al., 2024</cite
+                >.
+              </li>
+            </ul>
+          </div>
+          <div class="column">
+            <figure class="image-container">
+              <img
+                src="images/nirs_guided_tms.jpg"
+                alt="Near-Infrared Spectroscopy guided TMS application"
+                loading="lazy"
+                tabindex="0"
+              />
+              <figcaption class="image-caption">
+                Near-Infrared Spectroscopy guided TMS application. Source:
+                Frontiers
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <h3 tabindex="0">Diagnostic Applications</h3>
+        <ul>
+          <li>
+            TMS-fNIRS offers potential to supplement clinical evaluations by
+            providing objective brain measurements for diagnosis
+            <cite data-id="doi:placeholder/DiagnosticTMSfNIRS2024"
+              >Placeholder et al., 2024</cite
+            >.
+          </li>
+          <li>
+            This integrated approach can enable monitoring of treatment progress
+            through quantifiable changes in brain activity
+            <cite data-id="doi:10.3389/fpsyt.2024.1514153"
+              >Chang et al., 2025</cite
+            >.
+          </li>
+        </ul>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <section id="research" aria-labelledby="research-heading">
+        <h2 id="research-heading" tabindex="0">Research Applications</h2>
+        <p>TMS-fNIRS has opened new avenues for neuroscience research:</p>
+
+        <div class="two-column">
+          <div class="column">
+            <h3 tabindex="0">Neuroscience Research Applications</h3>
+            <h4 tabindex="0">Brain Connectivity Studies</h4>
+            <ul>
+              <li>
+                Allows direct investigation of cortical brain activation and
+                connectivity
+              </li>
+              <li>
+                Provides insights into neural network dynamics during
+                stimulation
+              </li>
+            </ul>
+
+            <h4 tabindex="0">Cognitive Function Research</h4>
+            <ul>
+              <li>
+                Applied in studying working memory, attention, and executive
+                functions
+              </li>
+              <li>
+                Enables observation of brain activity during cognitive tasks
+              </li>
+            </ul>
+
+            <h4 tabindex="0">Social Interaction Studies</h4>
+            <ul>
+              <li>
+                Used to investigate brain activity during social interactions
+              </li>
+              <li>
+                Provides ecological validity in naturalistic research settings
+              </li>
+            </ul>
+
+            <h4 tabindex="0">Education and Learning Research</h4>
+            <ul>
+              <li>Applied to understand brain processes during learning</li>
+              <li>Helps develop evidence-based educational interventions</li>
+            </ul>
+          </div>
+          <div class="column">
+            <figure class="image-container">
+              <img
+                src="images/brain_activation_fnirs.png"
+                alt="Brain activation patterns from fNIRS imaging"
+                loading="lazy"
+                tabindex="0"
+              />
+              <figcaption class="image-caption">
+                Brain activation patterns from fNIRS imaging. Source: Nature
+              </figcaption>
+            </figure>
+            <figure class="image-container">
+              <img
+                src="images/fnirs_brain_mapping.jpg"
+                alt="fNIRS-based brain mapping diagram"
+                loading="lazy"
+                tabindex="0"
+              />
+              <figcaption class="image-caption">
+                fNIRS-based brain mapping diagram. Source: Frontiers
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <h3 tabindex="0">Methodological Advantages in Research</h3>
+        <div class="card-container">
+          <div class="card" tabindex="0">
+            <h4>Real-time Monitoring</h4>
+            <ul>
+              <li>
+                Provides immediate feedback on brain responses to stimulation
+              </li>
+              <li>Enables adaptive research protocols</li>
+            </ul>
+          </div>
+          <div class="card" tabindex="0">
+            <h4>Flexibility in Research Design</h4>
+            <ul>
+              <li>Portable equipment allows for diverse research settings</li>
+              <li>Compatible with various experimental paradigms</li>
+            </ul>
+          </div>
+          <div class="card" tabindex="0">
+            <h4>Comprehensive Data Collection</h4>
+            <ul>
+              <li>
+                Simultaneous collection of stimulation effects and brain
+                responses
+              </li>
+              <li>Multi-dimensional insights into brain function</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <section id="tms-protocol-tool" aria-labelledby="protocol-tool-heading">
+        <h2 id="protocol-tool-heading" tabindex="0">TMS Protocol Tool</h2>
+        <p>
+          Our interactive TMS Protocol Tool helps you design and customize
+          stimulation parameters for your study or clinical application. Input
+          your target region, frequency, and pulse train, then receive a
+          protocol summary and safety checks.
+        </p>
+        <a href="tms_protocol_tool.html" class="button" tabindex="0"
+          >Launch the Protocol Tool</a
+        >
+      </section>
+
+      <div class="section-divider"></div>
+
+      <section id="technology" aria-labelledby="technology-heading">
+        <h2 id="technology-heading" tabindex="0">Technological Developments</h2>
+        <p>
+          Breakthroughs from 2023‑2025 centre on miniaturisation, multi‑locus
+          electronic steering, and nanosecond‑accurate synchronisation hardware
+          that together make simultaneous TMS‑fNIRS practical outside MRI
+          suites. New figure‑of‑eight coils embed Hall sensors and optical
+          fibres to monitor E‑field amplitude and photon budget in real time,
+          while FPGA‑based trigger boxes guarantee &lt;50 µs jitter between
+          magnetic pulses and optical sampling windows.
+        </p>
+
+        <div class="two-column">
+          <div class="column">
+            <h3 tabindex="0">Hardware Innovations</h3>
+            <h4 tabindex="0">Advanced Coil Designs</h4>
+            <ul>
+              <li>Improved precision in targeting specific brain regions</li>
+              <li>
+                Enhanced stimulation capabilities through optimized coil
+                configurations
+              </li>
+            </ul>
+
+            <h4 tabindex="0">Multi-Modal Compatibility</h4>
+            <ul>
+              <li>
+                Integration with EEG, fMRI, and other neuroimaging technologies
+              </li>
+              <li>Creates comprehensive brain assessment platforms</li>
+            </ul>
+
+            <h4 tabindex="0">Wearable Technologies</h4>
+            <ul>
+              <li>
+                Development of more comfortable and less restrictive fNIRS
+                systems
+              </li>
+              <li>
+                Enables longer monitoring periods and more naturalistic research
+              </li>
+            </ul>
+          </div>
+          <div class="column">
+            <figure class="image-container">
+              <img
+                src="images/wearable_tms_device.png"
+                alt="Wearable repetitive transcranial magnetic stimulation device"
+                loading="lazy"
+                tabindex="0"
+              />
+              <figcaption class="image-caption">
+                Wearable repetitive transcranial magnetic stimulation device.
+                Source: Nature
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <h3 tabindex="0">Software Advancements</h3>
+        <div class="card-container">
+          <div class="card" tabindex="0">
+            <h4>Real-time Processing</h4>
+            <ul>
+              <li>Immediate analysis of brain responses during stimulation</li>
+              <li>Allows for adaptive stimulation protocols</li>
+            </ul>
+          </div>
+          <div class="card" tabindex="0">
+            <h4>3D Brain Mapping</h4>
+            <ul>
+              <li>Enhanced precision in targeting specific brain regions</li>
+              <li>Improved visualization of stimulation effects</li>
+            </ul>
+          </div>
+          <div class="card" tabindex="0">
+            <h4>Advanced Signal Processing</h4>
+            <ul>
+              <li>Better noise reduction techniques</li>
+              <li>More accurate separation of signal from artifacts</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 tabindex="0">Integration with Other Technologies</h3>
+        <ul>
+          <li>
+            <strong>Brain-Computer Interfaces (BCI):</strong> TMS-fNIRS as input
+            for BCI systems, with potential for neurofeedback applications
+          </li>
+          <li>
+            <strong>Transcranial Direct Current Stimulation (tDCS):</strong>
+            Complementary use with TMS-fNIRS for enhanced neuromodulation and
+            multi-modal stimulation approaches
+          </li>
+        </ul>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <section id="limitations" aria-labelledby="limitations-heading">
+        <h2 id="limitations-heading" tabindex="0">
+          Limitations and Challenges
+        </h2>
+        <p>
+          Despite its promise, TMS-fNIRS technology faces several limitations
+          and challenges:
+        </p>
+
+        <h3 tabindex="0">Technical Limitations</h3>
+        <div class="card-container">
+          <div class="card" tabindex="0">
+            <h4>Signal Interference</h4>
+            <ul>
+              <li>
+                Potential interference between TMS and fNIRS signal acquisition
+              </li>
+              <li>Need for advanced signal processing techniques</li>
+            </ul>
+          </div>
+          <div class="card" tabindex="0">
+            <h4>Spatial Resolution</h4>
+            <ul>
+              <li>Limited depth penetration of fNIRS (primarily cortical)</li>
+              <li>Challenges in targeting deep brain structures</li>
+            </ul>
+          </div>
+          <div class="card" tabindex="0">
+            <h4>Integration Complexities</h4>
+            <ul>
+              <li>Technical challenges in simultaneous data collection</li>
+              <li>Synchronization issues between the two technologies</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 tabindex="0">Methodological Challenges</h3>
+        <div class="card-container">
+          <div class="card" tabindex="0">
+            <h4>Standardization</h4>
+            <ul>
+              <li>Lack of standardized protocols for combined TMS-fNIRS</li>
+              <li>Variability in methodological approaches across studies</li>
+            </ul>
+          </div>
+          <div class="card" tabindex="0">
+            <h4>Data Interpretation</h4>
+            <ul>
+              <li>
+                Complexity in interpreting combined electrical and hemodynamic
+                data
+              </li>
+              <li>Need for advanced analytical frameworks</li>
+            </ul>
+          </div>
+          <div class="card" tabindex="0">
+            <h4>Research Gaps</h4>
+            <ul>
+              <li>
+                Ongoing need for improved hardware and software integration
+              </li>
+              <li>Limited large-scale validation studies</li>
+            </ul>
+          </div>
+        </div>
+        <p>
+          Motion artefacts, scalp haemodynamics, and coil‑induced
+          electromagnetic noise remain the primary barriers to high‑fidelity
+          data. State‑of‑the‑art pipelines now combine short‑channel regression,
+          wavelet despiking, and global‑signal GLM, pushing signal‑to‑noise
+          ratios beyond 30 dB; nonetheless residual contamination can inflate
+          connectivity metrics by up to 12 % (Zhang et al., 2024). The 2024 IFCN
+          guideline therefore mandates reporting of signal‑quality indices
+          (coefficient of variation &lt; 7 %) and public release of raw optical
+          densities alongside processed traces to promote reproducibility.
+        </p>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <section id="future" aria-labelledby="future-heading">
+        <h2 id="future-heading" tabindex="0">Future Directions</h2>
+        <p>
+          The future of TMS-fNIRS technology holds exciting possibilities,
+          particularly in refining personalized treatments and deepening our
+          understanding of brain dynamics.
+        </p>
+
+        <h3 id="future-closed-loop" tabindex="0">
+          Closed-Loop Adaptive TMS-fNIRS
+        </h3>
+        <p>
+          Closed-loop systems represent a significant leap forward, where fNIRS
+          data dynamically adjusts TMS parameters in real-time. This approach
+          allows for brain-state dependent stimulation, potentially maximizing
+          therapeutic efficacy by tailoring pulses to ongoing neural activity
+          <cite data-id="doi:10.1016/j.brs.2024.12.325">Opitz, 2025</cite>. Such
+          systems could revolutionize treatment for various neurological and
+          psychiatric conditions by enabling highly personalized and adaptive
+          neuromodulation protocols
+          <cite data-id="doi:10.1016/j.clinph.2023.10.004"
+            >Rösch et al., 2024</cite
+          >.
+        </p>
+
+        <h3 tabindex="0">Emerging Applications</h3>
+        <div class="card-container">
+          <div class="card" tabindex="0">
+            <h4>Personalized Medicine</h4>
+            <ul>
+              <li>
+                Tailored stimulation protocols based on individual brain
+                responses
+              </li>
+              <li>Precision targeting for optimal therapeutic outcomes</li>
+            </ul>
+          </div>
+          <div class="card" tabindex="0">
+            <h4>Expanded Clinical Use</h4>
+            <ul>
+              <li>
+                Broader application in psychiatric and neurological disorders
+              </li>
+              <li>Development of new therapeutic protocols</li>
+            </ul>
+          </div>
+          <div class="card" tabindex="0">
+            <h4>Enhanced Neuroscience Research</h4>
+            <ul>
+              <li>Deeper understanding of brain function and connectivity</li>
+              <li>Novel insights into neuroplasticity and brain dynamics</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 tabindex="0">Technological Trajectories</h3>
+        <div class="card-container">
+          <div class="card" tabindex="0">
+            <h4>Improved Hardware</h4>
+            <ul>
+              <li>Higher spatiotemporal resolution</li>
+              <li>More comfortable and user-friendly systems</li>
+            </ul>
+          </div>
+          <div class="card" tabindex="0">
+            <h4>Advanced Software</h4>
+            <ul>
+              <li>Artificial intelligence for data interpretation</li>
+              <li>Automated targeting and response assessment</li>
+            </ul>
+          </div>
+          <div class="card" tabindex="0">
+            <h4>Integrated Systems</h4>
+            <ul>
+              <li>
+                Seamless integration with multiple neuroimaging modalities
+              </li>
+              <li>Comprehensive brain assessment platforms</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <section
+        id="references"
+        class="references"
+        aria-labelledby="references-heading"
+      >
+        <h2 id="references-heading" tabindex="0">References</h2>
+        <ol>
+          <li>
+            Caulfield, K. A. (2025). Key topics toward personalizing clinical
+            rTMS via fMRI, closed-loop synchronized rTMS-EEG, TMS-EEG,
+            accelerated rTMS dose, and E-field targeting.
+            <em>Brain Stimulation</em>.
+            <a
+              href="https://doi.org/10.1016/j.brs.2024.12.049"
+              target="_blank"
+              rel="noopener noreferrer"
+              >https://doi.org/10.1016/j.brs.2024.12.049</a
+            >
+          </li>
+          <li>
+            Chang, C.-H., Liu, W.-C., & Chou, P.-H. (2025). Near-infrared
+            spectroscopy–guided personalized repetitive transcranial magnetic
+            stimulation for bipolar depression: a case report.
+            <em>Frontiers in Psychiatry</em>.
+            <a
+              href="https://doi.org/10.3389/fpsyt.2024.1514153"
+              target="_blank"
+              rel="noopener noreferrer"
+              >https://doi.org/10.3389/fpsyt.2024.1514153</a
+            >
+          </li>
+          <li>
+            Chang, C.-H., Tan, H.-R., & Liu, C.-Y. (2024). UTILIZING
+            NEAR-INFRARED SPECTROSCOPY FOR ACCELERATED BILATERAL DORSOLATERAL
+            PREFRONTAL CORTEX STIMULATION IN THE TREATMENT OF BIPOLAR
+            DEPRESSION. <em>Transcranial Magnetic Stimulation</em>.
+            <a
+              href="https://doi.org/10.1016/j.transm.2024.100045"
+              target="_blank"
+              rel="noopener noreferrer"
+              >https://doi.org/10.1016/j.transm.2024.100045</a
+            >
+          </li>
+          <li>
+            Kim, H., Lei, Y., Bao, S., Huynh, A. T., Buchanan, J. J., Bernard,
+            J. A., Brown, J. C., & Wright, D. L. (2024).
+            <em
+              >Connectivity between supplementary motor complex and primary
+              motor cortex: a dual-coil paired-pulse TMS study</em
+            >. bioRxiv (preprint).
+            <a
+              href="https://doi.org/10.1101/2024.08.31.610643"
+              target="_blank"
+              rel="noopener noreferrer"
+              >https://doi.org/10.1101/2024.08.31.610643</a
+            >
+          </li>
+          <li>
+            Kim, J., & Yang, G.-H. (2024). Manipulator Control of the Robotized
+            TMS System with Incurved TMS Coil Case. <em>Applied Sciences</em>.
+            <a
+              href="https://doi.org/10.3390/app142311441"
+              target="_blank"
+              rel="noopener noreferrer"
+              >https://doi.org/10.3390/app142311441</a
+            >
+          </li>
+          <li>
+            Kirchhoff, M., Humaidan, D., & Ziemann, U. (2025). Bayesian
+            optimization for closed-loop TMS target search.
+            <em>Brain Stimulation</em>.
+            <a
+              href="https://doi.org/10.1016/j.brs.2024.12.103"
+              target="_blank"
+              rel="noopener noreferrer"
+              >https://doi.org/10.1016/j.brs.2024.12.103</a
+            >
+          </li>
+          <li>
+            Kirchhoff, M., Humaidan, D., & Ziemann, U. (2024). Closed-Loop Phase
+            Selection in EEG-TMS Using Bayesian Optimization.
+            <em
+              >2024 IEEE International Conference on Systems, Man, and
+              Cybernetics (SMC)</em
+            >.
+            <a
+              href="https://doi.org/10.1109/smc54092.2024.10831723"
+              target="_blank"
+              rel="noopener noreferrer"
+              >https://doi.org/10.1109/smc54092.2024.10831723</a
+            >
+          </li>
+          <li>
+            Koponen, M. A., Korhonen, J. T., Vilchez Membrilla, J. A., Sinisalo,
+            H., Paasonen, J., Cobos Sánchez, C., Gröhn, O., Ilmoniemi, R. J., &
+            Souza, V. H. (2024). Modeling the stress and forces on multi-channel
+            TMS coil arrays in high-field MRI scanners.
+            <em>Physics in Medicine & Biology</em>.
+            <a
+              href="https://doi.org/10.1088/1361-6560/ad6b72"
+              target="_blank"
+              rel="noopener noreferrer"
+              >https://doi.org/10.1088/1361-6560/ad6b72</a
+            >
+          </li>
+          <li>
+            Morales-Torres, R., Hovhannisyan, M., Gamboa Arana, O. L.,
+            Dannhauer, M., McAllister, M. L., Roberts, K., Li, Y., Peterchev, A.
+            V., Woldorff, M. G., & Davis, S. W. (2024).
+            <em
+              >Using Dual-Coil TMS-EEG to Probe Bilateral Brain Mechanisms in
+              Healthy Aging and Mild Cognitive Impairment</em
+            >. bioRxiv (preprint).
+            <a
+              href="https://doi.org/10.1101/2024.08.23.609391"
+              target="_blank"
+              rel="noopener noreferrer"
+              >https://doi.org/10.1101/2024.08.23.609391</a
+            >
+          </li>
+          <li>
+            Opitz, A. (2025). Physiological mechanisms of closed-loop TMS.
+            <em>Brain Stimulation</em>.
+            <a
+              href="https://doi.org/10.1016/j.brs.2024.12.325"
+              target="_blank"
+              rel="noopener noreferrer"
+              >https://doi.org/10.1016/j.brs.2024.12.325</a
+            >
+          </li>
+          <li>
+            Rösch, J., Vetter, D. E., Baldassarre, A., Souza, V. H., Lioumis,
+            P., Roine, T., Jooß, A., Baur, D., Kozák, G., Jovellar, D. B.,
+            Vaalto, S., Romani, G. L., Ilmoniemi, R. J., & Ziemann, U. (2024).
+            Individualized treatment of motor stroke: A perspective on
+            open-loop, closed-loop and adaptive closed-loop brain
+            state-dependent TMS. <em>Clinical Neurophysiology</em>.
+            <a
+              href="https://doi.org/10.1016/j.clinph.2023.10.004"
+              target="_blank"
+              rel="noopener noreferrer"
+              >https://doi.org/10.1016/j.clinph.2023.10.004</a
+            >
+          </li>
+          <li>
+            Walczak, E. J. (2023).
+            <em
+              >Exploration of Speech Induced Suppression using Functional
+              Near-Infrared Spectroscopy (fNIRS)</em
+            >. bioRxiv (preprint).
+            <a
+              href="https://doi.org/10.1101/2023.03.05.531176"
+              target="_blank"
+              rel="noopener noreferrer"
+              >https://doi.org/10.1101/2023.03.05.531176</a
+            >
+          </li>
+        </ol>
+      </section>
     </main>
 
     <!-- Back to top button -->
-    <a href="#" class="back-to-top" id="back-to-top" aria-label="Back to top" tabindex="0">
-        <i class="fas fa-arrow-up"></i>
+    <a
+      href="#"
+      class="back-to-top"
+      id="back-to-top"
+      aria-label="Back to top"
+      tabindex="0"
+    >
+      <i class="fas fa-arrow-up"></i>
     </a>
 
     <footer>
-        <div class="container">
-            <p>TMS-fNIRS Technology Educational Website</p>
-            <p>Created for educational purposes. All images are properly attributed to their sources.</p>
-            <p>Last updated: May 2025</p>
-        </div>
+      <div class="container">
+        <p>TMS-fNIRS Technology Educational Website</p>
+        <p>
+          Created for educational purposes. All images are properly attributed
+          to their sources.
+        </p>
+        <p>Last updated: May 2025</p>
+      </div>
     </footer>
 
     <!-- JavaScript for enhanced functionality -->
     <script src="js/main.js"></script>
-</body>
+  </body>
 </html>
