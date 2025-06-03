@@ -62,3 +62,65 @@ docker run -d \
   neo4j:5.20-community
 ```
 This mounts a `neo4j-data` directory from your current working directory into the container's `/data` directory.
+
+## Seeding the Database
+
+Once Neo4j is running (as described above), you can seed it with initial data using the `scripts/seed.py` script. This script will clear any existing APGE-related data (nodes with a `schema_version` property) and then load the protocols defined in `src/apge/protocols/protocols.yaml`.
+
+**Steps to seed the database:**
+
+1.  **Ensure Neo4j is Running:** Follow the Docker instructions in the "Running Neo4j with Docker" section.
+2.  **Set up Environment Variables:**
+    Create a `.env` file in the `src/apge/` directory (i.e., `src/apge/.env`). This file should contain your Neo4j connection details:
+    ```env
+    NEO4J_URI=neo4j://localhost:7687
+    NEO4J_USER=neo4j
+    NEO4J_PASSWORD=yourStrongPassword # Use the password you set for Neo4j
+    ```
+    Replace `yourStrongPassword` with the actual password you configured for your Neo4j instance.
+3.  **Install Dependencies:**
+    Make sure you have the necessary Python packages installed. From the project root directory, run:
+    ```bash
+    pip install -r src/apge/requirements.txt
+    ```
+4.  **Run the Seeding Script:**
+    From the project root directory, execute the script:
+    ```bash
+    python scripts/seed.py
+    ```
+    You should see output indicating the connection progress, data clearing, processing, and a success message upon completion. If there are errors (e.g., connection issues, missing `.env` file, incorrect password), they will be printed to the console.
+    The seed script also ensures that uniqueness constraints are applied to the database schema for relevant node types and properties.
+
+## Running the API Server (FastAPI)
+
+The APGE project includes a FastAPI server to expose various endpoints. Currently, it provides an endpoint to retrieve the treatment protocols.
+
+**Steps to run the API server:**
+
+1.  **Prerequisites:**
+    *   **Neo4j Running (Optional for some endpoints):** While the current `/protocols` endpoint does not directly query Neo4j, future endpoints likely will. Ensure Neo4j is running as described in "Running Neo4j with Docker" if you plan to use or develop database-dependent endpoints.
+    *   **Environment Variables (`.env`):** Similarly, ensure your `src/apge/.env` file is configured with database credentials, as this will be needed for database interactions.
+    *   **Install Dependencies:** Make sure all Python packages, including `fastapi` and `uvicorn`, are installed. From the project root directory:
+        ```bash
+        pip install -r src/apge/requirements.txt
+        ```
+
+2.  **Start the Uvicorn Server:**
+    To run the FastAPI application, use Uvicorn. From the project root directory, execute:
+    ```bash
+    uvicorn src.apge.api.main:app --reload --host 0.0.0.0 --port 8000
+    ```
+    *   `src.apge.api.main:app`: Points to the FastAPI application instance (`app`) in your `main.py` file.
+    *   `--reload`: Enables auto-reloading for development. Uvicorn will watch for code changes and automatically restart the server.
+    *   `--host 0.0.0.0`: Makes the server accessible from your local network (not just `localhost`).
+    *   `--port 8000`: Specifies the port on which the server will listen.
+
+3.  **Accessing the API:**
+    *   The API will be available at `http://localhost:8000`.
+    *   The `/protocols` endpoint can be accessed at `http://localhost:8000/protocols`.
+
+4.  **API Documentation:**
+    FastAPI automatically generates interactive API documentation:
+    *   **Swagger UI:** `http://localhost:8000/docs`
+    *   **ReDoc:** `http://localhost:8000/redoc`
+    You can use these interfaces to explore and test the API endpoints.

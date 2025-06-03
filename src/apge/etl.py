@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 from typing import Dict, Any, List, Optional
 from neo4j import GraphDatabase, Driver, ManagedTransaction, unit_of_work
 from dataclasses import asdict
@@ -7,120 +8,11 @@ from dataclasses import asdict
 from graph_schema import Diagnosis, Symptom, Target, StimParams, Evidence, SCHEMA_VERSION
 
 # --- Configuration ---
-# For local development, replace with your Neo4j credentials and URI
-# In a production scenario, these should come from environment variables or a secure config
-NEO4J_URI = os.environ.get("NEO4J_URI", "neo4j://localhost:7687")
-NEO4J_USER = os.environ.get("NEO4J_USER", "neo4j")
-NEO4J_PASSWORD = os.environ.get("NEO4J_PASSWORD", "yourStrongPassword") # Use the password you set up
-
-# Hardcoded protocolDatabase (converted from the user's JavaScript)
-# NOTE: In a real system, this would come from a file or another data source.
-PROTOCOL_DATABASE_PYTHON = {
-    'Major Depressive Disorder': {
-        'Anhedonia': {
-            'target': 'Left DLPFC', 'frequency': '10 Hz', 'intensity': '120% MT', 'pulses': 3000,
-            'sessions': '20-30', 'schedule': 'Daily (5x/week)', 'evidence': 'High',
-            'notes': 'High-frequency stimulation of left DLPFC shows strong evidence for anhedonia improvement',
-            'references': ['George et al., 2010', 'Blumberger et al., 2018']
-        },
-        'Psychomotor Retardation': {
-            'target': 'Left DLPFC + Right DLPFC (sequential)', 'frequency': '10 Hz (L) / 1 Hz (R)',
-            'intensity': '120% MT', 'pulses': 3000, 'sessions': '25-36', 'schedule': 'Daily (5x/week)',
-            'evidence': 'Moderate-High',
-            'notes': 'Bilateral stimulation may be more effective for psychomotor symptoms',
-            'references': ["O'Reardon et al., 2007"]
-        },
-        'Cognitive Impairment': {
-            'target': 'Left DLPFC', 'frequency': '20 Hz (iTBS)', 'intensity': '80% AMT', 'pulses': 1800,
-            'sessions': '20-30', 'schedule': 'Daily (5x/week)', 'evidence': 'Moderate',
-            'notes': 'iTBS may provide cognitive benefits with shorter treatment times',
-            'references': ['Blumberger et al., 2018']
-        }
-    },
-    'Treatment-Resistant Depression': {
-        'Severe Anhedonia': {
-            'target': 'Bilateral DLPFC', 'frequency': '10 Hz (L) / 1 Hz (R)', 'intensity': '120% MT',
-            'pulses': 4000, 'sessions': '30-36', 'schedule': 'Daily (5x/week) + maintenance',
-            'evidence': 'High',
-            'notes': 'Extended course with maintenance sessions recommended for TRD'
-            # 'references': [] # Assuming none provided for this specific one
-        }
-    },
-    'Obsessive-Compulsive Disorder': {
-        'Obsessions': {
-            'target': 'Right DLPFC or dACC', 'frequency': '1 Hz (low) or 10 Hz (high)',
-            'intensity': '110% MT', 'pulses': 1800, 'sessions': '20-30',
-            'schedule': 'Daily (5x/week)', 'evidence': 'Moderate',
-            'notes': 'Both inhibitory and excitatory protocols show promise'
-        },
-        'Compulsions': {
-            'target': 'Pre-SMA or OFC', 'frequency': '1 Hz', 'intensity': '110% MT', 'pulses': 1200,
-            'sessions': '25-30', 'schedule': 'Daily (5x/week)', 'evidence': 'Moderate',
-            'notes': 'Targeting motor control areas may reduce compulsive behaviors'
-        }
-    },
-    'PTSD': {
-        'Intrusive Thoughts': {
-            'target': 'Right DLPFC', 'frequency': '1 Hz', 'intensity': '110% MT', 'pulses': 1200,
-            'sessions': '20-25', 'schedule': 'Daily (5x/week)', 'evidence': 'Moderate',
-            'notes': 'Inhibitory stimulation of right DLPFC may reduce hyperarousal'
-        },
-        'iTBS Left DLPFC': { # This symptom name might need refinement
-            'target': 'Left DLPFC', 'frequency': 'iTBS', 'intensity': '80% AMT', 'pulses': 600,
-            'sessions': '20', 'schedule': 'Daily (5x/week)', 'evidence': 'Emerging',
-            'notes': 'Intermittent TBS shows promise in PTSD symptom reduction',
-            'references': ['Osuch et al., 2009']
-        }
-    },
-    'Schizophrenia (Auditory Hallucinations)': {
-        'Auditory Hallucinations': {
-            'target': 'Left Temporoparietal Junction', 'frequency': '1 Hz', 'intensity': '90% MT',
-            'pulses': 1200, 'sessions': '20-30', 'schedule': 'Daily (5x/week)',
-            'evidence': 'Moderate-High',
-            'notes': 'Low-frequency stimulation of auditory areas shows good efficacy'
-        }
-    },
-    'Chronic Pain': {
-        'Persistent Pain': {
-            'target': 'M1 (motor cortex)', 'frequency': '10 Hz', 'intensity': '80-90% MT',
-            'pulses': 2000, 'sessions': '15-20', 'schedule': 'Daily (5x/week)',
-            'evidence': 'Moderate',
-            'notes': 'Motor cortex stimulation for central pain processing'
-        }
-    },
-    'Fibromyalgia': {
-        'Widespread Pain': {
-            'target': 'M1 (motor cortex)', 'frequency': '10 Hz', 'intensity': '80% MT',
-            'pulses': 1600, 'sessions': '20-25', 'schedule': '3-5x/week', 'evidence': 'Moderate',
-            'notes': 'Lower intensity may be better tolerated in fibromyalgia patients'
-        }
-    },
-    'Migraine': {
-      'Headache Frequency': {
-        'target': 'Occipital cortex or M1', 'frequency': '1 Hz or 10 Hz', 'intensity': '90% MT',
-        'pulses': 1200, 'sessions': '12-20', 'schedule': '3x/week', 'evidence': 'Moderate',
-        'notes': 'Both excitatory and inhibitory protocols show preventive effects'
-      }
-    },
-    'Generalized Anxiety Disorder': {
-      'Excessive Worry': {
-        'target': 'Left DLPFC', 'frequency': '10 Hz', 'intensity': '110% MT', 'pulses': 2000,
-        'sessions': '20-30', 'schedule': 'Daily (5x/week)', 'evidence': 'Moderate',
-        'notes': 'Standard high-frequency protocol for GAD'
-      },
-      'Restlessness': {
-        'target': 'Right DLPFC', 'frequency': '1 Hz', 'intensity': '120% MT', 'pulses': 1200,
-        'sessions': '20-30', 'schedule': 'Daily (5x/week)', 'evidence': 'Moderate',
-        'notes': 'Low-frequency right DLPFC may help restlessness'
-      },
-      '1 Hz Right DLPFC': { # This symptom name might need refinement
-        'target': 'Right DLPFC', 'frequency': '1 Hz', 'intensity': '120% MT', 'pulses': 1200,
-        'sessions': '20-30', 'schedule': 'Daily (5x/week)', 'evidence': 'Moderate',
-        'notes': 'Low-frequency right DLPFC stimulation reduces anxiety symptoms',
-        'references': ['Mantovani et al., 2013']
-      }
-    }
-}
+# Configuration and database connection details are now primarily managed by scripts/seed.py
+# However, load_dotenv() might still be useful if this module is used independently
+# or if other scripts import from it and expect .env to be pre-loaded.
+# For clarity, we'll keep it, but the seed script has its own .env loading.
+load_dotenv()
 
 
 class GraphDAO:
@@ -132,6 +24,30 @@ class GraphDAO:
     def _execute_query(tx: ManagedTransaction, query: str, params: dict = None):
         result = tx.run(query, params or {})
         return [record for record in result]
+
+    def apply_schema_constraints(self):
+        """
+        Applies uniqueness constraints to the Neo4j schema.
+        These constraints help ensure data integrity and optimize queries.
+        """
+        print("Applying schema constraints...")
+        constraint_queries = [
+            "CREATE CONSTRAINT IF NOT EXISTS FOR (d:Diagnosis) REQUIRE d.name IS UNIQUE",
+            "CREATE CONSTRAINT IF NOT EXISTS FOR (s:Symptom) REQUIRE s.name IS UNIQUE",
+            "CREATE CONSTRAINT IF NOT EXISTS FOR (t:Target) REQUIRE t.region IS UNIQUE",
+            "CREATE CONSTRAINT IF NOT EXISTS FOR (sp:StimParams) REQUIRE sp.unique_id IS UNIQUE",
+            "CREATE CONSTRAINT IF NOT EXISTS FOR (e:Evidence) REQUIRE e.unique_id IS UNIQUE"
+        ]
+        with self.driver.session() as session:
+            for query_string in constraint_queries:
+                try:
+                    print(f"Applying constraint: {query_string}")
+                    session.execute_write(self._execute_query, query_string)
+                    print(f"Successfully applied or verified constraint: {query_string.split('FOR')[1].split('REQUIRE')[0].strip()}")
+                except Exception as e:
+                    # This might catch errors if the constraint creation fails for reasons other than already existing
+                    print(f"Error applying constraint {query_string}: {e}")
+        print("Schema constraints application process complete.")
 
     def clear_apge_graph(self):
         print("Clearing existing APGE graph data (Diagnosis, Symptom, Target, StimParams, Evidence nodes and their relationships)...")
@@ -243,35 +159,5 @@ class GraphDAO:
                          from_primary_key: str = "name", to_primary_key: str = "name"):
         return self.add_relationship(tx, from_label, from_props, to_label, to_props, rel_type, from_primary_key, to_primary_key)
 
-
-def main():
-    print(f"Starting ETL process for APGE graph (Schema Version: {SCHEMA_VERSION}).")
-    print(f"Connecting to Neo4j at {NEO4J_URI} as user {NEO4J_USER}.")
-    
-    driver = None
-    try:
-        driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
-        driver.verify_connectivity()
-        print("Successfully connected to Neo4j.")
-        
-        dao = GraphDAO(driver)
-        
-        # Clear existing graph data before seeding
-        dao.clear_apge_graph()
-        
-        # Process the protocol database
-        print("Processing protocol database...")
-        dao.process_database(PROTOCOL_DATABASE_PYTHON)
-        
-        print("ETL process completed successfully.")
-        
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        # Consider more specific error handling for auth errors, connection errors etc.
-    finally:
-        if driver:
-            driver.close()
-            print("Neo4j connection closed.")
-
-if __name__ == "__main__":
-    main()
+# The main() function and direct script execution logic have been moved to scripts/seed.py
+# The PROTOCOL_DATABASE_PYTHON dictionary has been moved to src/apge/protocols/protocols.yaml

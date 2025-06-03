@@ -1,0 +1,155 @@
+Major Depressive Disorder:
+  Anhedonia:
+    target: Left DLPFC
+    frequency: 10 Hz
+    intensity: 120% MT
+    pulses: 3000
+    sessions: 20-30
+    schedule: Daily (5x/week)
+    evidence: High
+    notes: High-frequency stimulation of left DLPFC shows strong evidence for anhedonia improvement
+    references:
+    - George et al., 2010
+    - Blumberger et al., 2018
+  Psychomotor Retardation:
+    target: Left DLPFC + Right DLPFC (sequential)
+    frequency: 10 Hz (L) / 1 Hz (R)
+    intensity: 120% MT
+    pulses: 3000
+    sessions: 25-36
+    schedule: Daily (5x/week)
+    evidence: Moderate-High
+    notes: Bilateral stimulation may be more effective for psychomotor symptoms
+    references:
+    - O'Reardon et al., 2007
+  Cognitive Impairment:
+    target: Left DLPFC
+    frequency: 20 Hz (iTBS)
+    intensity: 80% AMT
+    pulses: 1800
+    sessions: 20-30
+    schedule: Daily (5x/week)
+    evidence: Moderate
+    notes: iTBS may provide cognitive benefits with shorter treatment times
+    references:
+    - Blumberger et al., 2018
+Treatment-Resistant Depression:
+  Severe Anhedonia:
+    target: Bilateral DLPFC
+    frequency: 10 Hz (L) / 1 Hz (R)
+    intensity: 120% MT
+    pulses: 4000
+    sessions: 30-36
+    schedule: Daily (5x/week) + maintenance
+    evidence: High
+    notes: Extended course with maintenance sessions recommended for TRD
+Obsessive-Compulsive Disorder:
+  Obsessions:
+    target: Right DLPFC or dACC
+    frequency: 1 Hz (low) or 10 Hz (high)
+    intensity: 110% MT
+    pulses: 1800
+    sessions: 20-30
+    schedule: Daily (5x/week)
+    evidence: Moderate
+    notes: Both inhibitory and excitatory protocols show promise
+  Compulsions:
+    target: Pre-SMA or OFC
+    frequency: 1 Hz
+    intensity: 110% MT
+    pulses: 1200
+    sessions: 25-30
+    schedule: Daily (5x/week)
+    evidence: Moderate
+    notes: Targeting motor control areas may reduce compulsive behaviors
+PTSD:
+  Intrusive Thoughts:
+    target: Right DLPFC
+    frequency: 1 Hz
+    intensity: 110% MT
+    pulses: 1200
+    sessions: 20-25
+    schedule: Daily (5x/week)
+    evidence: Moderate
+    notes: Inhibitory stimulation of right DLPFC may reduce hyperarousal
+  iTBS Left DLPFC:
+    target: Left DLPFC
+    frequency: iTBS
+    intensity: 80% AMT
+    pulses: 600
+    sessions: '20'
+    schedule: Daily (5x/week)
+    evidence: Emerging
+    notes: Intermittent TBS shows promise in PTSD symptom reduction
+    references:
+    - Osuch et al., 2009
+Schizophrenia (Auditory Hallucinations):
+  Auditory Hallucinations:
+    target: Left Temporoparietal Junction
+    frequency: 1 Hz
+    intensity: 90% MT
+    pulses: 1200
+    sessions: 20-30
+    schedule: Daily (5x/week)
+    evidence: Moderate-High
+    notes: Low-frequency stimulation of auditory areas shows good efficacy
+Chronic Pain:
+  Persistent Pain:
+    target: M1 (motor cortex)
+    frequency: 10 Hz
+    intensity: 80-90% MT
+    pulses: 2000
+    sessions: 15-20
+    schedule: Daily (5x/week)
+    evidence: Moderate
+    notes: Motor cortex stimulation for central pain processing
+Fibromyalgia:
+  Widespread Pain:
+    target: M1 (motor cortex)
+    frequency: 10 Hz
+    intensity: 80% MT
+    pulses: 1600
+    sessions: 20-25
+    schedule: 3-5x/week
+    evidence: Moderate
+    notes: Lower intensity may be better tolerated in fibromyalgia patients
+Migraine:
+  Headache Frequency:
+    target: Occipital cortex or M1
+    frequency: 1 Hz or 10 Hz
+    intensity: 90% MT
+    pulses: 1200
+    sessions: 12-20
+    schedule: 3x/week
+    evidence: Moderate
+    notes: Both excitatory and inhibitory protocols show preventive effects
+Generalized Anxiety Disorder:
+  Excessive Worry:
+    target: Left DLPFC
+    frequency: 10 Hz
+    intensity: 110% MT
+    pulses: 2000
+    sessions: 20-30
+    schedule: Daily (5x/week)
+    evidence: Moderate
+    notes: Standard high-frequency protocol for GAD
+  Restlessness:
+    target: Right DLPFC
+    frequency: 1 Hz
+    intensity: 120% MT
+    pulses: 1200
+    sessions: 20-30
+    schedule: Daily (5x/week)
+    evidence: Moderate
+    notes: Low-frequency right DLPFC may help restlessness
+  1 Hz Right DLPFC:
+    target: Right DLPFC
+    frequency: 1 Hz
+    intensity: 120% MT
+    pulses: 1200
+    sessions: 20-30
+    schedule: Daily (5x/week)
+    evidence: Moderate
+    notes: Low-frequency right DLPFC stimulation reduces anxiety symptoms
+    references:
+    - Mantovani et al., 2013
