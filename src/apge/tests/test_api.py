@@ -145,9 +145,18 @@ def test_compare_llm_prompt_generation_and_success(mock_getenv, MockOpenAI, mock
 
     # Check system prompt
     assert "You are a neuro-psychiatry protocol analyst." in messages[0]['content']
-    # Check user prompt (simplified check for brevity)
-    assert "'protocol_id': 'p1'" in messages[1]['content']
-    assert MOCK_PROTOCOL_DETAIL_P1['protocol_name'] in messages[1]['content']
+
+    # Check user prompt for new fields
+    user_prompt_json_str_start_index = messages[1]['content'].find('```json\n') + len('```json\n')
+    user_prompt_json_str_end_index = messages[1]['content'].find('\n```', user_prompt_json_str_start_index)
+    user_prompt_json_str = messages[1]['content'][user_prompt_json_str_start_index:user_prompt_json_str_end_index]
+
+    user_prompt_data = json.loads(user_prompt_json_str)
+    assert len(user_prompt_data) == 1 # Based on MOCK_PROTOCOL_DETAIL_P1
+    assert user_prompt_data[0]['Protocol Name'] == MOCK_PROTOCOL_DETAIL_P1['protocol_name']
+    assert user_prompt_data[0]['Publication Title'] == MOCK_PROTOCOL_DETAIL_P1['publication_title']
+    assert user_prompt_data[0]['DOI'] == MOCK_PROTOCOL_DETAIL_P1['publication_doi']
+    assert user_prompt_data[0]['Publication Year'] == MOCK_PROTOCOL_DETAIL_P1['publication_year']
     assert "literature abstracts" in messages[1]['content']
 
     # Assert caching behavior
@@ -335,32 +344,46 @@ MOCK_PROTOCOL_DETAIL_P1 = MockNeo4jRecord({
     "protocol_id": "p1", "protocol_name": "Protocol Alpha",
     "frequency": "10 Hz", "intensity": 120.0, "pulses_per_session": 3000, "num_sessions": "20",
     "device_name": "Device X", "coil_type": "Figure-8", "manufacturer": "Mfg X",
-    "evidence_level": "High", "publication_year": 2022, "reference_doi": "doi_p1"
+    "evidence_level": "High",
+    "publication_title": "Efficacy of Alpha Protocol", "publication_year": 2022, "publication_doi": "10.1234/alpha.2022"
 })
 
 MOCK_PROTOCOL_DETAIL_P2 = MockNeo4jRecord({
     "protocol_id": "p2", "protocol_name": "Protocol Beta",
     "frequency": "iTBS", "intensity": 110.0, "pulses_per_session": 1800, "num_sessions": "30",
     "device_name": "Device Y", "coil_type": "H-Coil", "manufacturer": "Mfg Y",
-    "evidence_level": "Medium", "publication_year": 2021, "reference_doi": "doi_p2"
+    "evidence_level": "Medium",
+    "publication_title": "Beta Protocol for TRD", "publication_year": 2021, "publication_doi": "10.5678/beta.2021"
 })
 
 MOCK_PROTOCOL_DETAIL_P_INCOMPLETE = MockNeo4jRecord({ # For testing missing data
     "protocol_id": "p3_incomplete", "protocol_name": "Protocol Gamma Incomplete",
     "frequency": "1 Hz", "intensity": 100.0, "pulses_per_session": 600, "num_sessions": "10",
     "device_name": None, "coil_type": None, "manufacturer": None, # Missing device
-    "evidence_level": "Low", "publication_year": 2020, "reference_doi": None # Missing ref
+    "evidence_level": "Low",
+    "publication_title": None, "publication_year": 2020, "publication_doi": None # Missing title and DOI
 })
 
 EXPECTED_COMPARE_COLUMNS = [
     "Protocol Name", "Coil Type", "Frequency", "Intensity",
     "Pulses/Session", "Sessions", "Evidence Level", "Device Name",
-    "Manufacturer", "Publication Year", "Reference/DOI"
+    "Manufacturer", "Publication Title", "Publication Year", "DOI"
 ]
 
 # --- Tests for POST /api/protocol/compare ---
 
-def test_compare_protocols_valid_ids(mock_db_session):
+# This test now implicitly tests the old "LLM-generated narrative will be here in S-3"
+# because the LLM tests are separate. We focus on table structure here.
+@patch('src.apge.main.redis_client', new_callable=MagicMock) # Mock redis to prevent actual calls
+@patch('src.apge.main.OpenAI') # Mock OpenAI to prevent actual calls
+@patch('src.apge.main.os.getenv')
+def test_compare_protocols_table_structure_valid_ids(mock_getenv, MockOpenAI, mock_redis, mock_db_session):
+    # Simulate that LLM/Redis part works but returns a known placeholder for this specific test
+    mock_getenv.return_value = "fake_key_for_table_test"
+    mock_redis.get.return_value = None # Cache miss
+    mock_llm_instance = MockOpenAI.return_value
+    mock_llm_instance.chat.completions.create.return_value = MagicMock(choices=[MagicMock(message=MagicMock(content="Narrative for table test"))])
+
     mock_db_session.run.return_value = [MOCK_PROTOCOL_DETAIL_P1, MOCK_PROTOCOL_DETAIL_P2]
     app.dependency_overrides[get_db] = lambda: mock_db_session
 
@@ -374,21 +397,34 @@ def test_compare_protocols_valid_ids(mock_db_session):
     assert data["table"]["columns"] == EXPECTED_COMPARE_COLUMNS
     assert len(data["table"]["data"]) == 2
 
-    # Check first row data consistency (example)
-    assert data["table"]["data"][0][0] == MOCK_PROTOCOL_DETAIL_P1["protocol_name"] # Protocol Name
-    assert data["table"]["data"][0][1] == MOCK_PROTOCOL_DETAIL_P1["coil_type"]     # Coil Type
-    assert data["table"]["data"][0][3] == f"{MOCK_PROTOCOL_DETAIL_P1['intensity']}%" # Intensity formatting
+    # Check first row data consistency for new fields
+    row1_data = dict(zip(data["table"]["columns"], data["table"]["data"][0]))
+    assert row1_data["Protocol Name"] == MOCK_PROTOCOL_DETAIL_P1["protocol_name"]
+    assert row1_data["Coil Type"] == MOCK_PROTOCOL_DETAIL_P1["coil_type"]
+    assert row1_data["Intensity"] == f"{MOCK_PROTOCOL_DETAIL_P1['intensity']}%"
+    assert row1_data["Publication Title"] == MOCK_PROTOCOL_DETAIL_P1["publication_title"]
+    assert row1_data["Publication Year"] == MOCK_PROTOCOL_DETAIL_P1["publication_year"]
+    assert row1_data["DOI"] == MOCK_PROTOCOL_DETAIL_P1["publication_doi"]
 
-    assert data["narrative_md"] == "LLM-generated narrative will be here in S-3."
-    assert "lit_chunks" in data # Even if empty
+    # Check second row data consistency for new fields
+    row2_data = dict(zip(data["table"]["columns"], data["table"]["data"][1]))
+    assert row2_data["Protocol Name"] == MOCK_PROTOCOL_DETAIL_P2["protocol_name"]
+    assert row2_data["Publication Title"] == MOCK_PROTOCOL_DETAIL_P2["publication_title"]
+    assert row2_data["DOI"] == MOCK_PROTOCOL_DETAIL_P2["publication_doi"]
 
-    # Check that db.run was called with the correct parameters
-    mock_db_session.run.assert_called_once_with(unittest.mock.ANY, ids=["p1", "p2"])
+    assert data["narrative_md"] == "Narrative for table test" # From mock LLM for this test
+    assert "lit_chunks" in data
+
+    mock_db_session.run.assert_called_once_with(ANY, ids=["p1", "p2"])
 
     app.dependency_overrides = {}
 
-def test_compare_protocols_empty_id_list(mock_db_session):
-    app.dependency_overrides[get_db] = lambda: mock_db_session # Not strictly needed as db call shouldn't happen
+@patch('src.apge.main.os.getenv') # Keep mocks for other tests that don't focus on table structure
+@patch('src.apge.main.OpenAI')
+@patch('src.apge.main.redis_client')
+def test_compare_protocols_empty_id_list(mock_redis, MockOpenAI, mock_getenv, mock_db_session):
+    # No need to mock getenv, OpenAI, redis_client here as the function should return early
+    app.dependency_overrides[get_db] = lambda: mock_db_session
 
     payload = {"ids": []}
     response = client.post("/api/protocol/compare", json=payload)
@@ -396,16 +432,27 @@ def test_compare_protocols_empty_id_list(mock_db_session):
     assert response.status_code == 200
     data = response.json()
 
-    assert data["table"]["columns"] == [] # As per current implementation for empty IDs
+    assert data["table"]["columns"] == []
     assert data["table"]["data"] == []
     assert data["narrative_md"] == "No protocol IDs provided for comparison."
 
-    mock_db_session.run.assert_not_called() # Ensure DB is not hit
+    mock_db_session.run.assert_not_called()
 
     app.dependency_overrides = {}
 
-def test_compare_protocols_non_existent_ids(mock_db_session):
-    mock_db_session.run.return_value = [] # Simulate DB returning no data for these IDs
+@patch('src.apge.main.os.getenv')
+@patch('src.apge.main.OpenAI')
+@patch('src.apge.main.redis_client')
+def test_compare_protocols_non_existent_ids(mock_redis, MockOpenAI, mock_getenv, mock_db_session):
+    mock_getenv.return_value = "fake_key_for_table_test"
+    mock_redis.get.return_value = None
+    mock_llm_instance = MockOpenAI.return_value
+    # LLM will be called but with empty protocol list, so it should return "No protocol data found..."
+    # Or, if the main function checks `protocols_json_list` before calling LLM, it will return that directly.
+    # The current main.py logic has: `elif not protocols_json_list: narrative_to_return = "No protocol data found..."`
+    # So, OpenAI().chat.completions.create won't actually be called if db.run returns empty.
+
+    mock_db_session.run.return_value = []
     app.dependency_overrides[get_db] = lambda: mock_db_session
 
     payload = {"ids": ["non_existent_id1", "non_existent_id2"]}
@@ -415,14 +462,25 @@ def test_compare_protocols_non_existent_ids(mock_db_session):
     data = response.json()
 
     assert data["table"]["columns"] == EXPECTED_COMPARE_COLUMNS
-    assert len(data["table"]["data"]) == 0 # No data rows
-    assert data["narrative_md"] == "LLM-generated narrative will be here in S-3."
+    assert len(data["table"]["data"]) == 0
+    assert data["narrative_md"] == "No protocol data found to generate a comparison narrative."
 
-    mock_db_session.run.assert_called_once_with(unittest.mock.ANY, ids=payload["ids"])
+    mock_db_session.run.assert_called_once_with(ANY, ids=payload["ids"])
+    MockOpenAI.assert_not_called() # Check that OpenAI client wasn't even instantiated if not needed or create not called
+    mock_llm_instance.chat.completions.create.assert_not_called()
+
 
     app.dependency_overrides = {}
 
-def test_compare_protocols_with_incomplete_data(mock_db_session):
+@patch('src.apge.main.os.getenv')
+@patch('src.apge.main.OpenAI')
+@patch('src.apge.main.redis_client')
+def test_compare_protocols_with_incomplete_data(mock_redis, MockOpenAI, mock_getenv, mock_db_session):
+    mock_getenv.return_value = "fake_key_for_table_test"
+    mock_redis.get.return_value = None
+    mock_llm_instance = MockOpenAI.return_value
+    mock_llm_instance.chat.completions.create.return_value = MagicMock(choices=[MagicMock(message=MagicMock(content="Narrative for incomplete data test"))])
+
     mock_db_session.run.return_value = [MOCK_PROTOCOL_DETAIL_P_INCOMPLETE]
     app.dependency_overrides[get_db] = lambda: mock_db_session
 

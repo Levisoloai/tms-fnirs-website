@@ -56,6 +56,8 @@ class Evidence(BaseNode):
     effect_size: Optional[float] = None
     n_participants: Optional[int] = None
     pub_year: Optional[int] = None
+    doi: Optional[str] = None # Digital Object Identifier
+    title: Optional[str] = None # Title of the publication
     notes: Optional[str] = None  # Could include notes summarizing the evidence
 
 @dataclass

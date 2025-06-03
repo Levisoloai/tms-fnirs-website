@@ -11,18 +11,32 @@ const mockProtocolsList = [
 
 const mockComparisonData = (protocolIds: string[]) => ({
   table: {
-    columns: ["Protocol Name", "Coil Type", "Frequency", "Intensity", "Pulses/Session", "Sessions", "Evidence Level", "Device Name"],
+    columns: [
+        "Protocol Name", "Coil Type", "Frequency", "Intensity",
+        "Pulses/Session", "Sessions", "Evidence Level", "Device Name",
+        "Manufacturer", "Publication Title", "Publication Year", "DOI"
+    ],
     data: protocolIds.map(id => {
         const protocol = mockProtocolsList.find(p => p.id === id);
+        // Generate mock citation data based on protocol ID
+        let mockTitle = `Study on ${protocol ? protocol.label : id}`;
+        let mockYear = 2020 + (parseInt(id.substring(1)) % 4); // e.g., p1 -> 2021, p2 -> 2022
+        let mockDoi = `10.1000/mock-${id}-${mockYear}`;
+        let mockManufacturer = protocol?.device === 'Device A' ? 'Mfg A' : (protocol?.device === 'Device B' ? 'Mfg B' : 'Mfg C');
+
         return [
             `${protocol ? protocol.label : id + ' Name'} (Mocked Data)`, // Protocol Name
             id === 'p1' || id === 'p3' ? 'Figure-8 (Mock)' : 'H-Coil (Mock)', // Coil Type
-            id === 'p1' ? '10 Hz (Mock)' : '20 Hz (Mock)', // Frequency
-            id === 'p1' ? '120% (Mock)' : '110% (Mock)', // Intensity
-            id === 'p1' ? 3000 : 2000, // Pulses/Session
+            id === 'p1' ? '10 Hz (Mock)' : 'iTBS (Mock)', // Frequency
+            id === 'p1' ? '120% rMT (Mock)' : '110% rMT (Mock)', // Intensity
+            id === 'p1' ? 3000 : (id === 'p2' ? 1800 : 2400), // Pulses/Session
             id === 'p1' ? 20 : (id === 'p2' ? 30 : 25), // Sessions
             protocol?.evidence_level || 'N/A', // Evidence Level
             protocol?.device || 'N/A', // Device Name
+            mockManufacturer, // Manufacturer
+            mockTitle, // Publication Title
+            mockYear, // Publication Year
+            mockDoi,  // DOI
         ];
     })
   },
