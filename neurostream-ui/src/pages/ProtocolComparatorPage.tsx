@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 import html2pdf from 'html2pdf.js';
-import { useRouter } from 'next/router';
 
 interface ProtocolCardItem {
   id: string;
@@ -40,9 +39,27 @@ const ProtocolComparatorPage: React.FC = () => {
   const [filterText, setFilterText] = useState('');
   const FILTER_COLUMN_KEY = 'Coil Type'; // Default column to filter by
 
-  const router = useRouter();
   const [isInitialURLLoadProcessed, setIsInitialURLLoadProcessed] = useState(false);
   const [isAvailableProtocolsLoaded, setIsAvailableProtocolsLoaded] = useState(false);
+
+  // Helpers for working with URL query params without Next.js
+  const parseIdsFromURL = () => {
+    const params = new URLSearchParams(window.location.search);
+    const idsParam = params.get('ids');
+    return idsParam ? idsParam.split(',') : [];
+  };
+
+  const updateURLWithIds = (ids: string[]) => {
+    const params = new URLSearchParams(window.location.search);
+    if (ids.length > 0) {
+      params.set('ids', ids.join(','));
+    } else {
+      params.delete('ids');
+    }
+    const newQuery = params.toString();
+    const newUrl = `${window.location.pathname}${newQuery ? `?${newQuery}` : ''}`;
+    window.history.replaceState({}, '', newUrl);
+  };
 
 
   // Effect for fetching available protocols
@@ -67,21 +84,12 @@ const ProtocolComparatorPage: React.FC = () => {
     fetchProtocols();
   }, []);
 
-  // Effect 1: Read IDs from URL on initial component load and when router is ready
+  // Effect 1: Read IDs from URL on initial component load
   useEffect(() => {
-    if (router.isReady && isAvailableProtocolsLoaded && !isInitialURLLoadProcessed) {
-      const queryIds = router.query.ids;
-      let idsToSet: string[] = [];
-
-      if (queryIds) {
-        const idsFromQueryRaw = Array.isArray(queryIds) ? queryIds[0] : queryIds;
-        if (idsFromQueryRaw) { // Ensure idsFromQueryRaw is not empty string before splitting
-            const idsFromQueryArr = idsFromQueryRaw.split(',');
-            // Filter against available protocols to ensure validity
-            idsToSet = idsFromQueryArr.filter(id => availableProtocols.some(p => p.id === id))
-                                     .slice(0, MAX_SELECTED_PROTOCOLS);
-        }
-      }
+    if (isAvailableProtocolsLoaded && !isInitialURLLoadProcessed) {
+      const idsFromQueryArr = parseIdsFromURL();
+      const idsToSet = idsFromQueryArr.filter(id => availableProtocols.some(p => p.id === id))
+                                      .slice(0, MAX_SELECTED_PROTOCOLS);
 
       // Only update if the derived IDs are different from current selectedIds
       // This prevents loops if selectedIds were already set by user interaction before URL processing completed
@@ -93,37 +101,16 @@ const ProtocolComparatorPage: React.FC = () => {
       }
       setIsInitialURLLoadProcessed(true); // Mark initial URL processing as done
     }
-  }, [router.isReady, router.query.ids, availableProtocols, isAvailableProtocolsLoaded, isInitialURLLoadProcessed, selectedIds]);
+  }, [availableProtocols, isAvailableProtocolsLoaded, isInitialURLLoadProcessed, selectedIds]);
 
 
   // Effect 2: Update URL when selectedIds change by user interaction (after initial load)
   useEffect(() => {
-    // Ensure router is ready and initial URL load has been processed
-    if (!router.isReady || !isInitialURLLoadProcessed) {
+    if (!isInitialURLLoadProcessed) {
       return;
     }
-
-    const currentQueryIds = router.query.ids ? (Array.isArray(router.query.ids) ? router.query.ids[0] : router.query.ids) : '';
-    const newSelectedIdsString = selectedIds.join(',');
-
-    // Only push to router if the query param needs to change
-    if (currentQueryIds !== newSelectedIdsString) {
-      if (selectedIds.length > 0) {
-        router.replace({
-          pathname: router.pathname,
-          query: { ...router.query, ids: newSelectedIdsString },
-        }, undefined, { shallow: true });
-      } else {
-        // If no IDs are selected, remove 'ids' from query
-        const newQuery = { ...router.query };
-        delete newQuery.ids;
-        router.replace({
-          pathname: router.pathname,
-          query: newQuery,
-        }, undefined, { shallow: true });
-      }
-    }
-  }, [selectedIds, router, isInitialURLLoadProcessed]); // router.isReady, router.query implicitly part of `router`
+    updateURLWithIds(selectedIds);
+  }, [selectedIds, isInitialURLLoadProcessed]);
 
 
   // Effect for fetching comparison data when selectedIds change
