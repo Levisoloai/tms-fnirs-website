@@ -500,7 +500,7 @@ def test_compare_protocols_with_incomplete_data(mock_redis, MockOpenAI, mock_get
 
     assert data["narrative_md"] == "LLM-generated narrative will be here in S-3."
 
-    mock_db_session.run.assert_called_once_with(unittest.mock.ANY, ids=payload["ids"])
+    mock_db_session.run.assert_called_once_with(ANY, ids=payload["ids"])
 
     app.dependency_overrides = {}
 
