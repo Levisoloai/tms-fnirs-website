@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 from typing import Dict, Any, List, Optional
 from neo4j import GraphDatabase, Driver, ManagedTransaction, unit_of_work
 from dataclasses import asdict
@@ -7,11 +8,15 @@ from dataclasses import asdict
 from graph_schema import Diagnosis, Symptom, Target, StimParams, Evidence, SCHEMA_VERSION
 
 # --- Configuration ---
-# For local development, replace with your Neo4j credentials and URI
-# In a production scenario, these should come from environment variables or a secure config
-NEO4J_URI = os.environ.get("NEO4J_URI", "neo4j://localhost:7687")
-NEO4J_USER = os.environ.get("NEO4J_USER", "neo4j")
-NEO4J_PASSWORD = os.environ.get("NEO4J_PASSWORD", "yourStrongPassword") # Use the password you set up
+# --- Configuration ---
+load_dotenv() # Load environment variables from .env file
+
+NEO4J_URI = os.environ.get("NEO4J_URI")
+NEO4J_USER = os.environ.get("NEO4J_USER")
+NEO4J_PASSWORD = os.environ.get("NEO4J_PASSWORD")
+
+if NEO4J_PASSWORD is None:
+    raise ValueError("NEO4J_PASSWORD not found in environment variables. Please set it in the .env file or environment.")
 
 # Hardcoded protocolDatabase (converted from the user's JavaScript)
 # NOTE: In a real system, this would come from a file or another data source.

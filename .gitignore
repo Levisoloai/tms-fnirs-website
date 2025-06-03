@@ -23,3 +23,6 @@ auto_update.sh
 auto_commit.sh
 update_log.txt
 commit_log.txt
+
+# APGE specific environment file
+src/apge/.env
