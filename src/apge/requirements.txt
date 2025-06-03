@@ -2,3 +2,4 @@ neo4j>=5.0.0,<6.0.0
 # Add other dependencies as needed, e.g., for config file parsing later
 python-dotenv # (if using .env for credentials)
 PyYAML
+pydantic>=1.10.0,<3.0.0 # Added for explicit dependency management, FastAPI relies on it
