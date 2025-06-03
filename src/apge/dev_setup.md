@@ -89,3 +89,4 @@ Once Neo4j is running (as described above), you can seed it with initial data us
     python scripts/seed.py
     ```
     You should see output indicating the connection progress, data clearing, processing, and a success message upon completion. If there are errors (e.g., connection issues, missing `.env` file, incorrect password), they will be printed to the console.
+    The seed script also ensures that uniqueness constraints are applied to the database schema for relevant node types and properties.

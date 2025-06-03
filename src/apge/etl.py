@@ -25,6 +25,30 @@ class GraphDAO:
         result = tx.run(query, params or {})
         return [record for record in result]
 
+    def apply_schema_constraints(self):
+        """
+        Applies uniqueness constraints to the Neo4j schema.
+        These constraints help ensure data integrity and optimize queries.
+        """
+        print("Applying schema constraints...")
+        constraint_queries = [
+            "CREATE CONSTRAINT IF NOT EXISTS FOR (d:Diagnosis) REQUIRE d.name IS UNIQUE",
+            "CREATE CONSTRAINT IF NOT EXISTS FOR (s:Symptom) REQUIRE s.name IS UNIQUE",
+            "CREATE CONSTRAINT IF NOT EXISTS FOR (t:Target) REQUIRE t.region IS UNIQUE",
+            "CREATE CONSTRAINT IF NOT EXISTS FOR (sp:StimParams) REQUIRE sp.unique_id IS UNIQUE",
+            "CREATE CONSTRAINT IF NOT EXISTS FOR (e:Evidence) REQUIRE e.unique_id IS UNIQUE"
+        ]
+        with self.driver.session() as session:
+            for query_string in constraint_queries:
+                try:
+                    print(f"Applying constraint: {query_string}")
+                    session.execute_write(self._execute_query, query_string)
+                    print(f"Successfully applied or verified constraint: {query_string.split('FOR')[1].split('REQUIRE')[0].strip()}")
+                except Exception as e:
+                    # This might catch errors if the constraint creation fails for reasons other than already existing
+                    print(f"Error applying constraint {query_string}: {e}")
+        print("Schema constraints application process complete.")
+
     def clear_apge_graph(self):
         print("Clearing existing APGE graph data (Diagnosis, Symptom, Target, StimParams, Evidence nodes and their relationships)...")
         # Detach delete to remove nodes and their relationships
