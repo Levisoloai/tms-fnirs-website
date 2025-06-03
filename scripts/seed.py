@@ -67,6 +67,9 @@ def main():
 
         dao = GraphDAO(driver)
 
+        # Apply schema constraints before clearing or adding data
+        dao.apply_schema_constraints()
+
         print("Clearing existing APGE graph data...")
         dao.clear_apge_graph()
         print("Graph data cleared.")
