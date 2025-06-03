@@ -390,9 +390,28 @@ const ProtocolComparatorPage: React.FC = () => {
                       <tbody className="bg-white divide-y divide-gray-200">
                         {processedTableData.map((row, rowIndex) => (
                           <tr key={rowIndex} className={`${rowIndex % 2 === 0 ? '' : 'bg-gray-50'} hover:bg-gray-100 transition-colors`}>
-                            {row.map((cell, cellIndex) => (
-                              <td key={cellIndex} className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{cell === null || cell === undefined ? 'N/A' : String(cell)}</td>
-                            ))}
+                            {row.map((cell, cellIndex) => {
+                              const columnName = comparisonData?.table?.columns[cellIndex];
+                              const cellData = cell === null || cell === undefined ? 'N/A' : String(cell);
+
+                              if (columnName === 'DOI' && cellData !== 'N/A' && cellData.startsWith('10.')) { // Basic DOI check
+                                return (
+                                  <td key={cellIndex} className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                    <a
+                                      href={`https://doi.org/${cellData}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-blue-600 hover:text-blue-800 hover:underline"
+                                    >
+                                      {cellData}
+                                    </a>
+                                  </td>
+                                );
+                              }
+                              return (
+                                <td key={cellIndex} className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{cellData}</td>
+                              );
+                            })}
                           </tr>
                         ))}
                       </tbody>

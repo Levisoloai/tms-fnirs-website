@@ -215,11 +215,18 @@ async def compare_protocols(request_body: CompareRequest, db: Neo4jSession = Dep
         dev.manufacturer AS manufacturer,
         e.level AS evidence_level,
         e.pub_year AS publication_year,
-        CASE WHEN size(e.references) > 0 THEN e.references[0] ELSE null END AS reference_doi
-        // Taking the first reference as a placeholder for DOI/main reference
+        e.title AS publication_title, // New
+        e.doi AS publication_doi      // New
     """
 
     results = db.run(query, ids=request_body.ids)
+
+    # Define table columns - this order must match the order of items appended to table_data_rows
+    table_columns_list = [
+        "Protocol Name", "Coil Type", "Frequency", "Intensity",
+        "Pulses/Session", "Sessions", "Evidence Level", "Device Name",
+        "Manufacturer", "Publication Title", "Publication Year", "DOI"
+    ]
 
     table_data_rows = []
     for record in results:
@@ -233,16 +240,10 @@ async def compare_protocols(request_body: CompareRequest, db: Neo4jSession = Dep
             record["evidence_level"],
             record["device_name"],
             record["manufacturer"],
+            record["publication_title"], # New
             record["publication_year"],
-            record["reference_doi"]
+            record["publication_doi"]    # New
         ])
-
-    # Define table columns - ensure order matches data appended above
-    table_columns_list = [
-        "Protocol Name", "Coil Type", "Frequency", "Intensity",
-        "Pulses/Session", "Sessions", "Evidence Level", "Device Name",
-        "Manufacturer", "Publication Year", "Reference/DOI"
-    ]
 
     # Prepare data for LLM
     protocols_json_list = []
