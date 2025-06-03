@@ -1,0 +1,4 @@
+diagnosis,protocol_id,target,pattern,frequency_hz,intensity_pct_mt,intensity_pct_amt,pulses,train_s,iti_s,sessions,schedule,evidence_level,evidence_refs
+Depression,Dep_Proto1,L DLPFC,HF-rTMS,10,120,,3000,4,26,20-30,5x,High,"Ref D1;Ref D2"
+Depression,Dep_Proto2,L DLPFC,iTBS,50,,80,600,0.19,,20,5x,Moderate,"Ref D3"
+Anxiety,Anx_Proto1,R DLPFC,LF-rTMS,1,110,,1200,1,0,20,4x,Emerging,"Ref A1"
