@@ -58,22 +58,11 @@ class Evidence(BaseNode):
     pub_year: Optional[int] = None
     notes: Optional[str] = None  # Could include notes summarizing the evidence
 
-@dataclass
-class Device(BaseNode):
-    name: str  # e.g., "NeoStar", "BrainsWay", "Magstim"
-    manufacturer: str  # e.g., "NeoStar", "BrainsWay", "Magstim"
-    coil_type: str  # e.g., "figure-8", "H-Coil"
-    focality_mm: str  # e.g., "5-10mm", "Deep and broad", "Unknown"
-    fda_clearance_ids: List[str] = field(default_factory=list) # e.g., ["K123456", "K789012"]
-    # Relationships:
-    # (:StimParams)-[:DELIVERED_BY]->(:Device)
-
 # --- Relationships to be established in the graph ---
 # (d:Diagnosis)-[:HAS_SYMPTOM]->(s:Symptom)
 # (s:Symptom)-[:TARGETED_BY]->(t:Target)
 # (t:Target)-[:USUALLY_TREATED_WITH]->(sp:StimParams)
 # (sp:StimParams)-[:SUPPORTED_BY]->(e:Evidence)
-# (sp:StimParams)-[:DELIVERED_BY]->(d:Device)
 
 # Example of how these might be used (conceptual, not for this file):
 # diagnosis_node = Diagnosis(name="Major Depressive Disorder")

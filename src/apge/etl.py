@@ -69,16 +69,52 @@ class GraphDAO:
         return targets
 
     def clear_apge_graph(self):
-        print("Clearing existing APGE graph data (Diagnosis, Symptom, Target, StimParams, Evidence nodes and their relationships)...")
-        # Detach delete to remove nodes and their relationships
-        # Matches nodes based on schema_version to only remove APGE data
-        queries = [
-            "MATCH (n) WHERE n.schema_version IS NOT NULL DETACH DELETE n",
-        ]
+        deletable_labels_str = os.environ.get("NEO4J_DELETABLE_LABELS")
+        default_labels = ["Diagnosis", "Symptom", "Target", "StimParams", "Evidence"]
+
+        labels_to_delete = []
+        if deletable_labels_str:
+            labels_to_delete = [label.strip() for label in deletable_labels_str.split(',') if label.strip()]
+            if not labels_to_delete: # Handles case where env var is e.g. ",," or " "
+                print("Warning: NEO4J_DELETABLE_LABELS was set but parsed to an empty list. Using default APGE labels for deletion.")
+                labels_to_delete = default_labels
+            else:
+                print(f"NEO4J_DELETABLE_LABELS is set. Targeting the following labels for deletion: {labels_to_delete}")
+        else:
+            print("NEO4J_DELETABLE_LABELS not set. Using default APGE labels for deletion.")
+            labels_to_delete = default_labels
+
+        if not labels_to_delete:
+            print("Warning: No labels specified or defaulted for deletion in clear_apge_graph. Skipping deletion.")
+            return
+
+        print(f"Clearing APGE graph data by deleting nodes with labels: {labels_to_delete}...")
+
+        queries = []
+        for label in labels_to_delete:
+            # Basic sanity check for a label to prevent injection if source was less controlled
+            if not label.isalnum():
+                print(f"Warning: Skipping potentially invalid label '{label}' during clear_apge_graph.")
+                continue
+            queries.append(f"MATCH (n:{label}) DETACH DELETE n")
+
+        if not queries:
+            print("Warning: No valid queries constructed for deletion (all specified labels were potentially invalid). Skipping deletion.")
+            return
+
+        # Old query:
+        # "MATCH (n) WHERE n.schema_version IS NOT NULL DETACH DELETE n"
+
         with self.driver.session() as session:
             for query in queries:
-                session.execute_write(self._execute_query, query)
-        print("Graph cleared.")
+                print(f"Executing: {query}") # Good to log what's being run
+                try:
+                    session.execute_write(self._execute_query, query)
+                except Exception as e:
+                    print(f"Error executing query '{query}': {e}")
+                    # Decide if you want to continue with other queries or stop.
+                    # For now, it will continue.
+        print("Graph clearing process completed for specified labels.")
 
     # Upsert methods for nodes
     def add_node(self, tx: ManagedTransaction, label: str, properties: Dict[str, Any], primary_key: str = "name"):

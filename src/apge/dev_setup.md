@@ -76,8 +76,18 @@ Once Neo4j is running (as described above), you can seed it with initial data us
     NEO4J_URI=neo4j://localhost:7687
     NEO4J_USER=neo4j
     NEO4J_PASSWORD=yourStrongPassword # Use the password you set for Neo4j
+    # NEO4J_DELETABLE_LABELS=Diagnosis,Symptom,Target,StimParams,Evidence
     ```
     Replace `yourStrongPassword` with the actual password you configured for your Neo4j instance.
+
+    The `.env` file also supports an optional variable:
+    *   `NEO4J_DELETABLE_LABELS`:
+        *   **Purpose**: To specify which Neo4j node labels should be deleted when the database is cleared by the seed script (`scripts/seed.py` via `GraphDAO.clear_apge_graph()`).
+        *   **Format**: A comma-separated string of Neo4j labels (e.g., `Diagnosis,Symptom,Target`).
+        *   **Default Behavior**: If not set or empty, the seed script defaults to deleting nodes with the labels: `Diagnosis`, `Symptom`, `Target`, `StimParams`, and `Evidence`.
+        *   **Example**: `NEO4J_DELETABLE_LABELS=Diagnosis,Symptom,CustomLabel`
+        *   **Safety Note**: Use with caution. If you have other data in your Neo4j instance that uses these labels, it will also be deleted. For APGE development, the default usually targets only APGE-managed data.
+
 3.  **Install Dependencies:**
     Make sure you have the necessary Python packages installed. From the project root directory, run:
     ```bash
