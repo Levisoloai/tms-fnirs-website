@@ -49,6 +49,25 @@ class GraphDAO:
                     print(f"Error applying constraint {query_string}: {e}")
         print("Schema constraints application process complete.")
 
+    def get_all_targets(self) -> List[Dict[str, str]]:
+        """
+        Fetches all distinct target regions from the graph.
+        Filters by schema_version for consistency.
+        """
+        print("Fetching all distinct target regions...")
+        query = "MATCH (t:Target) WHERE t.schema_version = $schema_version RETURN DISTINCT t.region AS region"
+        # If schema_version is not critical or might be missing on some Target nodes:
+        # query = "MATCH (t:Target) RETURN DISTINCT t.region AS region"
+
+        with self.driver.session() as session:
+            results = session.execute_read(self._execute_query, query, params={"schema_version": SCHEMA_VERSION})
+            # For the alternative query without schema_version:
+            # results = session.execute_read(self._execute_query, query)
+
+        targets = [{"region": record["region"]} for record in results if record["region"] is not None]
+        print(f"Found {len(targets)} distinct target regions.")
+        return targets
+
     def clear_apge_graph(self):
         print("Clearing existing APGE graph data (Diagnosis, Symptom, Target, StimParams, Evidence nodes and their relationships)...")
         # Detach delete to remove nodes and their relationships
