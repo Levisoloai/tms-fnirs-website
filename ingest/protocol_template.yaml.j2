@@ -1,18 +1,15 @@
-# Schema version can be hardcoded or passed if needed
-# schema_version: 1.0
-
 {{ diagnosis_name }}:
 {% for protocol_id, details in protocols.items() %}
   {{ protocol_id }}:
     target: "{{ details.target }}"
     pattern: "{{ details.pattern }}"
     frequency_hz: {{ details.frequency_hz_yaml }}
-    {% if details.intensity_pct_mt %}
-    intensity_pct_mt: {{ details.intensity_pct_mt }}
-    {% elif details.intensity_pct_amt %}
-    intensity_pct_amt: {{ details.intensity_pct_amt }}
+    {% if details.intensity_pct_mt_yaml != 'null' %}
+    intensity_pct_mt: {{ details.intensity_pct_mt_yaml }}
+    {% elif details.intensity_pct_amt_yaml != 'null' %}
+    intensity_pct_amt: {{ details.intensity_pct_amt_yaml }}
     {% endif %}
-    pulses: {{ details.pulses }}
+    pulses: {{ details.pulses_yaml }}
     train_s: {{ details.train_s_yaml }}
     iti_s: {{ details.iti_s_yaml }}
     sessions: "{{ details.sessions }}"

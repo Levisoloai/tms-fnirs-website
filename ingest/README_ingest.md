@@ -47,21 +47,39 @@ The CSV file provided to `ingest/convert_to_yaml.py` must adhere to the followin
 
 ## Command-Line Examples
 
+### Running `search.py`:
+
+Used to query scientific databases for relevant papers. Supports pagination and date filtering.
+
+**New Example:**
+```bash
+python ingest/search.py --query "TMS AND fNIRS" --since 2024-01-01 --max-results 150 --out data/literature/20240608_tms_fnirs.json
+```
+*   `--query`: The search terms.
+*   `--since`: Optional start date (YYYY-MM-DD) for results.
+*   `--max-results`: Optional. Maximum number of results to retrieve (default is 100). The script handles pagination to fetch these results.
+*   `--out`: Specifies the output JSON file path. If not provided, a default name is generated in `data/literature/`.
+*   `--results-per-page`: Optional. Number of results per API call (default 100).
+
 ### Running `convert_to_yaml.py`:
 
-To convert a curated CSV file into protocol YAML files:
+Processes a curated CSV file and generates protocol YAML files, one per diagnosis.
+Supports input validation and a dry-run mode.
 
+**New Example (Dry Run):**
 ```bash
-python ingest/convert_to_yaml.py --input curated/psychiatry_20250607.csv --output_dir ingest/protocols/
+python ingest/convert_to_yaml.py --input curated/psychiatry_20240608.csv --dry-run
 ```
-*(Assuming the script takes `--input` and `--output_dir` arguments. The placeholder script will need to be updated to reflect actual argument parsing.)*
 
-### Running `search.py` (Example):
-*(This section will be updated once `search.py` is implemented.)*
-
+**Example (File Output):**
 ```bash
-# Example placeholder - actual arguments to be defined
-# python ingest/search.py --query "rTMS Major Depressive Disorder" --since 2023-01-01 --out data/literature/YYYYMMDD_MDD_search.json
+python ingest/convert_to_yaml.py --input curated/psychiatry_20240608.csv --output_dir ingest/protocols/
 ```
+*   `--input`: Path to the input CSV file.
+*   `--output_dir`: Directory to save generated YAML files (required if not using `--dry-run`).
+*   `--dry-run`: Optional. If specified, prints rendered YAML to standard output instead of writing to files. Useful for previews.
+*   `--template_dir`: Optional. Directory containing the Jinja2 template (defaults to `ingest/`).
+*   `--template_name`: Optional. Name of the Jinja2 template file (defaults to `protocol_template.yaml.j2`).
+
 
 This README will be updated as the scripts are developed and refined.
