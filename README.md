@@ -237,7 +237,47 @@ The `api` service provides RESTful endpoints for querying the knowledge base and
     *   `200 OK`: Successful request. Recommendation is in the response body.
     *   `422 Unprocessable Entity`: Invalid request body (e.g., missing required fields like `diagnosis` or `symptoms`, incorrect data types). The response body may contain details about the validation errors.
     *   `500 Internal Server Error`: Server-side error, which could indicate a problem with the APGE or other internal processes.
-    *   `503 Service Unavailable`: The APGE or a critical downstream service might be temporarily unavailable.
+*   `503 Service Unavailable`: The APGE or a critical downstream service might be temporarily unavailable.
+
+### 3. List Available Protocols
+
+*   **Endpoint**: `GET /api/protocol/list`
+*   **Description**: Returns a simplified list of protocols that can be selected for comparison. Optionally filter by diagnosis.
+*   **Request Parameters**:
+    *   `diagnosis` (string, optional): Filter protocols linked to a specific diagnosis.
+*   **Example Request**:
+    ```bash
+    curl "http://localhost:8000/api/protocol/list?diagnosis=MDD-anxious"
+    ```
+*   **Response Structure**:
+    An array of protocol summaries:
+    ```json
+    [
+      { "id": "p1", "label": "Left DLPFC 10Hz", "device": "MagStim", "evidence_level": "High" }
+    ]
+    ```
+
+### 4. Compare Protocols
+
+*   **Endpoint**: `POST /api/protocol/compare`
+*   **Description**: Accepts a list of protocol IDs and returns a comparison table plus a short narrative summary.
+*   **Request Body**:
+    ```json
+    { "ids": ["p1", "p2", "p3"] }
+    ```
+*   **Example Request**:
+    ```bash
+    curl -X POST http://localhost:8000/api/protocol/compare \
+         -H "Content-Type: application/json" \
+         -d '{"ids": ["p1","p2"]}'
+    ```
+*   **Response Structure**:
+    ```json
+    {
+      "table": { "columns": ["Protocol Name", "Coil Type", "Frequency"], "data": [["Left DLPFC 10Hz", "Figure-8", "10 Hz"]] },
+      "narrative_md": "Markdown summary..."
+    }
+    ```
 
 ## TMS Protocol Tool and Advanced Protocol-Generation Engine (APGE)
 
@@ -248,6 +288,10 @@ This section details the interactive TMS Protocol Tool available to users and th
 The TMS Protocol Tool serves as the primary user interface for accessing the system's TMS protocol generation capabilities. It is an integral part of the `web/` service and is built using Next.js and React.
 
 When a user inputs clinical and patient-specific data into the tool, it constructs a request and sends it to the `/api/protocol/recommend` endpoint provided by the `api/` service. The tool then receives and presents the generated protocol recommendations in a structured, user-friendly format.
+
+### Protocol Comparator
+
+In addition to generating individual recommendations, the frontend includes a **Protocol Comparator** page. Users can choose up to four protocols from the list endpoint and view them side by side. The table supports sorting and filtering, produces a short narrative summary, and can be exported to PDF. Permalink URLs encode the selected protocol IDs so comparisons can be easily shared.
 
 ### Advanced Protocol-Generation Engine (APGE)
 
