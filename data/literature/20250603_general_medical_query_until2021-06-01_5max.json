@@ -1,0 +1,42 @@
+[
+    {
+        "title": "Query Combinators: Domain Specific Query Languages for Medical Research",
+        "authors": [
+            "Clark C. Evans",
+            "Kyrylo Simonov"
+        ],
+        "doi": "10.1101/737619",
+        "year": 2019,
+        "abstract": "itle>Abstract</jats:title><jats:p>A new way to conceptualize computations, Query Combinators, can be used to create a data processing environment shared among the entire medical research team. For a given research context, a domain specific query language can be created that represents data sources, analysis methods, and integrative domain knowlege. Research questions can then have an intuitive, high-level form that can be reasoned about and discussed."
+    },
+    {
+        "title": "General query about banking",
+        "authors": [],
+        "doi": "10.4324/9780203133149-81",
+        "year": 2008,
+        "abstract": "N/A"
+    },
+    {
+        "title": "General query about banking",
+        "authors": [],
+        "doi": "10.4324/9780203977422-77",
+        "year": 2005,
+        "abstract": "N/A"
+    },
+    {
+        "title": "General query about banking",
+        "authors": [],
+        "doi": "10.4324/9781315004761-82",
+        "year": 2013,
+        "abstract": "N/A"
+    },
+    {
+        "title": "Correlates of role conception among male patients in a general hospital",
+        "authors": [
+            "William Query"
+        ],
+        "doi": "10.1037/e535042008-007",
+        "year": 1967,
+        "abstract": "N/A"
+    }
+]
