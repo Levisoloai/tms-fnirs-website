@@ -102,6 +102,234 @@ def test_list_protocols_with_diagnosis(mock_db_session):
 
     app.dependency_overrides = {}
 
+# --- Additional imports for LLM and Redis tests ---
+import os
+import json
+import hashlib
+import redis # For redis.exceptions.RedisError
+from unittest.mock import ANY # For asserting some arguments generally
+
+# --- Tests for LLM and Redis Caching in POST /api/protocol/compare ---
+
+# Helper to generate cache key consistently
+def generate_expected_cache_key(ids: list[str]) -> str:
+    sorted_ids = sorted(ids)
+    ids_string = ",".join(sorted_ids)
+    return f"narrative:{hashlib.md5(ids_string.encode('utf-8')).hexdigest()}"
+
+@patch('src.apge.main.redis_client', new_callable=MagicMock)
+@patch('src.apge.main.OpenAI')
+@patch('src.apge.main.os.getenv') # To control OPENAI_API_KEY
+def test_compare_llm_prompt_generation_and_success(mock_getenv, MockOpenAI, mock_redis, mock_db_session):
+    # Setup: API Key is present, Cache miss, LLM success
+    mock_getenv.return_value = "fake_openai_key" # Simulate API key is present
+    mock_redis.get.return_value = None # Cache miss
+    mock_llm_instance = MockOpenAI.return_value
+    mock_llm_instance.chat.completions.create.return_value = MagicMock(choices=[MagicMock(message=MagicMock(content="Test LLM narrative"))])
+
+    mock_db_session.run.return_value = [MOCK_PROTOCOL_DETAIL_P1] # Provide some Neo4j data
+    app.dependency_overrides[get_db] = lambda: mock_db_session
+
+    payload = {"ids": ["p1"]}
+    response = client.post("/api/protocol/compare", json=payload)
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["narrative_md"] == "Test LLM narrative"
+
+    # Assert LLM call
+    MockOpenAI.assert_called_once_with(api_key="fake_openai_key")
+    mock_llm_instance.chat.completions.create.assert_called_once()
+    call_args = mock_llm_instance.chat.completions.create.call_args
+    messages = call_args.kwargs['messages']
+
+    # Check system prompt
+    assert "You are a neuro-psychiatry protocol analyst." in messages[0]['content']
+    # Check user prompt (simplified check for brevity)
+    assert "'protocol_id': 'p1'" in messages[1]['content']
+    assert MOCK_PROTOCOL_DETAIL_P1['protocol_name'] in messages[1]['content']
+    assert "literature abstracts" in messages[1]['content']
+
+    # Assert caching behavior
+    expected_key = generate_expected_cache_key(["p1"])
+    mock_redis.get.assert_called_once_with(expected_key)
+    mock_redis.set.assert_called_once_with(expected_key, "Test LLM narrative", ex=3600)
+
+    app.dependency_overrides = {}
+
+@patch('src.apge.main.redis_client', new_callable=MagicMock)
+@patch('src.apge.main.OpenAI')
+@patch('src.apge.main.os.getenv')
+def test_compare_llm_api_error(mock_getenv, MockOpenAI, mock_redis, mock_db_session):
+    mock_getenv.return_value = "fake_openai_key"
+    mock_redis.get.return_value = None # Cache miss
+    mock_llm_instance = MockOpenAI.return_value
+    mock_llm_instance.chat.completions.create.side_effect = Exception("LLM API Down")
+
+    mock_db_session.run.return_value = [MOCK_PROTOCOL_DETAIL_P1]
+    app.dependency_overrides[get_db] = lambda: mock_db_session
+
+    payload = {"ids": ["p1"]}
+    response = client.post("/api/protocol/compare", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["narrative_md"] == "Error generating narrative. Please try again later."
+    mock_redis.set.assert_not_called() # Error narrative should not be cached
+    app.dependency_overrides = {}
+
+@patch('src.apge.main.redis_client', new_callable=MagicMock)
+@patch('src.apge.main.OpenAI')
+@patch('src.apge.main.os.getenv')
+def test_compare_missing_openai_key(mock_getenv, MockOpenAI, mock_redis, mock_db_session):
+    mock_getenv.return_value = None # Simulate API key is MISSING
+    mock_redis.get.return_value = None # Cache miss
+    mock_llm_instance = MockOpenAI.return_value
+
+    mock_db_session.run.return_value = [MOCK_PROTOCOL_DETAIL_P1]
+    app.dependency_overrides[get_db] = lambda: mock_db_session
+
+    payload = {"ids": ["p1"]}
+    response = client.post("/api/protocol/compare", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["narrative_md"] == "Narrative generation is currently unavailable (API key not configured)."
+    mock_llm_instance.chat.completions.create.assert_not_called()
+    mock_redis.set.assert_not_called() # This specific error narrative should not be cached
+    app.dependency_overrides = {}
+
+@patch('src.apge.main.redis_client', new_callable=MagicMock)
+@patch('src.apge.main.OpenAI') # Still need to mock OpenAI though it shouldn't be called
+@patch('src.apge.main.os.getenv')
+def test_compare_cache_hit(mock_getenv, MockOpenAI, mock_redis, mock_db_session):
+    mock_getenv.return_value = "fake_openai_key" # API key available but shouldn't be used
+    cached_narrative_content = "Cached test narrative"
+    mock_redis.get.return_value = cached_narrative_content # Cache HIT
+    mock_llm_instance = MockOpenAI.return_value
+
+    mock_db_session.run.return_value = [MOCK_PROTOCOL_DETAIL_P1] # Neo4j still called for table data
+    app.dependency_overrides[get_db] = lambda: mock_db_session
+
+    payload = {"ids": ["p1"]}
+    response = client.post("/api/protocol/compare", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+
+    assert data["narrative_md"] == cached_narrative_content
+    expected_key = generate_expected_cache_key(["p1"])
+    mock_redis.get.assert_called_once_with(expected_key)
+    mock_llm_instance.chat.completions.create.assert_not_called()
+    mock_redis.set.assert_not_called()
+    app.dependency_overrides = {}
+
+@patch('src.apge.main.redis_client', new_callable=MagicMock)
+@patch('src.apge.main.OpenAI')
+@patch('src.apge.main.os.getenv')
+def test_compare_redis_get_failure(mock_getenv, MockOpenAI, mock_redis, mock_db_session):
+    mock_getenv.return_value = "fake_openai_key"
+    mock_redis.get.side_effect = redis.exceptions.RedisError("Redis GET failed")
+    mock_llm_instance = MockOpenAI.return_value
+    mock_llm_instance.chat.completions.create.return_value = MagicMock(choices=[MagicMock(message=MagicMock(content="Fresh narrative after Redis GET fail"))])
+
+    mock_db_session.run.return_value = [MOCK_PROTOCOL_DETAIL_P1]
+    app.dependency_overrides[get_db] = lambda: mock_db_session
+
+    payload = {"ids": ["p1"]}
+    response = client.post("/api/protocol/compare", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+
+    assert data["narrative_md"] == "Fresh narrative after Redis GET fail"
+    mock_llm_instance.chat.completions.create.assert_called_once() # Fallback to LLM
+    expected_key = generate_expected_cache_key(["p1"])
+    mock_redis.set.assert_called_once_with(expected_key, "Fresh narrative after Redis GET fail", ex=3600) # Attempt to cache new
+    app.dependency_overrides = {}
+
+@patch('src.apge.main.redis_client', new_callable=MagicMock)
+@patch('src.apge.main.OpenAI')
+@patch('src.apge.main.os.getenv')
+def test_compare_redis_set_failure(mock_getenv, MockOpenAI, mock_redis, mock_db_session):
+    mock_getenv.return_value = "fake_openai_key"
+    mock_redis.get.return_value = None # Cache miss
+    mock_redis.set.side_effect = redis.exceptions.RedisError("Redis SET failed")
+    mock_llm_instance = MockOpenAI.return_value
+    llm_generated_narrative = "Fresh narrative, Redis SET will fail"
+    mock_llm_instance.chat.completions.create.return_value = MagicMock(choices=[MagicMock(message=MagicMock(content=llm_generated_narrative))])
+
+    mock_db_session.run.return_value = [MOCK_PROTOCOL_DETAIL_P1]
+    app.dependency_overrides[get_db] = lambda: mock_db_session
+
+    payload = {"ids": ["p1"]}
+    response = client.post("/api/protocol/compare", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+
+    assert data["narrative_md"] == llm_generated_narrative # User gets narrative despite cache SET fail
+    mock_llm_instance.chat.completions.create.assert_called_once()
+    expected_key = generate_expected_cache_key(["p1"])
+    mock_redis.set.assert_called_once_with(expected_key, llm_generated_narrative, ex=3600)
+    app.dependency_overrides = {}
+
+@patch('src.apge.main.redis_client', new_callable=MagicMock)
+@patch('src.apge.main.OpenAI')
+@patch('src.apge.main.os.getenv')
+def test_compare_caching_skipped_for_error_narratives(mock_getenv, MockOpenAI, mock_redis, mock_db_session):
+    mock_getenv.return_value = "fake_openai_key"
+    mock_redis.get.return_value = None # Cache miss
+
+    mock_llm_instance = MockOpenAI.return_value
+    error_narratives_to_test = [
+        "Error generating narrative. Please try again later.",
+        "Narrative generation is currently unavailable (API key not configured).",
+        "No protocol data found to generate a comparison narrative."
+    ]
+
+    mock_db_session.run.return_value = [MOCK_PROTOCOL_DETAIL_P1] # Needed to reach LLM call
+    app.dependency_overrides[get_db] = lambda: mock_db_session
+
+    for error_narrative in error_narratives_to_test:
+        mock_llm_instance.chat.completions.create.return_value = MagicMock(choices=[MagicMock(message=MagicMock(content=error_narrative))])
+        # Reset set mock for each iteration if it's stateful across calls (though it shouldn't be here)
+        mock_redis.reset_mock() # Reset all redis mocks (get, set)
+        mock_redis.get.return_value = None # Ensure cache miss for each iteration
+
+        payload = {"ids": ["p1"]} # Use a consistent payload
+        response = client.post("/api/protocol/compare", json=payload)
+        assert response.status_code == 200
+        data = response.json()
+        assert data["narrative_md"] == error_narrative
+
+        mock_llm_instance.chat.completions.create.assert_called() # LLM was called
+        mock_redis.set.assert_not_called() # Crucial: error narrative was NOT cached
+        mock_llm_instance.chat.completions.create.reset_mock() # Reset for next iteration
+
+    app.dependency_overrides = {}
+
+@patch('src.apge.main.redis_client', new_callable=MagicMock)
+@patch('src.apge.main.OpenAI')
+@patch('src.apge.main.os.getenv')
+def test_compare_no_protocol_data_no_llm_call_no_caching(mock_getenv, MockOpenAI, mock_redis, mock_db_session):
+    mock_getenv.return_value = "fake_openai_key" # API key available
+    mock_redis.get.return_value = None # Cache miss
+    mock_llm_instance = MockOpenAI.return_value
+
+    mock_db_session.run.return_value = [] # Simulate Neo4j returning NO protocol data
+    app.dependency_overrides[get_db] = lambda: mock_db_session
+
+    payload = {"ids": ["p1", "p2"]} # IDs that yield no data
+    response = client.post("/api/protocol/compare", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+
+    assert data["narrative_md"] == "No protocol data found to generate a comparison narrative."
+    mock_llm_instance.chat.completions.create.assert_not_called() # LLM not called if no protocol data
+    mock_redis.set.assert_not_called() # Nothing to cache
+
+    # GET should still be called to check cache first
+    expected_key = generate_expected_cache_key(["p1", "p2"])
+    mock_redis.get.assert_called_once_with(expected_key)
+
+    app.dependency_overrides = {}
+
 # --- Mock data for compare_protocols endpoint ---
 MOCK_PROTOCOL_DETAIL_P1 = MockNeo4jRecord({
     "protocol_id": "p1", "protocol_name": "Protocol Alpha",
