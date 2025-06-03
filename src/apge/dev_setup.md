@@ -62,3 +62,30 @@ docker run -d \
   neo4j:5.20-community
 ```
 This mounts a `neo4j-data` directory from your current working directory into the container's `/data` directory.
+
+## Seeding the Database
+
+Once Neo4j is running (as described above), you can seed it with initial data using the `scripts/seed.py` script. This script will clear any existing APGE-related data (nodes with a `schema_version` property) and then load the protocols defined in `src/apge/protocols/protocols.yaml`.
+
+**Steps to seed the database:**
+
+1.  **Ensure Neo4j is Running:** Follow the Docker instructions in the "Running Neo4j with Docker" section.
+2.  **Set up Environment Variables:**
+    Create a `.env` file in the `src/apge/` directory (i.e., `src/apge/.env`). This file should contain your Neo4j connection details:
+    ```env
+    NEO4J_URI=neo4j://localhost:7687
+    NEO4J_USER=neo4j
+    NEO4J_PASSWORD=yourStrongPassword # Use the password you set for Neo4j
+    ```
+    Replace `yourStrongPassword` with the actual password you configured for your Neo4j instance.
+3.  **Install Dependencies:**
+    Make sure you have the necessary Python packages installed. From the project root directory, run:
+    ```bash
+    pip install -r src/apge/requirements.txt
+    ```
+4.  **Run the Seeding Script:**
+    From the project root directory, execute the script:
+    ```bash
+    python scripts/seed.py
+    ```
+    You should see output indicating the connection progress, data clearing, processing, and a success message upon completion. If there are errors (e.g., connection issues, missing `.env` file, incorrect password), they will be printed to the console.
